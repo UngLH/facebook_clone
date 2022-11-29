@@ -3,7 +3,6 @@ import 'package:facebook/blocs/navigation/navigation_cubit.dart';
 import 'package:facebook/configs/app_configs.dart';
 import 'package:facebook/network/api_client_facebook.dart';
 import 'package:facebook/network/api_util.dart';
-import 'package:facebook/network/api_weather.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:overlay_support/overlay_support.dart';
+
 import 'router/application.dart';
 import 'router/routers.dart';
 
@@ -87,7 +87,6 @@ class _MyAppState extends State<MyApp> {
       title: AppConfig.appName,
       onGenerateRoute: Application.router!.generator,
       initialRoute: Routes.root,
-      // home: const SplashPage(),
       // navigatorObservers: <NavigatorObserver>[
       //   NavigationObserver(navigationCubit: _navigationCubit),
       // ],

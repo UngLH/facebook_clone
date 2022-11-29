@@ -53,9 +53,9 @@ class AppColors {
   ///Other
   static const Color lightGray = Color(0x1A606060);
 
-  static const Color greyShadow = Color(0xff000038);
-  static const Color greyShadow29 = Color(0xFF000029);
-  static const Color greyBorder = Color(0xFFE0E0E0);
+  static const Color grayShadow = Color(0xff000038);
+  static const Color grayShadow29 = Color(0xFF000029);
+  static const Color grayBorder = Color(0xFFE0E0E0);
 
   static const Color textRequest = Color(0xFF810089);
   static const Color greySignUp = Color(0xFF58595B);
@@ -83,21 +83,17 @@ class AppColors {
   static const Color grayEA = Color(0xFFEAEAEA);
   static const Color grayC4 = Color(0xFFC4C4C4);
   static const Color grayEC = Color(0xFFECECEC);
+  static const Color grayBackground = Color(0xFFC8CDD3);
+  static const Color grayText = Color(0xFF8F9092);
+  static const Color menuBackground = Color(0xFFF1F2F6);
+  static const Color roundIconButtonBackground = Color(0xFFD3D4D9);
+  static const Color greenButtonColor = Color(0xFF42b72a);
+
   static const Color grayE5 = Color(0xFFE5E5E5);
   static const Color blueED = Color(0xFFEDF4FC);
   static const Color blue5B = Color(0xFF5B7DD6);
   static const Color blueC0 = Color(0xFFC0DEFF);
   static const Color green2A = Color(0xFF42B72A);
-
-  //season graph
-  static const Color blue29 = Color(0xFF298EFF);
-  static const Color green45 = Color(0xFF45BC27);
-  static const Color orangeE9 = Color(0xFFE9703C);
-  static const Color redFF = Color(0xFFFF0000);
-  static const Color green28 = Color(0xFF289768);
-  static const Color yellowA4 = Color(0xFFA49F33);
-  static const Color blue44 = Color(0xFF4493DB);
-  static const Color orangeD7 = Color(0xFFD76B3D);
 
   /// shadow
   static const Color shadowColor = Color.fromRGBO(0, 0, 0, 0.25);
@@ -120,28 +116,19 @@ class AppColors {
 
   static const Color blueA5CAD2 = Color(0xFFA5CAD2);
 
-  //insect home management
-  static const progressStatusColor = Color(0xFFE72C2C);
-  static const progressHeadlineColor = Color(0xFFE72C2C);
-
-// Đang được xử lý
-  static const inProgressHeadlineColor = Color(0xFFEDB346);
-  static const inProgressStatusColor = Color(0xFFEDB346);
-
-  static const completeHeadlineColor = Color(0xFF2BA35D);
-  static const completeStatusColor = Color(0xFF2BA35D);
-
   static const borderItemColor = Color(0xFFEFEEF1);
+
   ///Button
   static const Color blueSlideButton = Color(0xFF5F82DF);
   static const Color redSlideButton = Color(0xFFE4463C);
   static const Color blueTextButton = Color(0xFF2B5AD3);
   static const Color greenLighterTextButton = Color(0xFF01A560);
+  static const Color grayIconButton = Color(0xFF5E5F62);
+  static const Color blueIconButton = Color(0xFF216FDB);
 
   static const Color redTextButton = Color(0xFFFF0000);
   static const Color redLighterTextButton = Color(0xFFD7443B);
   static const Color redButton = Color(0xFFD7443B);
-
 
   static List colors = [
     const Color(0xFF9E7F2F),

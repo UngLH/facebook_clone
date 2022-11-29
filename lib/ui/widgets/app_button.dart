@@ -3,7 +3,7 @@ import 'package:facebook/commons/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
-  Color color;
+  Color? color;
   Color? splashColor;
   String? title;
   TextStyle? textStyle;
@@ -11,21 +11,17 @@ class AppButton extends StatelessWidget {
   double? width;
   VoidCallback? onPressed;
   Widget? child;
-  bool isLoading;
-  bool isEnabled;
   double? border;
 
   AppButton(
       {Key? key,
       this.title,
-      required this.color,
+      this.color,
       this.splashColor,
       this.child,
       this.onPressed,
       this.textStyle,
       this.height,
-      this.isLoading = false,
-      this.isEnabled = true,
       this.width,
       this.border})
       : super(key: key);
@@ -33,56 +29,47 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: isEnabled ? onPressed : null,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: Size.fromWidth(width ?? 80),
-          backgroundColor: isEnabled ? color : const Color(0xFFCBCBCB),
+          fixedSize: Size.fromWidth(width ?? MediaQuery.of(context).size.width),
+          backgroundColor: color ?? const Color(0xFF1877f2),
+          // disabledBackgroundColor: const Color(0xFF1877f2),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(border ?? 16),
+            borderRadius: BorderRadius.circular(border ?? 5),
           )),
-      child: isLoading
-          ? const Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: FittedBox(
-                  child: CircularProgressIndicator(
-                color: Colors.white,
-              )),
-            )
-          : child ??
-              Text(
-                title!,
-                style: textStyle ??
-                    AppTextStyle.whiteS14Bold.copyWith(
-                        fontFamily: "Roboto", fontWeight: FontWeight.w800),
-                textAlign: TextAlign.center,
-              ),
+      child: Text(
+        title!,
+        style: textStyle ??
+            AppTextStyle.whiteS14.copyWith(
+              fontFamily: "Roboto",
+            ),
+        textAlign: TextAlign.center,
+      ),
     );
-    //  InkWell(
-    //   onTap: isEnabled ? onPressed : null,
-    //   splashColor: splashColor ??  AppColors.blue5B,
-    //   child: Container(
-    //     height: height ?? 40,
-    //     width: width ?? 80,
-    //     alignment: Alignment.center,
-    //     decoration: BoxDecoration(
-    //       color: isEnabled ? color : const Color(0xFFCBCBCB),
-    //       borderRadius: BorderRadius.circular(border ?? 16),
-    //     ),
-    //     child: isLoading
-    //         ? const Padding(
-    //       padding: EdgeInsets.symmetric(vertical: 5),
-    //       child: FittedBox(
-    //           child: CircularProgressIndicator(
-    //             color: Colors.white,
-    //           )),
-    //     )
-    //         : child ??
-    //         Text(
-    //           title!,
-    //           style: textStyle ?? AppTextStyle.whiteS14Bold.copyWith(fontFamily: "Roboto", fontWeight: FontWeight.w800),
-    //           textAlign: TextAlign.center,
-    //         ),
-    //   ),
-    // );
+  }
+}
+
+class AppRoundIconButton extends StatelessWidget {
+  IconData iconData;
+  VoidCallback? onPressed;
+
+  AppRoundIconButton({Key? key, required this.iconData, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 40,
+        height: 40,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.roundIconButtonBackground,
+        ),
+        child: Center(
+          child: Icon(
+            iconData,
+            color: Colors.black,
+            size: 26,
+          ),
+        ));
   }
 }

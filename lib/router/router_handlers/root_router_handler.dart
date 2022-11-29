@@ -2,7 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 /// Root
-Handler notHandler = new Handler(
+Handler notHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) =>
       Scaffold(
     body: Center(

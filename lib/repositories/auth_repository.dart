@@ -5,6 +5,7 @@ abstract class AuthRepository {
   //
   Future<void> removeToken();
   Future<dynamic> authLogin(String phoneNumber, String password);
+  Future<dynamic> signUp(String phoneNumber, String password);
 }
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -12,7 +13,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   final accessToken = SharedPreferencesHelper.getToken().toString();
   AuthRepositoryImpl(ApiClient? client) {
-    _apiClientFacebook= client;
+    _apiClientFacebook = client;
   }
   @override
   Future<void> removeToken() async {
@@ -21,8 +22,11 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<dynamic> authLogin(String phoneNumber, String password) async {
-    return _apiClientFacebook!.authLogin();
+    return _apiClientFacebook!.authLogin(phoneNumber, password);
   }
 
-
+  @override
+  Future<dynamic> signUp(String phoneNumber, String password) async {
+    return _apiClientFacebook!.signUp(phoneNumber, password);
+  }
 }

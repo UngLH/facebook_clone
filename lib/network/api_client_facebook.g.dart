@@ -13,7 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.2.2:5000';
+    baseUrl ??= 'https://ae96-222-252-10-226.ap.ngrok.io';
   }
 
   final Dio _dio;
@@ -21,9 +21,13 @@ class _ApiClient implements ApiClient {
   String? baseUrl;
 
   @override
-  Future<dynamic> authLogin() async {
+  Future<dynamic> authLogin(
+    phoneNumber,
+    password,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
@@ -33,7 +37,33 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          '/it4788/auth/login?phonenumber=0858693350&password=ung1234',
+          '/it4788/auth/login?phonenumber=${phoneNumber}&password=${password}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> signUp(
+    phoneNumber,
+    password,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/it4788/auth/signup?phonenumber=${phoneNumber}&password=${password}',
           queryParameters: queryParameters,
           data: _data,
         )

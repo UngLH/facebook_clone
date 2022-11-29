@@ -83,24 +83,26 @@ class AppPasswordField extends StatefulWidget {
   final String? initialValue;
   final bool? obscureText;
   final Widget? suffixIcon;
+  final double? padding;
 
-  const AppPasswordField({
-    Key? key,
-    this.initialValue,
-    this.labelText = '',
-    this.hintText = '',
-    this.controller,
-    this.onChanged,
-    this.keyboardType = TextInputType.text,
-    this.autoValidateMode,
-    this.validator,
-    this.onSaved,
-    this.isRequire,
-    this.labelStyle,
-    this.enable,
-    this.obscureText = false,
-    this.suffixIcon,
-  }) : super(key: key);
+  const AppPasswordField(
+      {Key? key,
+      this.initialValue,
+      this.labelText = '',
+      this.hintText = '',
+      this.controller,
+      this.onChanged,
+      this.keyboardType = TextInputType.text,
+      this.autoValidateMode,
+      this.validator,
+      this.onSaved,
+      this.isRequire,
+      this.labelStyle,
+      this.enable,
+      this.obscureText = false,
+      this.suffixIcon,
+      this.padding})
+      : super(key: key);
 
   @override
   State<AppPasswordField> createState() => _AppPasswordFieldState();
@@ -122,7 +124,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
     bool isShowPassword = false;
     return Container(
       height: 25,
-      padding: const EdgeInsets.symmetric(horizontal: 30),
+      padding: EdgeInsets.symmetric(horizontal: widget.padding ?? 30),
       child: TextFormField(
         obscureText: widget.obscureText!,
         obscuringCharacter: "*",

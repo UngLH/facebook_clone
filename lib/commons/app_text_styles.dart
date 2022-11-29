@@ -52,6 +52,10 @@ class AppTextStyle {
   static final blackS18 = black.copyWith(fontSize: 18);
   static final blackS18Bold = blackS18.copyWith(fontWeight: FontWeight.bold);
   static final blackS18W800 = blackS18.copyWith(fontWeight: FontWeight.w800);
+  //s20
+  static final blackS20 = black.copyWith(fontSize: 20);
+  static final blackS20Bold = blackS18.copyWith(fontWeight: FontWeight.bold);
+  static final blackS20W800 = blackS18.copyWith(fontWeight: FontWeight.w800);
 
   //s24
   static final blueS24 = blue.copyWith(fontSize: 24);

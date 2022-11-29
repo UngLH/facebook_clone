@@ -12,22 +12,24 @@ enum SplashNavigator {
 }
 
 class SplashCubit extends Cubit<SplashState> {
-  AuthRepository? authBagriRepository;
+  AuthRepository? authRepository;
 
   final messageController = PublishSubject<String>();
   final navigatorController = PublishSubject<SplashNavigator>();
 
   SplashCubit({
-    this.authBagriRepository,
+    this.authRepository,
   }) : super(SplashState());
-
 
   void fetchInitialData() async {
     String? token = await SharedPreferencesHelper.getToken();
-    print("get Token");
+    print(token);
+
     ///Check login and fetch profile
     if (token == null) {
       navigatorController.sink.add(SplashNavigator.OPEN_LOGIN);
+    } else {
+      navigatorController.sink.add(SplashNavigator.OPEN_HOME);
     }
   }
 

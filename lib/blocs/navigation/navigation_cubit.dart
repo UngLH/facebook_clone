@@ -17,7 +17,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void removeCurrentScreen(String screenName) {
     List<String> currentStack = state.routeStack ?? [];
-    if (currentStack.length > 0) {
+    if (currentStack.isNotEmpty) {
       currentStack.removeLast();
       Application.routeStack.removeLast();
     }

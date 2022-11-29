@@ -8,6 +8,11 @@ part 'api_client_facebook.g.dart';
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
-  @POST("/it4788/auth/login?phonenumber=0858693350&password=ung1234")
-  Future<dynamic> authLogin();
+  @POST("/it4788/auth/login?phonenumber={phoneNumber}&password={password}")
+  Future<dynamic> authLogin(@Path("phoneNumber") String? phoneNumber,
+      @Path("password") String? password);
+
+  @POST("/it4788/auth/signup?phonenumber={phoneNumber}&password={password}")
+  Future<dynamic> signUp(@Path("phoneNumber") String? phoneNumber,
+      @Path("password") String? password);
 }
