@@ -1,4 +1,6 @@
+import 'package:facebook/ui/page/conversations/chats/list_friend_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -10,6 +12,21 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
+  ListFriendCubit? _cubit;
+  final _searchValueController = TextEditingController(text: "");
+
+  @override
+  void dispose() {
+    _searchValueController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = BlocProvider.of<ListFriendCubit>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,14 +40,18 @@ class _SearchBarState extends State<SearchBar> {
           Container(width: 10.0,),
           const Icon(Icons.search),
           Container(width: 8.0,),
-          const Expanded(
+          Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              controller: _searchValueController,
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Search'
               ),
+              onChanged: (value) => {
+                _cubit!.searchValueChange(_searchValueController.text)
+              },
             ),
-          )
+          ),
         ],
       ),
     );

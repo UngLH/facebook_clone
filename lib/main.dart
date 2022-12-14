@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> {
       navigatorKey: appNavigatorKey,
       title: AppConfig.appName,
       onGenerateRoute: Application.router!.generator,
-      initialRoute: Routes.root,
+      initialRoute: Routes.conversation,
       // navigatorObservers: <NavigatorObserver>[
       //   NavigationObserver(navigationCubit: _navigationCubit),
       // ],
