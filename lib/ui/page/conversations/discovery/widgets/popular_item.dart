@@ -42,11 +42,11 @@ class _PopularItemState extends State<PopularItem> {
   }
 
   _buildConverastionTitle() {
-    return const SizedBox(
+    return SizedBox(
       width: double.infinity,
       child: Text(
-        'widget.popularItem.title',
-        style: TextStyle(
+        widget.popularItem.title!,
+        style: const TextStyle(
             fontSize: 18.0, color: Colors.black, fontWeight: FontWeight.bold),
         overflow: TextOverflow.ellipsis,
       ),
@@ -70,8 +70,8 @@ class _PopularItemState extends State<PopularItem> {
       width: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(35.0),
-        image: const DecorationImage(
-          image: AssetImage('widget.popularItem.imgUrl'),
+        image: DecorationImage(
+          image: AssetImage(widget.popularItem.imgUrl!),
           fit: BoxFit.cover,
         ),
       ),

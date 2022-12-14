@@ -1,3 +1,4 @@
+import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/router/application.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/router/routers.dart';
@@ -51,7 +52,7 @@ class _MessengerAppBarState extends State<MessengerAppBar> {
                   );
                 },
                 child: const AppBarNetworkRoundedImage(
-                  imageUrl: 'yourAccount.avatarImg',
+                  imageUrl: AppImages.icFacebookLogo,
                 ),
               ),
               const SizedBox(

@@ -38,9 +38,10 @@ class _ListFriendState extends State<ListPeople> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      // onNotification: (overscroll) {
-      //   overscroll.disallowGlow();
-      // },
+      onNotification: (overscroll) {
+        overscroll.disallowIndicator();
+        return false;
+      },
       child: Container(
         color: Colors.white,
         child: Column(

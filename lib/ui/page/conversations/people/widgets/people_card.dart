@@ -22,8 +22,8 @@ class _PeopleCardState extends State<PeopleCard> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        image: const DecorationImage(
-          image: AssetImage('widget.peopleItem.imageAvatarUrl'),
+        image: DecorationImage(
+          image: AssetImage(widget.peopleItem.imageAvatarUrl!),
           fit: BoxFit.cover,
         ),
       ),
@@ -53,7 +53,7 @@ class _PeopleCardState extends State<PeopleCard> {
                 borderRadius: BorderRadius.circular(25.0),
                 border: Border.all(
                   width: 2.0,
-                  color: 'widget.peopleItem.isActive' == ''
+                  color: widget.peopleItem.isActive!
                       ? Colors.blue.shade700
                       : Colors.transparent,
                 ),
@@ -65,16 +65,16 @@ class _PeopleCardState extends State<PeopleCard> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(23.0),
-                  image: const DecorationImage(
-                    image: AssetImage('widget.peopleItem.imageAvatarUrl'),
+                  image: DecorationImage(
+                    image: AssetImage(widget.peopleItem.imageAvatarUrl!),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            const Text(
-              'widget.indexItem' == '0' ? 'Thêm tin mới' : 'widget.peopleItem.name',
-              style: TextStyle(
+            Text(
+              widget.indexItem == 0 ? 'Thêm tin mới' : widget.peopleItem.name!,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,

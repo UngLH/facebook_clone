@@ -50,7 +50,7 @@ class _ChatDetailState extends State<ChatDetail> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           AppBarNetworkRoundedImage(
-                              imageUrl: 'widget.friendItem.imageAvatarUrl'),
+                              imageUrl: widget.friendItem.imageAvatarUrl!),
                           const SizedBox(width: 15.0),
                           Container(
                             alignment: Alignment.center,
@@ -109,8 +109,8 @@ class _ChatDetailState extends State<ChatDetail> {
     return MessengerAppBarAction(
       isScroll: _isScroll,
       isBack: true,
-      title: 'widget.friendItem.name',
-      imageUrl: 'widget.friendItem.imageAvatarUrl',
+      title: widget.friendItem.name!,
+      imageUrl: widget.friendItem.imageAvatarUrl!,
       subTitle: 'Active 10 hours ago',
       actions: const <Widget>[
         Icon(

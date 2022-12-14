@@ -32,11 +32,10 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
     return Container(
       height: 90.0,
       padding: const EdgeInsets.only(right: 12.0, top: 25.0),
-      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
-          color: Colors.white,
-          // color: 'widget.isScroll' == '' ? Colors.black12 : Colors.white,
-          offset: Offset(0.0, 1.0),
+          color: widget.isScroll! ? Colors.black12 : Colors.white,
+          offset: const Offset(0.0, 1.0),
           blurRadius: 10.0,
         ),
       ]),
@@ -61,8 +60,8 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
               Container(
                 width: 16.0,
               ),
-              const AppBarNetworkRoundedImage(
-                imageUrl: 'widget.imageUrl',
+              AppBarNetworkRoundedImage(
+                imageUrl: widget.imageUrl!,
               ),
               const SizedBox(
                 width: 10.0,
@@ -70,12 +69,12 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
+                children: <Widget>[
                   SizedBox(
                     width: 120.0,
                     child: Text(
-                      'widget.title',
-                      style: TextStyle(
+                      widget.title!,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w700,
@@ -84,8 +83,8 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                     ),
                   ),
                   Text(
-                    'widget.subTitle',
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                    widget.subTitle!,
+                    style: const TextStyle(color: Colors.grey, fontSize: 14.0),
                   )
                 ],
               )

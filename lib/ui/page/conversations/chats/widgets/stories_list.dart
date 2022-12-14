@@ -41,7 +41,7 @@ class StoryListItem extends StatefulWidget {
 
 class _StoryListItemState extends State<StoryListItem> {
   _buildBorder() {
-    if ('widget.friendItem.isActive' == '') {
+    if (widget.friendItem.isActive!) {
       return Border.all(color: Colors.grey.shade300, width: 3);
     } else {
       return Border.all(color: Colors.blue, width: 3);
@@ -49,7 +49,7 @@ class _StoryListItemState extends State<StoryListItem> {
   }
 
   _getTextStyle() {
-    if ('widget.friendItem.isActive' == '') {
+    if (widget.friendItem.isActive!) {
       return _viewedStoryListItemTextStyle();
     } else {
       return _notViewedStoryListItemTextStyle();
@@ -75,8 +75,8 @@ class _StoryListItemState extends State<StoryListItem> {
                 margin: const EdgeInsets.all(2.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0),
-                  image: const DecorationImage(
-                    image: AssetImage('widget.friendItem.imageAvatarUrl'),
+                  image: DecorationImage(
+                    image: AssetImage(widget.friendItem.imageAvatarUrl!),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -86,7 +86,7 @@ class _StoryListItemState extends State<StoryListItem> {
             SizedBox(
               width: 60.0,
               child: Text(
-                'widget.friendItem.name',
+                widget.friendItem.name!,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
                 style: _getTextStyle(),

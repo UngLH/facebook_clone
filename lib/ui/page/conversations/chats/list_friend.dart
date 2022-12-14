@@ -40,9 +40,10 @@ class _ListFriendState extends State<ListFriend> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      // onNotification: (overscroll) {
-      //   overscroll.disallowIndicator();
-      // },
+      onNotification: (overscroll) {
+        overscroll.disallowIndicator();
+        return true;
+      },
       child: Container(
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(

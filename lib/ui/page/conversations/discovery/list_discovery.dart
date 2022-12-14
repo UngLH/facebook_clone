@@ -38,9 +38,10 @@ class _ListDicoveryState extends State<ListDicovery> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener<OverscrollIndicatorNotification>(
-      // onNotification: (overscroll) {
-      //   overscroll.disallowGlow();
-      // },
+      onNotification: (overscroll) {
+        overscroll.disallowIndicator();
+        return false;
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 0.0),
         child: Column(

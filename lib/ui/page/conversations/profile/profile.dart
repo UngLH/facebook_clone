@@ -1,3 +1,4 @@
+import 'package:facebook/commons/app_images.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -41,9 +42,10 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NotificationListener<OverscrollIndicatorNotification>(
-        // onNotification: (overscroll) {
-        //   overscroll.disallowGlow();
-        // },
+        onNotification: (overscroll) {
+          overscroll.disallowIndicator();
+          return false;
+        },
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: Column(
@@ -62,7 +64,7 @@ class _ProfileState extends State<Profile> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(80.0),
                             image: const DecorationImage(
-                              image: AssetImage('yourAccount.avatarImg'),
+                              image: AssetImage(AppImages.icFacebookLogo),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -71,7 +73,7 @@ class _ProfileState extends State<Profile> {
                       const SizedBox(height: 10.0),
                       const Center(
                         child: Text(
-                          'fb.com/hoang2k1111',
+                          'fb.com/facebook',
                           style: TextStyle(
                             fontSize: 22.0,
                             color: Colors.black,
@@ -83,10 +85,10 @@ class _ProfileState extends State<Profile> {
                         height: 10.0,
                       ),
                       _buildTitleSetting('Account'),
-                      _buildSettingItem('Username', '@hoang2k1111', true),
+                      _buildSettingItem('Username', '@facebook', true),
                       _buildSettingItem('Gender', 'Male', true),
                       _buildSettingItem(
-                          'Email', 'flutterforsale@gmail.com', false),
+                          'Email', 'facebook@gmail.com', false),
                       _buildTitleSetting('Setting'),
                       _buildSettingItem('Notification', '', true),
                       _buildSettingItem('Privacy and Security', '', true),

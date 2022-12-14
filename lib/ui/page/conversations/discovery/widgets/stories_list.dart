@@ -51,19 +51,19 @@ class _StoryListItemState extends State<StoryListItem> {
                 height: 50.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0),
-                  image: const DecorationImage(
-                    image: AssetImage('widget.popularItem.imgUrl'),
+                  image: DecorationImage(
+                    image: AssetImage(widget.popularItem.imgUrl!),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               const SizedBox(height: 8.0),
-              const SizedBox(
+              SizedBox(
                 width: 60.0,
                 child: Text(
-                  'widget.popularItem.title',
+                  widget.popularItem.title!,
                   softWrap: true,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

@@ -17,7 +17,6 @@ class ConversationItem extends StatefulWidget {
 class _ConversationItemState extends State<ConversationItem> {
   @override
   Widget build(BuildContext context) {
-    // print('widget.friendItem.imageAvatarUrl');
     return InkWell(
       onTap: () => Navigator.push(
           context,
@@ -155,9 +154,9 @@ class _ConversationItemState extends State<ConversationItem> {
   }
 
   _buildConverastionTitle() {
-    return const Text(
-      'widget.friendItem.name',
-      style: TextStyle(
+    return Text(
+      widget.friendItem.name!,
+      style: const TextStyle(
           fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
     );
   }
@@ -166,7 +165,7 @@ class _ConversationItemState extends State<ConversationItem> {
     return SizedBox(
       width: 150.0,
       child: Text(
-        'widget.friendItem.shortDescription',
+        widget.friendItem.shortDescription!,
         style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
         overflow: TextOverflow.ellipsis,
       ),
@@ -184,8 +183,8 @@ class _ConversationItemState extends State<ConversationItem> {
       width: 60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.0),
-        image: const DecorationImage(
-          image: AssetImage('widget.friendItem.imageAvatarUrl'),
+        image: DecorationImage(
+          image: AssetImage(widget.friendItem.imageAvatarUrl!),
           fit: BoxFit.cover,
         ),
       ),

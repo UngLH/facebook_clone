@@ -41,10 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
               FontAwesomeIcons.solidComment,
               size: 24.0,
             ),
-            // icon: Text(
-            //   '',
-            //   style: TextStyle(height: 0.0),
-            // ),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -52,10 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
               FontAwesomeIcons.userFriends,
               size: 24.0,
             ),
-            // title: Text(
-            //   '',
-            //   style: TextStyle(height: 0.0),
-            // ),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -63,10 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
               FontAwesomeIcons.solidCompass,
               size: 24.0,
             ),
-            // title: Text(
-            //   '',
-            //   style: TextStyle(height: 0.0),
-            // ),
             label: '',
           ),
         ],
