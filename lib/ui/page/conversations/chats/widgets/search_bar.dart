@@ -42,6 +42,7 @@ class _SearchBarState extends State<SearchBar> {
           Container(width: 8.0,),
           Expanded(
             child: TextField(
+              autofocus: true,
               controller: _searchValueController,
               decoration: const InputDecoration(
                 border: InputBorder.none,

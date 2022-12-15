@@ -1,4 +1,8 @@
+import 'package:facebook/repositories/auth_repository.dart';
+import 'package:facebook/ui/page/conversations/chat_detail/chat_detail_cubit.dart';
+import 'package:facebook/ui/page/conversations/chats/list_friend_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
@@ -21,7 +25,14 @@ class _ConversationItemState extends State<ConversationItem> {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatDetail(friendItem: widget.friendItem),
+            builder: (context) => 
+              BlocProvider(
+                create: (context) {
+                  final repository = RepositoryProvider.of<AuthRepository>(context);
+                  return ChatDetailCubit(authRepository: repository);
+                },
+                child: ChatDetail(friendItem: widget.friendItem),
+              )
           ),
         ),
       child: Padding(

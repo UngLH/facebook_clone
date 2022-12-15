@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/conversation_item.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/search_bar.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/stories_list.dart';
@@ -97,7 +96,7 @@ class _ListFriendState extends State<ListFriend> {
 
   _buildRootListView() {
     return BlocBuilder<ListFriendCubit, ListFriendState>(
-      builder: (context, count) => Expanded(
+      builder: (context, state) => Expanded(
         child: ListView.builder(
           padding: const EdgeInsets.only(top: 10.0),
           controller: _controller,
