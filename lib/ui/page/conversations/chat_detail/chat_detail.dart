@@ -1,20 +1,10 @@
+import 'package:facebook/models/entities/conversations/chat_detail_model.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/widgets/messenger_app_bar/app_bar_network_rounded_image.dart';
 import 'package:facebook/ui/widgets/messenger_app_bar_action/messenger_app_bar.dart';
-
-// ignore: constant_identifier_names
-const ListYourFriendChat = [
-  'Nice to meet you!',
-  'Hello',
-];
-// ignore: constant_identifier_names
-const ListYourChat = [
-  'Nice to meet you!',
-  'Hi',
-];
 
 // ignore: must_be_immutable
 class ChatDetail extends StatefulWidget {
@@ -39,63 +29,42 @@ class _ChatDetailState extends State<ChatDetail> {
               child: ListView.builder(
                 reverse: true,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index != ListYourFriendChat.length - 1) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 2.0,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          AppBarNetworkRoundedImage(
-                              imageUrl: widget.friendItem.imageAvatarUrl!),
-                          const SizedBox(width: 15.0),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Text(
-                              ListYourFriendChat[index],
-                              style: const TextStyle(fontSize: 16.0),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 2.0,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(width: 55.0),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: Text(
-                              ListYourFriendChat[index],
-                              style: const TextStyle(fontSize: 16.0),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  }
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 2.0,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: chatDetailList[index].isYour!
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.start,
+                      children: <Widget>[
+                        !chatDetailList[index].isYour! &&
+                            (chatDetailList[index].isYour! !=
+                              chatDetailList[index == chatDetailList.length - 1 ? index : index + 1].isYour!
+                            || index == chatDetailList.length - 1)
+                          ? AppBarNetworkRoundedImage(
+                              imageUrl: widget.friendItem.imageAvatarUrl!)
+                          : const SizedBox(width: 40.0),
+                        const SizedBox(width: 15.0),
+                        Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Text(
+                            chatDetailList[index].message!,
+                            style: const TextStyle(fontSize: 16.0),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
                 },
-                itemCount: ListYourFriendChat.length,
+                itemCount: chatDetailList.length,
               ),
             ),
             _buildBottomChat(),
