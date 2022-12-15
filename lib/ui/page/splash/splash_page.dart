@@ -55,7 +55,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _setup() async {
-    // _cubit.fetchInitialData();
+    _cubit.fetchInitialData();
   }
 
   @override
