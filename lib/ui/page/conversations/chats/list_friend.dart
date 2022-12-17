@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/conversation_item.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/search_bar.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/stories_list.dart';
 import 'package:facebook/ui/widgets/messenger_app_bar/messenger_app_bar.dart';
 
+import 'list_friend_cubit.dart';
+
 class ListFriend extends StatefulWidget {
-  const ListFriend({ Key? key}) : super(key: key);
+  const ListFriend({Key? key}) : super(key: key);
 
   @override
   _ListFriendState createState() => _ListFriendState();
 }
 
 class _ListFriendState extends State<ListFriend> {
+  ListFriendCubit? _cubit;
   late ScrollController _controller;
   bool _isScroll = false;
 
@@ -34,6 +37,7 @@ class _ListFriendState extends State<ListFriend> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
+    _cubit = BlocProvider.of<ListFriendCubit>(context);
     super.initState();
   }
 
@@ -85,28 +89,32 @@ class _ListFriendState extends State<ListFriend> {
             size: 18.0,
           ),
         ),
-      ], isBack: false,
+      ],
+      isBack: false,
     ));
   }
 
   _buildRootListView() {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 10.0),
-        controller: _controller,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return _buildSearchBar();
-          } else if (index == 1) {
-            return _buildStoriesList();
-          } else {
-            return ConversationItem(
-              friendItem: friendList[index - 2], dateFormat: '',
-            );
-          }
-        },
-        itemCount: friendList.length + 2,
-      ),
+    return BlocBuilder<ListFriendCubit, ListFriendState>(
+      builder: (context, state) => Expanded(
+        child: ListView.builder(
+          padding: const EdgeInsets.only(top: 10.0),
+          controller: _controller,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return _buildSearchBar();
+            } else if (index == 1) {
+              return _buildStoriesList();
+            } else {
+              return ConversationItem(
+                friendItem: (_cubit?.searchConversations())![index - 2],
+                dateFormat: '',
+              );
+            }
+          },
+          itemCount: (_cubit?.searchConversations()?.length)! + 2,
+        ),
+      )
     );
   }
 

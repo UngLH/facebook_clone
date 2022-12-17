@@ -114,6 +114,12 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   await _cubit!.signIn(
                       _usernameController.text, passwordController.text);
+                  if (_cubit!.state.loadingStatus == LoadingStatus.SUCCESS) {
+                    Application.router?.navigateTo(
+                      context,
+                      Routes.homeTab,
+                    );
+                  }
                 },
                 title: "Đăng nhập",
                 border: 5,

@@ -3,6 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'list_friend_model.g.dart';
 
+class StoryModel {
+  String? text;
+  String? imageUrl;
+  
+  StoryModel({
+    this.text,
+    this.imageUrl,
+  });
+}
+
 @JsonSerializable()
 class ListFriendModel {
   int? id;
@@ -11,6 +21,7 @@ class ListFriendModel {
   String? shortDescription;
   String? createdAt;
   bool? isActive;
+  List<StoryModel>? stories;
 
   ListFriendModel(
       {this.id,
@@ -18,7 +29,8 @@ class ListFriendModel {
       this.imageAvatarUrl,
       this.name,
       this.shortDescription,
-      this.isActive});
+      this.isActive,
+      this.stories});
 
   ListFriendModel copyWith({
     int? id,
@@ -27,6 +39,7 @@ class ListFriendModel {
     String? shortDescription,
     String? createdAt,
     bool? isActive,
+    List<StoryModel>? stories,
   }) {
     return ListFriendModel(
       id: id ?? this.id,
@@ -35,6 +48,7 @@ class ListFriendModel {
       shortDescription: shortDescription ?? this.shortDescription,
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,
+      stories: stories ?? this.stories,
     );
   }
 
@@ -55,6 +69,11 @@ var friendList = List<String>.filled(20, '')
           imageAvatarUrl: AppImages.icSignupIntro,
           shortDescription: "AaAaAaAa $index",
           isActive: index % 2 == 0 ? true : false,
+          stories: [
+            StoryModel(text: "Story $index", imageUrl: null),
+            StoryModel(text: null, imageUrl: AppImages.icEmotion),
+            StoryModel(text: null, imageUrl: AppImages.testImagePost),
+          ]
         )))
     .values
     .toList();
