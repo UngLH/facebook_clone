@@ -47,9 +47,6 @@ class _ChatDetailState extends State<ChatDetail> {
                   padding: const EdgeInsets.only(top: 8.0),
                   reverse: true,
                   itemBuilder: (BuildContext context, int index) {
-                    print("-----");
-                    print(index);
-                    print(_cubit!.state.chatDetailList![index].isYour!);
                     return Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,

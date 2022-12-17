@@ -1,3 +1,4 @@
+import 'package:facebook/ui/page/conversations/chats/widgets/story_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 
@@ -20,10 +21,10 @@ class _StoriesListState extends State<StoriesList> {
           return const AddToYourStoryButton();
         } else {
           return StoryListItem(
-              friendItem: friendList[index], friendIndex: index);
+              friendItem: friendList[index - 1], friendIndex: index);
         }
       },
-      itemCount: friendList.length,
+      itemCount: friendList.length + 1,
     );
   }
 }
@@ -69,15 +70,21 @@ class _StoryListItemState extends State<StoryListItem> {
                 borderRadius: BorderRadius.circular(30.0),
                 border: _buildBorder(),
               ),
-              child: Container(
-                width: 50.0,
-                height: 50.0,
-                margin: const EdgeInsets.all(2.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  image: DecorationImage(
-                    image: AssetImage(widget.friendItem.imageAvatarUrl!),
-                    fit: BoxFit.cover,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => StoryDetail(listFriendModel: widget.friendItem)));
+                },
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  margin: const EdgeInsets.all(2.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    image: DecorationImage(
+                      image: AssetImage(widget.friendItem.imageAvatarUrl!),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

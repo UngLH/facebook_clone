@@ -74,7 +74,7 @@ class Routes {
     router.define(
       conversation,
       handler: conversationHandler,
-      transitionType: TransitionType.inFromRight
+      transitionType: TransitionType.cupertino
     );
     router.define(
       conversation_detail,

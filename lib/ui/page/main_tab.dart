@@ -1,5 +1,7 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
+import 'package:facebook/router/application.dart';
+import 'package:facebook/router/routers.dart';
 import 'package:facebook/ui/page/home/home_page.dart';
 import 'package:facebook/ui/page/menu/menu_page.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class _TabBarState extends State<TabBarPage>
           key: _scaffoldKey,
           appBar: _isShowAppbar
               ? AppBar(
+                  automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
                   elevation: 0,
                   title: const Text(
@@ -164,7 +167,12 @@ class _TabBarState extends State<TabBarPage>
   Widget _headerImageButton(String? image) {
     return InkWell(
       customBorder: const CircleBorder(),
-      onTap: () {},
+      onTap: () {
+        Application.router?.navigateTo(
+          context,
+          Routes.conversation,
+        );
+      },
       child: Container(
           width: 30,
           height: 30,
