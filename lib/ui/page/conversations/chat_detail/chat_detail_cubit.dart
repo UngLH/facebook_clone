@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:facebook/models/entities/conversations/chat_detail_model.dart';
-import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/ui/page/auth/login/login_cubit.dart';
 
@@ -48,7 +47,7 @@ class ChatDetailCubit extends Cubit<ChatDetailState> {
         dialog_id: "$index",
         conversation_id: "$index",
         message: state.messageValue,
-        isYour: index % 3 == 0 ? true : false,
+        isYour: index % 6 == 0 || index % 6 == 1 || index % 6 == 2 ? true : false,
       )
     );
     emit(state.copyWith(

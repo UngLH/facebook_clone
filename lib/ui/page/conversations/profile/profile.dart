@@ -1,7 +1,5 @@
 import 'package:facebook/commons/app_images.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -130,8 +128,8 @@ class _ProfileState extends State<Profile> {
                     Navigator.pop(context);
                   },
                   child: const Icon(
-                    FontAwesomeIcons.arrowLeft,
-                    size: 20.0,
+                    Icons.west,
+                    size: 30.0,
                     color: Colors.black,
                   ),
                 ),
@@ -153,17 +151,17 @@ class _ProfileState extends State<Profile> {
               Container(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: const Icon(
-                  FontAwesomeIcons.camera,
-                  color: Colors.black,
-                  size: 20.0,
+                  Icons.photo_camera,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  size: 30.0,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: const Icon(
-                  FontAwesomeIcons.solidEdit,
+                  Icons.edit_square,
                   color: Colors.black,
-                  size: 20.0,
+                  size: 30.0,
                 ),
               ),
             ],
@@ -234,7 +232,7 @@ class _ProfileState extends State<Profile> {
               ),
               const SizedBox(width: 10.0),
               Icon(
-                FontAwesomeIcons.chevronRight,
+                Icons.chevron_right,
                 color: Colors.grey.shade500,
                 size: 18.0,
               )

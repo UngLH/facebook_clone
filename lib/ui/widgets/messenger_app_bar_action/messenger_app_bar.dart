@@ -1,25 +1,21 @@
+import 'package:facebook/models/entities/conversations/list_friend_model.dart';
+import 'package:facebook/ui/page/conversations/chats/widgets/story_detail.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'app_bar_network_rounded_image.dart';
 
 // ignore: must_be_immutable
 class MessengerAppBarAction extends StatefulWidget {
   List<Widget>? actions = <Widget>[];
-  String? title;
   bool? isScroll;
   bool? isBack;
   String? subTitle;
-  String? imageUrl;
+  ListFriendModel? listFriendModel;
 
   MessengerAppBarAction({Key? key, 
     this.actions,
-    this.title = '',
     this.isScroll,
     this.isBack,
     this.subTitle,
-    this.imageUrl,
+    this.listFriendModel,
   }) : super(key: key);
 
   @override
@@ -27,6 +23,14 @@ class MessengerAppBarAction extends StatefulWidget {
 }
 
 class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
+  _buildBorder() {
+    if (widget.listFriendModel!.isActive!) {
+      return Border.all(color: Colors.grey.shade300, width: 3);
+    } else {
+      return Border.all(color: Colors.blue, width: 3);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,8 +55,8 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                     Navigator.pop(context);
                   },
                   child: const Icon(
-                    FontAwesomeIcons.chevronLeft,
-                    size: 25.0,
+                    Icons.chevron_left,
+                    size: 30.0,
                     color: Colors.black,
                   ),
                 ),
@@ -60,9 +64,7 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
               Container(
                 width: 16.0,
               ),
-              AppBarNetworkRoundedImage(
-                imageUrl: widget.imageUrl!,
-              ),
+              _buildConversationImage(),
               const SizedBox(
                 width: 10.0,
               ),
@@ -70,16 +72,21 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    width: 120.0,
-                    child: Text(
-                      widget.title!,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700,
+                  InkWell(
+                    onTap: () {
+                      
+                    },
+                    child: SizedBox(
+                      width: 120.0,
+                      child: Text(
+                        widget.listFriendModel!.name!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
@@ -99,6 +106,27 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                 .toList(),
           )
         ],
+      ),
+    );
+  }
+
+  _buildConversationImage() {
+    return InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => StoryDetail(listFriendModel: widget.listFriendModel!)));
+        },
+        child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          border: _buildBorder(),
+          image: DecorationImage(
+            image: AssetImage(widget.listFriendModel!.imageAvatarUrl!),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }
