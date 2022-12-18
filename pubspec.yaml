@@ -50,7 +50,7 @@ dependencies:
   rxdart: ^0.27.5
   shared_preferences: ^2.0.15
   flutter_svg: ^1.1.6
-  flutter_slidable: "^0.5.4"
+  flutter_slidable: ^2.0.0
   badges: ^1.1.0
   date_format: ^1.0.6
   # cached_network_image: ^1.0.0

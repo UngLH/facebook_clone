@@ -33,8 +33,7 @@ class _ConversationItemState extends State<ConversationItem> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Slidable(
-        actionPane: const SlidableDrawerActionPane(),
-        actionExtentRatio: 0.15,
+        key: const ValueKey(0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -44,94 +43,56 @@ class _ConversationItemState extends State<ConversationItem> {
             ],
           ),
         ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: SlideAction(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.camera_alt,
-                color: Colors.white,
-                size: 20.0,
-              ),
+        startActionPane: ActionPane(
+          dragDismissible: false,
+          motion: const ScrollMotion(),
+          dismissible: DismissiblePane(onDismissed: () {}),
+          children: [
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.blue,
+              icon: Icons.camera_alt,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: SlideAction(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.phone,
-                color: Colors.black,
-                size: 20.0,
-              ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.grey.shade300,
+              icon: Icons.phone,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: SlideAction(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.videocam,
-                color: Colors.black,
-                size: 20.0,
-              ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.grey.shade300,
+              icon: Icons.videocam,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-        ],
-        secondaryActions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: SlideAction(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.menu,
-                color: Colors.black,
-                size: 20.0,
-              ),
+          ],
+        ),
+        endActionPane: ActionPane(
+          dragDismissible: false,
+          motion: const ScrollMotion(),
+          dismissible: DismissiblePane(onDismissed: () {}),
+          children: [
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.grey.shade300,
+              icon: Icons.menu,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: SlideAction(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.black,
-                size: 20.0,
-              ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.grey.shade300,
+              icon: Icons.notifications,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: SlideAction(
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.restore_from_trash,
-                color: Colors.white,
-                size: 20.0,
-              ),
+            SlidableAction(
+              onPressed: (context) {},
+              backgroundColor: Colors.red,
+              icon: Icons.restore_from_trash,
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -183,7 +144,7 @@ class _ConversationItemState extends State<ConversationItem> {
 
   _buildLatestMessage() {
     return SizedBox(
-      width: 150.0,
+      width: 120.0,
       child: Text(
         widget.friendItem.shortDescription!,
         style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
