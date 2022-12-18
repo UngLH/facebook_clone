@@ -1,7 +1,6 @@
 import 'package:facebook/ui/page/conversations/chat_detail/chat_detail_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/widgets/messenger_app_bar/app_bar_network_rounded_image.dart';
@@ -39,23 +38,23 @@ class _ChatDetailState extends State<ChatDetail> {
     var next = index < _cubit!.state.chatDetailList!.length - 1 ? _cubit!.state.chatDetailList![index + 1].isYour! : null;
     if (current) {
       if (prev != current && next != current) {
-        return BorderRadius.circular(15);
+        return BorderRadius.circular(30);
       } else if (prev != current && next == current) {
-        return const BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15));
+        return const BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30));
       } else if (prev == current && next != current) {
-        return const BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15), topRight: Radius.circular(15));
+        return const BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30), topRight: Radius.circular(30));
       } else {
-        return const BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15));
+        return const BorderRadius.only(topLeft: Radius.circular(30), bottomLeft: Radius.circular(30));
       }
     } else {
       if (prev != current && next != current) {
-        return BorderRadius.circular(15);
+        return BorderRadius.circular(30);
       } else if (prev != current && next == current) {
-        return const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15), topRight: Radius.circular(15));
+        return const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30), topRight: Radius.circular(30));
       } else if (prev == current && next != current) {
-        return const BorderRadius.only(topLeft: Radius.circular(15), bottomRight: Radius.circular(15), topRight: Radius.circular(15));
+        return const BorderRadius.only(topLeft: Radius.circular(30), bottomRight: Radius.circular(30), topRight: Radius.circular(30));
       } else {
-        return const BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15));
+        return const BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30));
       }
     }
   }
@@ -80,8 +79,8 @@ class _ChatDetailState extends State<ChatDetail> {
                         vertical: 2.0,
                       ),
                       child: Slidable(
-                        actionPane: const SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.15,
+                        key: const ValueKey(0),
+                        enabled: _cubit!.state.chatDetailList![index].isYour! ? true : false,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: _cubit!.state.chatDetailList![index].isYour!
@@ -98,50 +97,43 @@ class _ChatDetailState extends State<ChatDetail> {
                             const SizedBox(width: 15.0),
                             Container(
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
+                                color: _cubit!.state.chatDetailList![index].isYour! ? Colors.lightBlue : Colors.grey.shade200,
                                 borderRadius: _messageStyle(index)
                               ),
                               child: Text(
                                 _cubit!.state.chatDetailList![index].message!,
-                                style: const TextStyle(fontSize: 16.0),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: _cubit!.state.chatDetailList![index].isYour! ? Colors.white : Colors.black,
+                                ),
                               ),
                             )
                           ],
                         ),
-                        secondaryActions: _cubit!.state.chatDetailList![index].isYour!
-                          ? <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: SlideAction(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.restore_from_trash,
-                                    color: Colors.white,
-                                    size: 20.0,
-                                  ),
-                                ),
+                        endActionPane: ActionPane(
+                          extentRatio: 0.4,
+                          dragDismissible: false,
+                          motion: const ScrollMotion(),
+                          dismissible: DismissiblePane(onDismissed: () {}),
+                          children: _cubit!.state.chatDetailList![index].isYour!
+                            ? [
+                              SlidableAction(
+                                onPressed: (context) {},
+                                backgroundColor: Colors.red,
+                                icon: Icons.restore_from_trash,
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: SlideAction(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.blueAccent,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(
-                                    Icons.reply,
-                                    color: Colors.white,
-                                    size: 20.0,
-                                  ),
-                                ),
+                              SlidableAction(
+                                onPressed: (context) {},
+                                backgroundColor: Colors.blueAccent,
+                                icon: Icons.reply,
+                                borderRadius: BorderRadius.circular(20),
                               ),
                             ]
                           : []
+                        ),
                       ),
                     );
                   },

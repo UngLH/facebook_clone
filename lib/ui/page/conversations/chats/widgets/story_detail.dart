@@ -40,7 +40,7 @@ class _StoryDetailState extends State<StoryDetail> {
                     return e.text != null
                       ? StoryItem.text(
                           title: e.text!,
-                          backgroundColor: Colors.grey,
+                          backgroundColor: Colors.black,
 
                         )
                       : StoryItem.pageProviderImage(
@@ -75,9 +75,6 @@ class _StoryDetailState extends State<StoryDetail> {
 
   _buildBottomChat() {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(50, 0, 0, 0),
-      ),
       padding: const EdgeInsets.all(8),
       child: Row(
         children: <Widget>[
@@ -104,7 +101,7 @@ class _StoryDetailState extends State<StoryDetail> {
                 ),
                 hintText: 'Aa',
                 filled: true,
-                fillColor: Colors.grey.shade200,
+                fillColor: const Color.fromARGB(50, 238, 238, 238),
                 hintStyle: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w500,
