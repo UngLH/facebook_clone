@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/conversation_item.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/search_bar.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/stories_list.dart';
@@ -73,8 +71,8 @@ class _ListFriendState extends State<ListFriend> {
             color: Colors.grey.shade200,
           ),
           child: const Icon(
-            FontAwesomeIcons.camera,
-            size: 18.0,
+            Icons.photo_camera,
+            size: 25.0,
           ),
         ),
         Container(
@@ -85,8 +83,8 @@ class _ListFriendState extends State<ListFriend> {
             color: Colors.grey.shade200,
           ),
           child: const Icon(
-            FontAwesomeIcons.pen,
-            size: 18.0,
+            Icons.edit,
+            size: 25.0,
           ),
         ),
       ],

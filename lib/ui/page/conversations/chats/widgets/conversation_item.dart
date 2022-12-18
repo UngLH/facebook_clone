@@ -1,6 +1,5 @@
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/ui/page/conversations/chat_detail/chat_detail_cubit.dart';
-import 'package:facebook/ui/page/conversations/chats/list_friend_cubit.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/story_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

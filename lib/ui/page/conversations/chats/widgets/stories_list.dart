@@ -124,7 +124,6 @@ class AddToYourStoryButton extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.grey.shade200,
-                    // borderRadius: BorderRadius.circular(5.0)
                   ),
                   child: const Icon(
                     Icons.add,
