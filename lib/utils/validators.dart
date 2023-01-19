@@ -15,13 +15,14 @@ class Validator {
 
   /// Ít nhất 6 kí tự.
   /// Ít nhất 1 letter và 1 số, 1 ký tự viết hoa, 1 ký tự đặc biệt
-  static bool validatePassword(String? password) {
+  static bool validatePassword(String password) {
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$';
     if (password == null) {
       return false;
+    } else {
+      RegExp regExp = RegExp(pattern);
+      return regExp.hasMatch(password);
     }
-    return RegExp(
-            r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-{}:]).{8,100}$")
-        .hasMatch(password);
   }
 
   static bool validate0to9Character(String string) {

@@ -134,7 +134,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
         decoration: InputDecoration(
           suffixIcon: widget.suffixIcon,
           hintText: widget.hintText,
-          contentPadding: const EdgeInsets.only(left: 2, right: 2, bottom: 12),
+          contentPadding: const EdgeInsets.only(left: 2, right: 2, bottom: 15),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: AppColors.darkMain),
           ),
@@ -146,7 +146,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
           //   borderSide: BorderSide(color: AppColors.lineGray),
           // ),
           // hintStyle: AppTextStyle.greyS16,
-          isDense: true,
+          // isDense: true,
         ),
         initialValue: widget.initialValue,
         autovalidateMode: widget.autoValidateMode,

@@ -19,10 +19,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   final navigatorController = PublishSubject<LoginNavigator>();
   final showMessageController = PublishSubject<String>();
+  final loadingController = PublishSubject<LoadingStatus>();
 
   @override
   Future<void> close() {
     navigatorController.close();
+    loadingController.close();
     return super.close();
   }
 
@@ -31,21 +33,20 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> signIn(String phoneNumber, String password) async {
+    loadingController.sink.add(LoadingStatus.LOADING);
     try {
       final result = await repository!.authLogin(phoneNumber, password);
 
       /// save Token to Shared Preferences
       SharedPreferencesHelper.setToken(result['data']['token']);
 
-      emit(state.copyWith(loadingStatus: LoadingStatus.SUCCESS));
+      loadingController.sink.add(LoadingStatus.SUCCESS);
     } catch (error) {
       logger.e(error);
+      loadingController.sink.add(LoadingStatus.FAILURE);
       if (error is DioError) {
         if (error.response!.data['details'] == "phoneNumber" ||
-            error.response!.data['details'] == "password") {
-          showMessageController.sink
-              .add("Phone number or Password is incorrect");
-        }
+            error.response!.data['details'] == "password") {}
       }
     }
   }

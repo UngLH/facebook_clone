@@ -25,9 +25,6 @@ class _TabBarState extends State<TabBarPage>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
-
     _tabController = TabController(length: 6, vsync: this);
   }
 
@@ -44,6 +41,16 @@ class _TabBarState extends State<TabBarPage>
           key: _scaffoldKey,
           appBar: _isShowAppbar
               ? AppBar(
+                  systemOverlayStyle: const SystemUiOverlayStyle(
+                    // Status bar color
+                    statusBarColor: Colors.white,
+
+                    // Status bar brightness (optional)
+                    statusBarIconBrightness:
+                        Brightness.dark, // For Android (dark icons)
+                    statusBarBrightness:
+                        Brightness.light, // For iOS (dark icons)
+                  ),
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
                   elevation: 0,
@@ -67,79 +74,84 @@ class _TabBarState extends State<TabBarPage>
                   ],
                 )
               : null,
-          body: Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: AppColors.grayBackground))),
-                child: TabBar(
-                  controller: _tabController,
-                  indicatorColor: AppColors.blueIconButton,
-                  indicatorWeight: 3,
-                  onTap: onTabTapped,
-                  tabs: [
-                    Tab(
-                      icon: Icon(
-                        Icons.home,
-                        color: _tabController.index == 0
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: AppColors.grayBackground))),
+                  child: Material(
+                    color: Colors.white,
+                    child: TabBar(
+                      controller: _tabController,
+                      indicatorColor: AppColors.blueIconButton,
+                      indicatorWeight: 3,
+                      onTap: onTabTapped,
+                      tabs: [
+                        Tab(
+                          icon: Icon(
+                            Icons.home,
+                            color: _tabController.index == 0
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.people,
+                            color: _tabController.index == 1
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.ondemand_video,
+                            color: _tabController.index == 2
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.storefront,
+                            color: _tabController.index == 3
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.notifications,
+                            color: _tabController.index == 4
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                        Tab(
+                          icon: Icon(
+                            Icons.menu,
+                            color: _tabController.index == 5
+                                ? AppColors.blueIconButton
+                                : AppColors.grayIconButton,
+                          ),
+                        ),
+                      ],
                     ),
-                    Tab(
-                      icon: Icon(
-                        Icons.people,
-                        color: _tabController.index == 1
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.ondemand_video,
-                        color: _tabController.index == 2
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.storefront,
-                        color: _tabController.index == 3
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.notifications,
-                        color: _tabController.index == 4
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
-                    ),
-                    Tab(
-                      icon: Icon(
-                        Icons.menu,
-                        color: _tabController.index == 5
-                            ? AppColors.blueIconButton
-                            : AppColors.grayIconButton,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Expanded(
-                  child: TabBarView(controller: _tabController, children: [
-                HomePage(),
-                HomePage(),
-                HomePage(),
-                HomePage(),
-                HomePage(),
-                MenuPage()
-              ]))
-            ],
+                Expanded(
+                    child: TabBarView(controller: _tabController, children: [
+                  HomePage(),
+                  HomePage(),
+                  HomePage(),
+                  HomePage(),
+                  HomePage(),
+                  MenuPage()
+                ]))
+              ],
+            ),
           ),
         ));
   }

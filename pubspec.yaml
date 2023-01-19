@@ -41,7 +41,7 @@ dependencies:
   retrofit: '>=3.0.0 <4.0.0'
   dio: ^4.0.0
   #Json
-  json_annotation: ^4.6.0
+  json_annotation: ^4.7.0
   fluro: ^2.0.3
   flutter_bloc: ^8.1.1
   equatable: ^2.0.5
@@ -56,6 +56,12 @@ dependencies:
   # cached_network_image: ^1.0.0
   transparent_image: ^1.0.0
   story_view: ^0.14.0
+  loader_overlay: ^2.1.0
+  connectivity_plus: ^3.0.2
+  image_picker: ^0.8.6
+  permission_handler: ^8.2.2
+  video_thumbnail: ^0.4.6
+  cached_network_image: ^3.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

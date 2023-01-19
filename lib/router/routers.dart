@@ -1,5 +1,6 @@
 import 'package:facebook/router/router_handlers/conversation_handler.dart';
 import 'package:facebook/router/router_handlers/home_router_handler.dart';
+import 'package:facebook/router/router_handlers/post_router_handler.dart';
 import 'package:facebook/router/router_handlers/signUp_router_handler.dart';
 import 'package:fluro/fluro.dart';
 
@@ -23,6 +24,9 @@ class Routes {
 
   /// Home
   static String homeTab = "/homeTab";
+
+  ///Post
+  static String addPost = "/addPost";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notHandler;
@@ -70,21 +74,20 @@ class Routes {
       transitionType: TransitionType.fadeIn,
     );
 
+    ///Post
+    router.define(addPost,
+        handler: addPostHandler, transitionType: TransitionType.inFromBottom);
+    router.define(addPost,
+        handler: addPostHandler, transitionType: TransitionType.inFromBottom);
+
     /// Conversation
-    router.define(
-      conversation,
-      handler: conversationHandler,
-      transitionType: TransitionType.cupertino
-    );
-    router.define(
-      conversation_detail,
-      handler: conversationDetailHandler,
-      transitionType: TransitionType.inFromRight
-    );
-    router.define(
-      conversation_profile,
-      handler: conversationProfileHandler,
-      transitionType: TransitionType.inFromRight
-    );
+    router.define(conversation,
+        handler: conversationHandler, transitionType: TransitionType.cupertino);
+    router.define(conversation_detail,
+        handler: conversationDetailHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(conversation_profile,
+        handler: conversationProfileHandler,
+        transitionType: TransitionType.inFromRight);
   }
 }

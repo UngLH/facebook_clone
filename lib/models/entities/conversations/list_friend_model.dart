@@ -1,21 +1,13 @@
 import 'package:facebook/commons/app_images.dart';
+import 'package:facebook/models/entities/conversations/story_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'list_friend_model.g.dart';
 
-class StoryModel {
-  String? text;
-  String? imageUrl;
-  
-  StoryModel({
-    this.text,
-    this.imageUrl,
-  });
-}
-
 @JsonSerializable()
 class ListFriendModel {
-  int? id;
+  @JsonKey()
+  String? id;
   String? imageAvatarUrl;
   String? name;
   String? shortDescription;
@@ -33,7 +25,7 @@ class ListFriendModel {
       this.stories});
 
   ListFriendModel copyWith({
-    int? id,
+    String? id,
     String? imageAvatarUrl,
     String? name,
     String? shortDescription,
@@ -63,17 +55,16 @@ var friendList = List<String>.filled(20, '')
     .map((index, str) => MapEntry(
         index,
         ListFriendModel(
-          id: index,
-          createdAt: "2019-10-07T13:50:11.633Z",
-          name: "User $index",
-          imageAvatarUrl: AppImages.icSignupIntro,
-          shortDescription: "AaAaAaAa $index",
-          isActive: index % 2 == 0 ? true : false,
-          stories: [
-            StoryModel(text: "Story $index", imageUrl: null),
-            StoryModel(text: null, imageUrl: AppImages.icEmotion),
-            StoryModel(text: null, imageUrl: AppImages.testImagePost),
-          ]
-        )))
+            id: "ID",
+            createdAt: "2019-10-07T13:50:11.633Z",
+            name: "User $index",
+            imageAvatarUrl: AppImages.icSignupIntro,
+            shortDescription: "AaAaAaAa $index",
+            isActive: index % 2 == 0 ? true : false,
+            stories: [
+              StoryModel(text: "Story $index", imageUrl: null),
+              StoryModel(text: null, imageUrl: AppImages.icEmotion),
+              StoryModel(text: null, imageUrl: AppImages.testImagePost),
+            ])))
     .values
     .toList();

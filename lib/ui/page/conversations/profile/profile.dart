@@ -85,8 +85,7 @@ class _ProfileState extends State<Profile> {
                       _buildTitleSetting('Account'),
                       _buildSettingItem('Username', '@facebook', true),
                       _buildSettingItem('Gender', 'Male', true),
-                      _buildSettingItem(
-                          'Email', 'facebook@gmail.com', false),
+                      _buildSettingItem('Email', 'facebook@gmail.com', false),
                       _buildTitleSetting('Setting'),
                       _buildSettingItem('Notification', '', true),
                       _buildSettingItem('Privacy and Security', '', true),
@@ -159,7 +158,7 @@ class _ProfileState extends State<Profile> {
               Container(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: const Icon(
-                  Icons.edit_square,
+                  Icons.edit,
                   color: Colors.black,
                   size: 30.0,
                 ),
