@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:facebook/configs/app_configs.dart';
 import 'package:facebook/models/entities/comment/comment_entity.dart';
+import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/post/post_response_request.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -43,6 +44,7 @@ abstract class ApiClient {
     @Path("index") int? index,
     @Path("count") int? count,
   );
+
   @POST(
       "/it4788/post/add_post?token={token}&described={described}&status={status}")
   @MultiPart()
@@ -64,12 +66,53 @@ abstract class ApiClient {
       @Path("postId") String? postId,
       @Path("index") int? index,
       @Path("count") int? count);
+
   @POST(
       "/it4788/comment/set_comment?token={token}&id={postId}&comment={comment}&index={index}&count={count}")
   Future<dynamic> setComment(
       @Path("token") String? token,
       @Path("postId") String? postId,
       @Path("comment") String? comment,
+      @Path("index") int? index,
+      @Path("count") int? count);
+
+  ///Friend
+  @POST(
+      "/it4788/friend/get_requested_friends?token={token}&index={index}&count={count}")
+  Future<dynamic> getRequestFriends(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
+
+  @POST(
+      "/it4788/friend/get_list_suggested_friends?token={token}&index={index}&count={count}")
+  Future<FriendSuggestResponse> getSuggestedFriend(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
+
+  @POST("/it4788/friend/set_request_friend?token={token}&user_id={userId}")
+  Future<dynamic> setRequestFriend(
+    @Path("token") String? token,
+    @Path("userId") String? userId,
+  );
+
+  @POST(
+      "/it4788/friend/set_accept_friend?token={token}&user_id={userId}&is_accept={isAccept}")
+  Future<dynamic> setAcceptFriend(@Path("token") String? token,
+      @Path("userId") String? userId, @Path("isAccept") String? isAccept);
+  @POST(
+      "/it4788/friend/get_user_friends?token={token}&user_id={userId}&index={index}&count={count}")
+  Future<dynamic> getUserFriends(
+      @Path("token") String? token,
+      @Path("userId") String? userId,
+      @Path("index") int? index,
+      @Path("count") int? count);
+  @POST(
+      "/it4788/friend/get_list_blocks?token={token}&index={index}&count={count}")
+  Future<dynamic> getListBlocks(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
+
+  @POST("/it4788/friend/set_block?token={token}&user_id={userId}&type={type}")
+  Future<dynamic> setBlock(
+      @Path("token") String? token,
+      @Path("userId") String? userId,
       @Path("index") int? index,
       @Path("count") int? count);
 }

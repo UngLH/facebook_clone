@@ -1,4 +1,5 @@
 import 'package:facebook/router/router_handlers/conversation_handler.dart';
+import 'package:facebook/router/router_handlers/friend_router_handler.dart';
 import 'package:facebook/router/router_handlers/home_router_handler.dart';
 import 'package:facebook/router/router_handlers/post_router_handler.dart';
 import 'package:facebook/router/router_handlers/signUp_router_handler.dart';
@@ -27,6 +28,9 @@ class Routes {
 
   ///Post
   static String addPost = "/addPost";
+
+  /// Friend
+  static String suggestFriends = " /suggestFriends";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notHandler;
@@ -89,5 +93,11 @@ class Routes {
     router.define(conversation_profile,
         handler: conversationProfileHandler,
         transitionType: TransitionType.inFromRight);
+
+    /// Friend
+    ///Post
+    router.define(suggestFriends,
+        handler: suggestFriendHandler,
+        transitionType: TransitionType.inFromBottom);
   }
 }
