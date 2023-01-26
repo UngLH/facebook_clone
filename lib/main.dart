@@ -8,6 +8,7 @@ import 'package:facebook/network/api_client_facebook.dart';
 import 'package:facebook/network/api_util.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/repositories/post_repository.dart';
+import 'package:facebook/ui/page/friend/request/friend_request.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_cubit.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';

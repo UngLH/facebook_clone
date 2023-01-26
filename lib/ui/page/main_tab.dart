@@ -2,6 +2,7 @@ import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
+import 'package:facebook/ui/page/friend/request/friend_request.dart';
 import 'package:facebook/ui/page/home/home_page.dart';
 import 'package:facebook/ui/page/menu/menu_page.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +145,7 @@ class _TabBarState extends State<TabBarPage>
                 Expanded(
                     child: TabBarView(controller: _tabController, children: [
                   HomePage(),
-                  HomePage(),
+                  FriendRequest(),
                   HomePage(),
                   HomePage(),
                   HomePage(),
