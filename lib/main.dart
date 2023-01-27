@@ -20,7 +20,6 @@ import 'package:overlay_support/overlay_support.dart';
 
 import 'router/application.dart';
 import 'router/routers.dart';
-import 'ui/page/friend/list_suggest_friend/suggest_friends_page.dart';
 
 final appNavigatorKey = GlobalKey<NavigatorState>();
 

@@ -146,7 +146,6 @@ class _TabBarState extends State<TabBarPage>
                     child: TabBarView(controller: _tabController, children: [
                   HomePage(),
                   SuggestFriendPage(),
-                  // FriendRequest(),
                   HomePage(),
                   HomePage(),
                   HomePage(),

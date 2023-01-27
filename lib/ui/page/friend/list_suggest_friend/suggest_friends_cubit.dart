@@ -42,4 +42,26 @@ class SuggestFriendsCubit extends Cubit<SuggestFriendsState> {
       }
     }
   }
+
+  Future<void> getListRequestFriends() async {
+    String? token = await SharedPreferencesHelper.getToken();
+    emit(state.copyWith(loadingStatus: LoadStatus.LOADING));
+    try {
+      final response = await repository?.getRequestFriends(token, 0, 20);
+      if (response != null) {
+        emit(state.copyWith(
+            loadingStatus: LoadStatus.SUCCESS,
+            listRequestFriends: response.data!.listUsers));
+      }
+    } catch (error) {
+      logger.e(error);
+      if (error is DioError) {
+        if (error.response!.data["message"] == "No data or end of list data") {
+          emit(state.copyWith(loadingStatus: LoadStatus.EMPTY));
+        } else {
+          emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
+        }
+      }
+    }
+  }
 }
