@@ -113,41 +113,36 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
                               Row(
                                 children: [
                                   Flexible(
-                                      flex: 1,
-                                      child: AppPasswordField(
-                                        labelText: "Mật khẩu",
-                                        obscureText: isShowPassword,
-                                        padding: 0,
-                                        autoValidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        validator: (value) {
-                                          if (!Validator.validatePassword(
-                                              value!))
-                                            return "Mật khẩu chưa đúng định dạng!";
-                                          else
-                                            return null;
+                                    flex: 1,
+                                    child: AppPasswordField(
+                                      labelText: "Mật khẩu",
+                                      obscureText: isShowPassword,
+                                      padding: 0,
+                                      autoValidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        if (!Validator.validatePassword(value!))
+                                          return "Mật khẩu chưa đúng định dạng!";
+                                        else
+                                          return null;
+                                      },
+                                      controller: _passwordController,
+                                      suffixIcon: InkWell(
+                                        customBorder: const CircleBorder(),
+                                        onTap: () {
+                                          setState(() {
+                                            isShowPassword = !isShowPassword;
+                                          });
                                         },
-                                        controller: _passwordController,
-                                        suffixIcon: Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 20),
-                                          child: InkWell(
-                                            customBorder: const CircleBorder(),
-                                            onTap: () {
-                                              setState(() {
-                                                isShowPassword =
-                                                    !isShowPassword;
-                                              });
-                                            },
-                                            child: Icon(
-                                              isShowPassword
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
+                                        child: Icon(
+                                          isShowPassword
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                          color: Colors.grey,
                                         ),
-                                      )),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(

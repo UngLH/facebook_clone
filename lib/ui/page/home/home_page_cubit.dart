@@ -52,4 +52,13 @@ class HomePageCubit extends Cubit<HomePageState> {
       logger.e(error);
     }
   }
+
+  Future<void> delPost(String? postId) async {
+    String? token = await SharedPreferencesHelper.getToken();
+    try {
+      await repository?.delPost(token, postId);
+    } catch (error) {
+      logger.e(error);
+    }
+  }
 }

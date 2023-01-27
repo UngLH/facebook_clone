@@ -55,6 +55,19 @@ abstract class ApiClient {
       @Part(name: "image") List<File>? images,
       @Part(name: "video") List<File>? videos);
 
+  @POST("/it4788/post/delete_post?token={token}&id={postId}")
+  Future<dynamic> delPost(
+      @Path("token") String? token, @Path("postId") String? postId);
+
+  @POST(
+      "/it4788/post/edit_post?token={token}&id={postId}&described={described}&status={status}&image_del={listDelImage}")
+  @MultiPart()
+  Future<dynamic> editPost(
+      @Path("token") String? token,
+      @Path("postId") String? postId,
+      @Part(name: "image") List<File>? images,
+      @Part(name: "video") List<File>? videos);
+
   @POST("/it4788/like/like?token={token}&id={postId}")
   Future<dynamic> likePost(
       @Path("token") String? token, @Path("postId") String? postId);

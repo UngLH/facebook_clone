@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 40,
                       ),
                       AppTextFieldUnderLine(
-                        hintText: "Số điện thoại hoặc email",
+                        labelText: "Số điện thoại hoặc email",
                         controller: _usernameController,
                         keyboardType: TextInputType.text,
                       ),
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 30,
                       ),
                       AppPasswordField(
-                          hintText: "Mật khẩu",
+                          labelText: "Mật khẩu",
                           obscureText: isShowPassword,
                           controller: passwordController,
                           suffixIcon: InkWell(

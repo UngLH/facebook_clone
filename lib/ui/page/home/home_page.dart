@@ -1,10 +1,12 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
+import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
 import 'package:facebook/ui/page/home/home_page_cubit.dart';
 import 'package:facebook/ui/widgets/app_post.dart';
+import 'package:facebook/ui/widgets/app_post_modal.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage>
   HomePageCubit? _cubit;
   TextEditingController? commentController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String? userId;
   @override
   void initState() {
     _cubit = BlocProvider.of<HomePageCubit>(context);
@@ -133,6 +136,29 @@ class _HomePageState extends State<HomePage>
                             commentController: commentController,
                             pressLike: () {
                               _cubit!.likePost(state.listPost![index].id);
+                            },
+                            pressMoreAction: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  backgroundColor:
+                                      AppColors.commentBackgroundColor,
+                                  builder: (context) {
+                                    return ModalPostWidget(
+                                      deletePost: () {
+                                        Navigator.pop(context);
+                                        _cubit!
+                                            .delPost(state.listPost![index].id);
+                                        _onRefreshData();
+                                      },
+                                      editPost: () {
+                                        print("Edit post");
+                                      },
+                                    );
+                                  });
                             },
                           );
                         },

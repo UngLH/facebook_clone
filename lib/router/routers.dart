@@ -28,6 +28,7 @@ class Routes {
 
   ///Post
   static String addPost = "/addPost";
+  static String editPost = "/editPost";
 
   /// Friend
   static String suggestFriends = " /suggestFriends";
@@ -83,6 +84,8 @@ class Routes {
         handler: addPostHandler, transitionType: TransitionType.inFromBottom);
     router.define(addPost,
         handler: addPostHandler, transitionType: TransitionType.inFromBottom);
+    router.define(editPost,
+        handler: editPostHandler, transitionType: TransitionType.inFromBottom);
 
     /// Conversation
     router.define(conversation,

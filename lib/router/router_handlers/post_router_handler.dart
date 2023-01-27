@@ -1,6 +1,8 @@
 import 'package:facebook/repositories/post_repository.dart';
 import 'package:facebook/ui/page/add_post/add_post_cubit.dart';
 import 'package:facebook/ui/page/add_post/add_post_page.dart';
+import 'package:facebook/ui/page/edit_post/edit_post_cubit.dart';
+import 'package:facebook/ui/page/edit_post/edit_post_page.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_cubit.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_post.dart';
 import 'package:fluro/fluro.dart';
@@ -15,6 +17,16 @@ Handler addPostHandler = Handler(
       return AddPostCubit(repository: repository);
     },
     child: const AddPostPage(),
+  );
+});
+Handler editPostHandler = Handler(
+    handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+  return BlocProvider(
+    create: (context) {
+      final repository = RepositoryProvider.of<PostRepository>(context);
+      return EditPostCubit(repository: repository);
+    },
+    child: const EditPostPage(),
   );
 });
 // Handler appCommentHandler = Handler(
