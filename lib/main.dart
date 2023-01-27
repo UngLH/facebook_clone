@@ -9,7 +9,6 @@ import 'package:facebook/network/api_util.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/repositories/post_repository.dart';
-import 'package:facebook/ui/page/friend/list_friend/list_friend_page.dart';
 import 'package:facebook/ui/page/friend/list_suggest_friend/suggest_friends_cubit.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_cubit.dart';
 import 'package:fluro/fluro.dart';

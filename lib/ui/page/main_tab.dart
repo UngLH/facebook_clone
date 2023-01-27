@@ -2,7 +2,6 @@ import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
-import 'package:facebook/ui/page/friend/list_friend/list_friend_page.dart';
 import 'package:facebook/ui/page/friend/list_suggest_friend/suggest_friends_page.dart';
 import 'package:facebook/ui/page/home/home_page.dart';
 import 'package:facebook/ui/page/menu/menu_page.dart';
@@ -147,6 +146,7 @@ class _TabBarState extends State<TabBarPage>
                     child: TabBarView(controller: _tabController, children: [
                   HomePage(),
                   SuggestFriendPage(),
+                  // FriendRequest(),
                   HomePage(),
                   HomePage(),
                   HomePage(),
