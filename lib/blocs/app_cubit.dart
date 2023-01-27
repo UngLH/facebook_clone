@@ -10,8 +10,10 @@ class AppCubit extends Cubit<AppState> {
   AuthRepository authRepository;
   PostRepository postRepository;
 
-  AppCubit({required this.authRepository, required this.postRepository})
-      : super(const AppState());
+  AppCubit({
+    required this.authRepository,
+    required this.postRepository,
+  }) : super(const AppState());
 
   final showDialogController = PublishSubject<String>();
 

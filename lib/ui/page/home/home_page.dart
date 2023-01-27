@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -128,9 +128,6 @@ class _HomePageState extends State<HomePage>
                         shrinkWrap: true,
                         itemCount: state.listPost!.length,
                         itemBuilder: (context, index) {
-                          bool isLiked = state.listPost![index].isLiked == "1"
-                              ? true
-                              : false;
                           return AppPost(
                             post: state.listPost![index],
                             commentController: commentController,
