@@ -30,6 +30,7 @@ class _SuggestFriendPageState extends State<SuggestFriendPage> {
 
     _cubit = BlocProvider.of<SuggestFriendsCubit>(context);
     _cubit!.getListSuggestFriends();
+    _cubit!.getListRequestFriends();
   }
 
   @override
@@ -116,10 +117,18 @@ class _SuggestFriendPageState extends State<SuggestFriendPage> {
                     ),
                     ListView.separated(
                       shrinkWrap: true,
-                      itemCount: 2,
+                      itemCount: state.listRequestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return const AddFriendItem();
+                        FriendRequestEntity friend = state.listRequestFriends![index];
+                        String? avatar = friend.avatar;
+                        return AddFriendItem(
+                          friendName: friend.username,
+                          numMutualFriend: friend.sameFriend,
+                          avtUrl: avatar,
+                          acceptText: "Chấp nhận",
+                          cancelText: "Từ chối",
+                        );
                       },
                       separatorBuilder: (context, state) {
                         return Container(

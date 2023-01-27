@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'friend_entity.g.dart';
@@ -8,8 +11,9 @@ class FriendEntity {
   String? userId;
   String? username;
   String? avatar;
-  @JsonKey(name: "same_friend")
+  @JsonKey(name: "same_friends")
   String? sameFriend;
+  
 
   FriendEntity({this.userId, this.username, this.avatar, this.sameFriend});
 
@@ -66,4 +70,100 @@ class FriendSuggestResponse {
       _$FriendSuggestResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$FriendSuggestResponseToJson(this);
+}
+
+@JsonSerializable()
+class FriendRequestEntity {
+  @JsonKey(name: "id")
+  String? userId;
+  String? username;
+  String? avatar;
+  @JsonKey(name: "same_friends")
+  String? sameFriend;
+  String? created;
+  FriendRequestEntity({
+    this.userId,
+    this.username,
+    this.avatar,
+    this.sameFriend,
+    this.created,
+  });
+
+  FriendRequestEntity copyWith({
+    String? userId,
+    String? username,
+    String? avatar,
+    String? sameFriend,
+    String? created,
+  }) {
+    return FriendRequestEntity(
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      avatar: avatar ?? this.avatar,
+      sameFriend: sameFriend ?? this.sameFriend,
+      created: created ?? this.created,
+    );
+  }
+
+  factory FriendRequestEntity.fromJson(Map<String, dynamic> json) =>
+      _$FriendRequestEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FriendRequestEntityToJson(this);
+}
+
+@JsonSerializable()
+class FriendRequestDataResponse {
+  String? total;
+  @JsonKey(name: "request")
+  List<FriendRequestEntity>? listUsers;
+
+  FriendRequestDataResponse({
+    this.total,
+    this.listUsers,
+  });
+
+  FriendRequestDataResponse copyWith({
+    String? total,
+    List<FriendRequestEntity>? listUsers,
+  }) {
+    return FriendRequestDataResponse(
+      total: total ?? this.total,
+      listUsers: listUsers ?? this.listUsers,
+    );
+  }
+
+  factory FriendRequestDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$FriendRequestDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FriendRequestDataResponseToJson(this);
+
+}
+
+@JsonSerializable()
+class FriendRequestResponse {
+  String? code;
+  String? message;
+  FriendRequestDataResponse? data;
+  FriendRequestResponse({
+    this.code,
+    this.message,
+    this.data,
+  });
+
+  FriendRequestResponse copyWith({
+    String? code,
+    String? message,
+    FriendRequestDataResponse? data,
+  }) {
+    return FriendRequestResponse(
+      code: code ?? this.code,
+      message: message ?? this.message,
+      data: data ?? this.data,
+    );
+  }
+
+  factory FriendRequestResponse.fromJson(Map<String, dynamic> json) =>
+      _$FriendRequestResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FriendRequestResponseToJson(this);
 }

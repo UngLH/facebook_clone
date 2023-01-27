@@ -10,7 +10,7 @@ FriendEntity _$FriendEntityFromJson(Map<String, dynamic> json) => FriendEntity(
       userId: json['user_id'] as String?,
       username: json['username'] as String?,
       avatar: json['avatar'] as String?,
-      sameFriend: json['same_friend'] as String?,
+      sameFriend: json['same_friends'] as String?,
     );
 
 Map<String, dynamic> _$FriendEntityToJson(FriendEntity instance) =>
@@ -18,7 +18,7 @@ Map<String, dynamic> _$FriendEntityToJson(FriendEntity instance) =>
       'user_id': instance.userId,
       'username': instance.username,
       'avatar': instance.avatar,
-      'same_friend': instance.sameFriend,
+      'same_friends': instance.sameFriend,
     };
 
 FriendDataResponse _$FriendDataResponseFromJson(Map<String, dynamic> json) =>
@@ -47,6 +47,60 @@ FriendSuggestResponse _$FriendSuggestResponseFromJson(
 
 Map<String, dynamic> _$FriendSuggestResponseToJson(
         FriendSuggestResponse instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+FriendRequestEntity _$FriendRequestEntityFromJson(Map<String, dynamic> json) =>
+    FriendRequestEntity(
+      userId: json['id'] as String?,
+      username: json['username'] as String?,
+      avatar: json['avatar'] as String?,
+      sameFriend: json['same_friends'] as String?,
+      created: json['created'] as String?,
+    );
+
+Map<String, dynamic> _$FriendRequestEntityToJson(
+        FriendRequestEntity instance) =>
+    <String, dynamic>{
+      'id': instance.userId,
+      'username': instance.username,
+      'avatar': instance.avatar,
+      'same_friends': instance.sameFriend,
+      'created': instance.created,
+    };
+
+FriendRequestDataResponse _$FriendRequestDataResponseFromJson(
+        Map<String, dynamic> json) =>
+    FriendRequestDataResponse(
+      total: json['total'] as String?,
+      listUsers: (json['request'] as List<dynamic>?)
+          ?.map((e) => FriendRequestEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$FriendRequestDataResponseToJson(
+        FriendRequestDataResponse instance) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'request': instance.listUsers,
+    };
+
+FriendRequestResponse _$FriendRequestResponseFromJson(
+        Map<String, dynamic> json) =>
+    FriendRequestResponse(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : FriendRequestDataResponse.fromJson(
+              json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FriendRequestResponseToJson(
+        FriendRequestResponse instance) =>
     <String, dynamic>{
       'code': instance.code,
       'message': instance.message,
