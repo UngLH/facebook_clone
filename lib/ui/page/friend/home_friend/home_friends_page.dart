@@ -2,24 +2,24 @@ import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item.dart';
-import 'package:facebook/ui/page/friend/list_suggest_friend/suggest_friends_cubit.dart';
+import 'package:facebook/ui/page/friend/home_friend/suggest_friends_cubit.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SuggestFriendPage extends StatefulWidget {
-  const SuggestFriendPage({Key? key}) : super(key: key);
+class HomeFriendPage extends StatefulWidget {
+  const HomeFriendPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _SuggestFriendPageState();
+    return _HomeFriendPageState();
   }
 }
 
-class _SuggestFriendPageState extends State<SuggestFriendPage> {
+class _HomeFriendPageState extends State<HomeFriendPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  SuggestFriendsCubit? _cubit;
+  HomeFriendsCubit? _cubit;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _SuggestFriendPageState extends State<SuggestFriendPage> {
       statusBarColor: Colors.transparent,
     ));
 
-    _cubit = BlocProvider.of<SuggestFriendsCubit>(context);
+    _cubit = BlocProvider.of<HomeFriendsCubit>(context);
     _cubit!.getListSuggestFriends();
     _cubit!.getListRequestFriends();
   }
@@ -43,7 +43,7 @@ class _SuggestFriendPageState extends State<SuggestFriendPage> {
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
-        body: BlocBuilder<SuggestFriendsCubit, SuggestFriendsState>(
+        body: BlocBuilder<HomeFriendsCubit, HomeFriendsState>(
             builder: (context, state) {
           if (state.loadingStatus == LoadStatus.LOADING) {
             return const Center(
