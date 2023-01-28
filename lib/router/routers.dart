@@ -1,5 +1,6 @@
 import 'package:facebook/router/router_handlers/conversation_handler.dart';
 import 'package:facebook/router/router_handlers/home_router_handler.dart';
+import 'package:facebook/router/router_handlers/profile_router_handler.dart';
 import 'package:facebook/router/router_handlers/signUp_router_handler.dart';
 import 'package:fluro/fluro.dart';
 
@@ -20,6 +21,7 @@ class Routes {
   static String conversation = '/conversation';
   static String conversation_detail = '/conversation/chatDetail';
   static String conversation_profile = '/conversation/profile';
+  static String profile = '/profile';
 
   /// Home
   static String homeTab = "/homeTab";
@@ -71,20 +73,22 @@ class Routes {
     );
 
     /// Conversation
+    router.define(conversation,
+        handler: conversationHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(conversation_detail,
+        handler: conversationDetailHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(conversation_profile,
+        handler: conversationProfileHandler,
+        transitionType: TransitionType.inFromRight);
+
+    /// Profile
+
     router.define(
-      conversation,
-      handler: conversationHandler,
-      transitionType: TransitionType.inFromRight
-    );
-    router.define(
-      conversation_detail,
-      handler: conversationDetailHandler,
-      transitionType: TransitionType.inFromRight
-    );
-    router.define(
-      conversation_profile,
-      handler: conversationProfileHandler,
-      transitionType: TransitionType.inFromRight
+      profile,
+      handler: profileHandler,
+      transitionType: TransitionType.fadeIn,
     );
   }
 }
