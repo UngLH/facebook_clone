@@ -79,7 +79,7 @@ abstract class ApiClient {
   ///Friend
   @POST(
       "/it4788/friend/get_requested_friends?token={token}&index={index}&count={count}")
-  Future<dynamic> getRequestFriends(@Path("token") String? token,
+  Future<FriendRequestResponse> getRequestFriends(@Path("token") String? token,
       @Path("index") int? index, @Path("count") int? count);
 
   @POST(

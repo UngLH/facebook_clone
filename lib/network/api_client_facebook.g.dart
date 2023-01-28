@@ -13,7 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.2.2:5000';
+    baseUrl ??= 'https://facebook-server-p998.vercel.app';
   }
 
   final Dio _dio;
@@ -284,7 +284,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<dynamic> getRequestFriends(
+  Future<FriendRequestResponse> getRequestFriends(
     token,
     index,
     count,
@@ -294,19 +294,20 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<FriendRequestResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/it4788/friend/get_requested_friends?token=${token}&index=${index}&count=${count}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+            .compose(
+              _dio.options,
+              '/it4788/friend/get_requested_friends?token=${token}&index=${index}&count=${count}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = FriendRequestResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -75,17 +75,17 @@ Map<String, dynamic> _$FriendRequestEntityToJson(
 FriendRequestDataResponse _$FriendRequestDataResponseFromJson(
         Map<String, dynamic> json) =>
     FriendRequestDataResponse(
-      total: json['total'] as String?,
       listUsers: (json['request'] as List<dynamic>?)
           ?.map((e) => FriendRequestEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
+      total: json['total'] as String?,
     );
 
 Map<String, dynamic> _$FriendRequestDataResponseToJson(
         FriendRequestDataResponse instance) =>
     <String, dynamic>{
-      'total': instance.total,
       'request': instance.listUsers,
+      'total': instance.total,
     };
 
 FriendRequestResponse _$FriendRequestResponseFromJson(

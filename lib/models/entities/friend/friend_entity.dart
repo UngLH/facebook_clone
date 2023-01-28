@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'friend_entity.g.dart';
@@ -113,22 +111,22 @@ class FriendRequestEntity {
 
 @JsonSerializable()
 class FriendRequestDataResponse {
-  String? total;
   @JsonKey(name: "request")
   List<FriendRequestEntity>? listUsers;
+  String? total;
 
   FriendRequestDataResponse({
-    this.total,
     this.listUsers,
+    this.total,
   });
 
   FriendRequestDataResponse copyWith({
-    String? total,
     List<FriendRequestEntity>? listUsers,
+    String? total,
   }) {
     return FriendRequestDataResponse(
-      total: total ?? this.total,
       listUsers: listUsers ?? this.listUsers,
+      total: total ?? this.total,
     );
   }
 
