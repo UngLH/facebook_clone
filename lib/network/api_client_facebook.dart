@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:facebook/configs/app_configs.dart';
 import 'package:facebook/models/entities/comment/comment_entity.dart';
+import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/post/post_response_request.dart';
 import 'package:retrofit/retrofit.dart';
@@ -128,4 +129,10 @@ abstract class ApiClient {
       @Path("userId") String? userId,
       @Path("index") int? index,
       @Path("count") int? count);
+
+  ///Chat
+  @POST(
+      "/it4788/chat/get_list_conversation?token={token}&index={index}&count={count}")
+  Future<ListConversationResponse> getListConversation(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
 }

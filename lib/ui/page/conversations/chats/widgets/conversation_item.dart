@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/page/conversations/chat_detail/chat_detail.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:intl/intl.dart';
 
 class ConversationItem extends StatefulWidget {
   final ListFriendModel friendItem;
@@ -19,7 +21,6 @@ class ConversationItem extends StatefulWidget {
 }
 
 class _ConversationItemState extends State<ConversationItem> {
-
   _buildBorder() {
     if (widget.friendItem.isActive!) {
       return Border.all(color: Colors.grey.shade300, width: 3);
@@ -136,17 +137,18 @@ class _ConversationItemState extends State<ConversationItem> {
 
   _buildConverastionTitle() {
     return Text(
-      widget.friendItem.name!,
+      widget.friendItem.partner!.username!,
       style: const TextStyle(
           fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
     );
   }
 
   _buildLatestMessage() {
+    print(widget.friendItem.lastMessage!.toJson());
     return SizedBox(
       width: 120.0,
       child: Text(
-        widget.friendItem.shortDescription!,
+        widget.friendItem.lastMessage!.message!,
         style: TextStyle(color: Colors.grey.shade700, fontSize: 16),
         overflow: TextOverflow.ellipsis,
       ),
@@ -154,7 +156,13 @@ class _ConversationItemState extends State<ConversationItem> {
   }
 
   _buildTimeOfLatestMessage() {
-    return Text('1:21PM',
+    if (widget.friendItem.lastMessage!.created!.isEmpty) {
+      return const Text("");
+    }
+    int timestamp = int.parse(widget.friendItem.lastMessage!.created!);
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    var d12 = DateFormat('dd-MM-yyyy, hh:mm a').format(date);
+    return Text(d12.toString(),
         style: TextStyle(color: Colors.grey.shade700, fontSize: 11));
   }
 
@@ -171,7 +179,7 @@ class _ConversationItemState extends State<ConversationItem> {
           borderRadius: BorderRadius.circular(30.0),
           border: _buildBorder(),
           image: DecorationImage(
-            image: AssetImage(widget.friendItem.imageAvatarUrl!),
+            image: AssetImage(widget.friendItem.partner!.avatar!),
             fit: BoxFit.cover,
           ),
         ),

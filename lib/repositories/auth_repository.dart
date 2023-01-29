@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:facebook/network/api_client_facebook.dart';
 import 'package:facebook/storage/share_preferences_helper.dart';
 
+import '../models/entities/conversations/list_friend_model.dart';
+
 abstract class AuthRepository {
   //
   Future<void> removeToken();
@@ -10,6 +12,8 @@ abstract class AuthRepository {
   Future<dynamic> signUp(String phoneNumber, String password);
   Future<dynamic> verifyCode(String phoneNumber, String verifyCode);
   Future<dynamic> updateUserInfor({String? token, String? username});
+  Future<ListConversationResponse> getListConversation(
+      String? token, int? index, int? count);
 }
 
 class AuthRepositoryImpl extends AuthRepository {
@@ -42,5 +46,11 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future updateUserInfor({String? token, String? username}) {
     return _apiClientFacebook!.createUserInforAndAvt(token, username);
+  }
+
+  @override
+  Future<ListConversationResponse> getListConversation(
+      String? token, int? index, int? count) {
+    return _apiClientFacebook!.getListConversation(token, index, count);
   }
 }

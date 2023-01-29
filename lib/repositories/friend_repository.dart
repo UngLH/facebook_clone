@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/network/api_client_facebook.dart';
 

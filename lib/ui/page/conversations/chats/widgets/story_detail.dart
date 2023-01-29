@@ -23,54 +23,46 @@ class _StoryDetailState extends State<StoryDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.listFriendModel.name!),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: StoryView(
-                  storyItems: widget.listFriendModel.stories!.map((e) {
-                    return e.text != null
-                      ? StoryItem.text(
-                          title: e.text!,
-                          backgroundColor: Colors.black,
-
-                        )
-                      : StoryItem.pageProviderImage(
-                          AssetImage(e.imageUrl!),
-                          imageFit: BoxFit.contain
-                        );
-                  }).toList(),
-                  onStoryShow: (s) {
-                  },
-                  onComplete: () {
-                    Navigator.pop(context);
-                  },
-                  progressPosition: ProgressPosition.top,
-                  repeat: false,
-                  controller: storyController,
+        appBar: AppBar(
+          title: Text(widget.listFriendModel.partner!.avatar!),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
+        body: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: StoryView(
+                    storyItems: widget.listFriendModel.stories!.map((e) {
+                      return e.text != null
+                          ? StoryItem.text(
+                              title: e.text!,
+                              backgroundColor: Colors.black,
+                            )
+                          : StoryItem.pageProviderImage(AssetImage(e.imageUrl!),
+                              imageFit: BoxFit.contain);
+                    }).toList(),
+                    onStoryShow: (s) {},
+                    onComplete: () {
+                      Navigator.pop(context);
+                    },
+                    progressPosition: ProgressPosition.top,
+                    repeat: false,
+                    controller: storyController,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              child: _buildBottomChat()
-            )
-          ),
-        ],
-      )
-    );
+              ],
+            ),
+            Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(child: _buildBottomChat())),
+          ],
+        ));
   }
 
   _buildBottomChat() {
@@ -82,14 +74,13 @@ class _StoryDetailState extends State<StoryDetail> {
             child: TextField(
               controller: _messageController,
               onChanged: (value) => {
-                if (_messageController.text.isNotEmpty) {
-                  storyController.pause()
-                } else {
-                  storyController.play()
-                }
+                if (_messageController.text.isNotEmpty)
+                  {storyController.pause()}
+                else
+                  {storyController.play()}
               },
-              onSubmitted: (value){
-              },
+              style: const TextStyle(color: Colors.white70),
+              onSubmitted: (value) {},
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10.0),
                 border: OutlineInputBorder(
@@ -102,23 +93,20 @@ class _StoryDetailState extends State<StoryDetail> {
                 hintText: 'Aa',
                 filled: true,
                 fillColor: const Color.fromARGB(50, 238, 238, 238),
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w500,
-                  color: Colors.grey[600],
+                  color: Colors.white70,
                 ),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: IconButton(
-                    onPressed: () {
-                      
-                    },
-                    icon: const Icon(
-                      Icons.send,
-                      size: 25.0,
-                      color: Colors.lightBlue,
-                    )
-                  ),
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send,
+                        size: _messageController.text.isEmpty ? 0.0 : 25.0,
+                        color: Colors.lightBlue,
+                      )),
                 ),
               ),
             ),
@@ -126,8 +114,7 @@ class _StoryDetailState extends State<StoryDetail> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.thumb_up_alt,
                 size: 25.0,
@@ -138,8 +125,7 @@ class _StoryDetailState extends State<StoryDetail> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.favorite,
                 size: 25.0,
@@ -150,8 +136,7 @@ class _StoryDetailState extends State<StoryDetail> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child: IconButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.emoji_emotions,
                 size: 25.0,

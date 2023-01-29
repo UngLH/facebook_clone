@@ -16,7 +16,7 @@ Handler conversationHandler = Handler(
     return BlocProvider(
       create: (context) {
         final repository = RepositoryProvider.of<AuthRepository>(context);
-        return ListFriendCubit(authRepository: repository);
+        return ListFriendCubit(repository: repository);
       },
       child: const HomeScreen(),
     );
