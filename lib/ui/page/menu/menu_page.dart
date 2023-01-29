@@ -112,7 +112,7 @@ class _MenuPageState extends State<MenuPage> {
                               backgroundColor:
                                   AppColors.roundIconButtonBackground),
                           onPressed: () {
-                            SharedPreferencesHelper.removeToken();
+                            SharedPreferencesHelper.removeTokenAndUserId();
                             Application.router?.navigateTo(
                               context,
                               Routes.root,

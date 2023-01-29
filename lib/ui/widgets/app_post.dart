@@ -14,8 +14,13 @@ class AppPost extends StatefulWidget {
   PostResponseEntity? post;
   TextEditingController? commentController;
   Function pressLike;
+  Function pressMoreAction;
   AppPost(
-      {Key? key, this.post, required this.pressLike, this.commentController})
+      {Key? key,
+      this.post,
+      required this.pressLike,
+      this.commentController,
+      required this.pressMoreAction})
       : super(key: key);
 
   @override
@@ -33,7 +38,7 @@ class _AppPostState extends State<AppPost> {
         video: widget.post!.video!.url.toString(),
         thumbnailPath: (await getTemporaryDirectory()).path,
         imageFormat: ImageFormat.WEBP);
-    setState(() {});
+    // setState(() {});
     return _thumbnailUrl.toString();
   }
 
@@ -135,22 +140,19 @@ class _AppPostState extends State<AppPost> {
                       ),
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              print(createdDateInMinute);
-                            },
-                            icon: const Icon(
-                              Icons.more_horiz,
-                              color: AppColors.grayIconButton,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.close,
-                              color: AppColors.grayIconButton,
-                            ),
-                          )
+                          widget.post!.canEdit == "1"
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.pressMoreAction();
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.more_horiz,
+                                    color: AppColors.grayIconButton,
+                                  ),
+                                )
+                              : Container(),
                         ],
                       )
                     ],

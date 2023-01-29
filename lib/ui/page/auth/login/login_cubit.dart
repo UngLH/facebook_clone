@@ -38,7 +38,8 @@ class LoginCubit extends Cubit<LoginState> {
       final result = await repository!.authLogin(phoneNumber, password);
 
       /// save Token to Shared Preferences
-      SharedPreferencesHelper.setToken(result['data']['token']);
+      SharedPreferencesHelper.setToken(
+          result['data']['token'], result['data']['id']);
 
       loadingController.sink.add(LoadingStatus.SUCCESS);
     } catch (error) {

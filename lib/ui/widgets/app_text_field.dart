@@ -37,13 +37,13 @@ class AppTextFieldUnderLine extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 25,
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: TextFormField(
             enabled: enable,
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
+              labelText: labelText,
               contentPadding:
                   const EdgeInsets.only(left: 2, right: 2, bottom: 12),
               enabledBorder: const UnderlineInputBorder(
@@ -123,18 +123,17 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
   Widget build(BuildContext context) {
     bool isShowPassword = false;
     return Container(
-      height: 25,
       padding: EdgeInsets.symmetric(horizontal: widget.padding ?? 30),
       child: TextFormField(
         obscureText: widget.obscureText!,
         obscuringCharacter: "*",
         enabled: widget.enable,
         controller: widget.controller,
-
         decoration: InputDecoration(
           suffixIcon: widget.suffixIcon,
           hintText: widget.hintText,
-          contentPadding: const EdgeInsets.only(left: 2, right: 2, bottom: 15),
+          labelText: widget.labelText,
+          contentPadding: const EdgeInsets.only(left: 2, right: 2, bottom: 0),
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: AppColors.darkMain),
           ),

@@ -14,15 +14,20 @@ class ListFriendModel {
   String? createdAt;
   bool? isActive;
   List<StoryModel>? stories;
+  PartnerModel? partner;
+  LastMessageModel? lastMessage;
 
   ListFriendModel(
-      {this.id,
-      this.createdAt,
-      this.imageAvatarUrl,
-      this.name,
-      this.shortDescription,
-      this.isActive,
-      this.stories});
+      {this.id = "",
+      this.createdAt = "",
+      this.imageAvatarUrl = "",
+      this.name = "",
+      this.shortDescription = "",
+      this.isActive = false,
+      this.stories = const [],
+      this.partner,
+      this.lastMessage  
+    }) ;
 
   ListFriendModel copyWith({
     String? id,
@@ -32,6 +37,8 @@ class ListFriendModel {
     String? createdAt,
     bool? isActive,
     List<StoryModel>? stories,
+    PartnerModel? partner,
+    LastMessageModel? lastMessage,
   }) {
     return ListFriendModel(
       id: id ?? this.id,
@@ -41,6 +48,8 @@ class ListFriendModel {
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,
       stories: stories ?? this.stories,
+      partner: partner ?? this.partner,
+      lastMessage: lastMessage ?? this.lastMessage,
     );
   }
 
@@ -68,3 +77,76 @@ var friendList = List<String>.filled(20, '')
             ])))
     .values
     .toList();
+
+@JsonSerializable()
+class LastMessageModel {
+  String? message;
+  String? created;
+  String? unread;
+  LastMessageModel({this.message = "", this.created = "", this.unread = ""});
+
+  LastMessageModel copyWith({String? message, String? created, String? unread}) {
+    return LastMessageModel(
+        message: message ?? this.message, 
+        created: created ?? this.created,
+        unread: unread ?? this.unread
+    );
+  }
+
+  factory LastMessageModel.fromJson(Map<String, dynamic> json) =>
+      _$LastMessageModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LastMessageModelToJson(this);
+}
+
+@JsonSerializable()
+class PartnerModel {
+  String? id;
+  String? username;
+  String? avatar;
+  PartnerModel({this.id = "", this.username = "User", this.avatar = AppImages.icRoundFacebookLogo});
+
+  PartnerModel copyWith({String? id, String? username, String? avatar}) {
+    return PartnerModel(
+        id: id ?? this.id, 
+        username: username ?? this.username, 
+        avatar: avatar ?? this.avatar, 
+    );
+  }
+
+  factory PartnerModel.fromJson(Map<String, dynamic> json) =>
+      _$PartnerModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PartnerModelToJson(this);
+}
+
+@JsonSerializable()
+class ListConversationResponse {
+  String? code;
+  String? message;
+  List<ListFriendModel>? data;
+  int? numNewMessage;
+  ListConversationResponse({
+    this.code = "",
+    this.message = "",
+    this.data = const [],
+    this.numNewMessage = 0,
+  });
+
+  ListConversationResponse copyWith({
+    String? code = "",
+    String? message = "",
+    List<ListFriendModel>? data =  const [],
+  }) {
+    return ListConversationResponse(
+      code: code ?? this.code,
+      message: message ?? this.message,
+      data: data ?? this.data,
+    );
+  }
+
+  factory ListConversationResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListConversationResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ListConversationResponseToJson(this);
+}

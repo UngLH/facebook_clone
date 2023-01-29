@@ -79,7 +79,7 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                     child: SizedBox(
                       width: 120.0,
                       child: Text(
-                        widget.listFriendModel!.name!,
+                        widget.listFriendModel!.partner!.avatar!,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20.0,
@@ -123,7 +123,7 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
           borderRadius: BorderRadius.circular(20.0),
           border: _buildBorder(),
           image: DecorationImage(
-            image: AssetImage(widget.listFriendModel!.imageAvatarUrl!),
+            image: AssetImage(widget.listFriendModel!.partner!.avatar!),
             fit: BoxFit.cover,
           ),
         ),
