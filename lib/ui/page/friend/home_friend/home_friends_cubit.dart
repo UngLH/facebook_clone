@@ -8,7 +8,7 @@ import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'suggest_friends_state.dart';
+part 'home_friends_state.dart';
 
 class HomeFriendsCubit extends Cubit<HomeFriendsState> {
   FriendRepository? repository;

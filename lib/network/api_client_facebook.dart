@@ -99,7 +99,7 @@ abstract class ApiClient {
       @Path("userId") String? userId, @Path("isAccept") String? isAccept);
   @POST(
       "/it4788/friend/get_user_friends?token={token}&user_id={userId}&index={index}&count={count}")
-  Future<dynamic> getUserFriends(
+  Future<FriendRequestResponse> getUserFriends(
       @Path("token") String? token,
       @Path("userId") String? userId,
       @Path("index") int? index,
@@ -113,6 +113,5 @@ abstract class ApiClient {
   Future<dynamic> setBlock(
       @Path("token") String? token,
       @Path("userId") String? userId,
-      @Path("index") int? index,
-      @Path("count") int? count);
+      @Path("type") String? type,);
 }

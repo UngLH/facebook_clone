@@ -9,7 +9,8 @@ import 'package:facebook/network/api_util.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/repositories/post_repository.dart';
-import 'package:facebook/ui/page/friend/list_suggest_friend/suggest_friends_cubit.dart';
+import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
+import 'package:facebook/ui/page/friend/request/friend_request_cubit.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_cubit.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ import 'package:overlay_support/overlay_support.dart';
 
 import 'router/application.dart';
 import 'router/routers.dart';
+import 'ui/page/friend/list_friend/list_friend_cubit.dart';
+import 'ui/page/friend/suggest/friend_suggest_cubit.dart';
 
 final appNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -138,11 +141,32 @@ class _MyAppState extends State<MyApp> {
                 return AppCommentCubit(repository: _postRepository);
               },
             ),
-            BlocProvider<SuggestFriendsCubit>(
+            BlocProvider<HomeFriendsCubit>(
               create: (context) {
                 final _friendRepository =
                     RepositoryProvider.of<FriendRepository>(context);
-                return SuggestFriendsCubit(repository: _friendRepository);
+                return HomeFriendsCubit(repository: _friendRepository);
+              },
+            ),
+            BlocProvider<FriendRequestCubit>(
+              create: (context) {
+                final _friendRepository =
+                    RepositoryProvider.of<FriendRepository>(context);
+                return FriendRequestCubit(repository: _friendRepository);
+              },
+            ),
+            BlocProvider<FriendSuggestCubit>(
+              create: (context) {
+                final _friendRepository =
+                    RepositoryProvider.of<FriendRepository>(context);
+                return FriendSuggestCubit(repository: _friendRepository);
+              },
+            ),
+            BlocProvider<ListFriendCubit>(
+              create: (context) {
+                final _friendRepository =
+                    RepositoryProvider.of<FriendRepository>(context);
+                return ListFriendCubit(repository: _friendRepository);
               },
             ),
             BlocProvider<NavigationCubit>(create: (_) => _navigationCubit!)

@@ -1,16 +1,16 @@
-part of 'suggest_friends_cubit.dart';
+part of 'home_friends_cubit.dart';
 
 class HomeFriendsState extends Equatable {
   LoadStatus? loadingStatus;
-  List<FriendEntity>? listSuggestFriends;
+  List<FriendSuggestEntity>? listSuggestFriends;
 
-  List<FriendRequestEntity>? listRequestFriends;
+  List<FriendEntity>? listRequestFriends;
 
   HomeFriendsState(
       {this.loadingStatus = LoadStatus.LOADING, this.listSuggestFriends, this.listRequestFriends});
 
   HomeFriendsState copyWith(
-      {LoadStatus? loadingStatus, List<FriendEntity>? listSuggestFriends, List<FriendRequestEntity>? listRequestFriends}) {
+      {LoadStatus? loadingStatus, List<FriendSuggestEntity>? listSuggestFriends, List<FriendEntity>? listRequestFriends}) {
     return HomeFriendsState(
         loadingStatus: loadingStatus ?? this.loadingStatus,
         listSuggestFriends: listSuggestFriends ?? this.listSuggestFriends,

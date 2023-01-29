@@ -1,8 +1,12 @@
 import 'package:facebook/commons/app_colors.dart';
+import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item.dart';
-import 'package:facebook/ui/page/friend/home_friend/suggest_friends_cubit.dart';
+import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
+import 'package:facebook/ui/page/friend/list_friend/list_friend_page.dart';
+import 'package:facebook/ui/page/friend/request/friend_request.dart';
+import 'package:facebook/ui/page/friend/suggest/friend_suggest.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,24 +96,93 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                       height: 20,
                     ),
                     Row(
-                      children: const [
-                        Text(
-                          "Lời mời kết bạn",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
+                      children: <Widget>[
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: const Text('Gợi ý',
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const FriendSuggestPage()),
+                            );
+                          },
                         ),
-                        SizedBox(
-                          width: 5,
+                        const SizedBox(width: 10.0),
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: const Text('Bạn bè',
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ListFriendPage(userId: "userid",)),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                    const Divider(height: 30.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              "Lời mời kết bạn",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              state.listRequestFriends!.length.toString(),
+                              style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "2",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 10.0),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(30.0)),
+                            child: const Text('Xem tất cả',
+                                style: TextStyle(
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue)),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const FriendRequestPage()),
+            );
+                          },
+                        )
                       ],
                     ),
                     const SizedBox(
@@ -120,7 +193,8 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                       itemCount: state.listRequestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        FriendRequestEntity friend = state.listRequestFriends![index];
+                        FriendEntity friend =
+                            state.listRequestFriends![index];
                         String? avatar = friend.avatar;
                         return AddFriendItem(
                           friendName: friend.username,
@@ -128,11 +202,19 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                           avtUrl: avatar,
                           acceptText: "Chấp nhận",
                           cancelText: "Từ chối",
+                          accept: (() async {
+                            String? token = await SharedPreferencesHelper.getToken();
+                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "1");
+                          }),
+                          cancel: (() async {
+                            String? token = await SharedPreferencesHelper.getToken();
+                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "0");
+                          }),
                         );
                       },
                       separatorBuilder: (context, state) {
                         return Container(
-                          height: 10,
+                          height: 0,
                         );
                       },
                     ),
@@ -154,13 +236,17 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                       itemCount: state.listSuggestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        FriendEntity friend = state.listSuggestFriends![index];
+                        FriendSuggestEntity friend = state.listSuggestFriends![index];
                         return AddFriendItem(
                           friendName: friend.username,
                           numMutualFriend: friend.sameFriend,
                           avtUrl: friend.avatar,
                           acceptText: "Thêm bạn bè",
                           cancelText: "Gỡ",
+                          accept: (() async {
+                            String? token = await SharedPreferencesHelper.getToken();
+                            _cubit!.repository!.setRequestFriend(token, friend.userId);
+                          }),
                         );
                       },
                       separatorBuilder: (context, state) {

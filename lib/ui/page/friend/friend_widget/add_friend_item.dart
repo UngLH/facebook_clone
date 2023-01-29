@@ -125,6 +125,7 @@ class _AddFriendItemState extends State<AddFriendItem> {
                                     } else {
                                       _cubit?.addFriend();
                                     }
+                                    widget.accept!();
                                   },
                                   child: Text(
                                     widget.acceptText ?? "Chấp nhận",
@@ -139,7 +140,12 @@ class _AddFriendItemState extends State<AddFriendItem> {
                                 width: 140,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    _cubit?.reject();
+                                    if(widget.acceptText == "Chấp nhận"){
+                                      _cubit?.reject();
+                                    } else {
+                                      _cubit?.remove();
+                                    }
+                                    widget.cancel!();
                                   },
                                   child: Text(
                                     widget.cancelText ?? "Xóa",
@@ -162,7 +168,11 @@ class _AddFriendItemState extends State<AddFriendItem> {
                   ],
                 ),
               ),
+              const SizedBox(
+                width: 20,
+              ),
             ],
+            
           );
         } else if(state.mode == "accept") {
           return Row(
@@ -232,8 +242,12 @@ class _AddFriendItemState extends State<AddFriendItem> {
                           Text("Các bạn đã trở thành bạn bè",
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.black.withOpacity(0.6)))
+                                color: Colors.black.withOpacity(0.6))),
+                          const SizedBox(
+                              width: 20,
+                          ),
                         ],
+                        
                       ),
                     ),
                   ],
@@ -309,7 +323,10 @@ class _AddFriendItemState extends State<AddFriendItem> {
                           Text("Yêu cầu đã bị gỡ",
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.black.withOpacity(0.6)))
+                                color: Colors.black.withOpacity(0.6))),
+                          const SizedBox(
+                              width: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -318,7 +335,7 @@ class _AddFriendItemState extends State<AddFriendItem> {
               ),
             ],
           );
-        } else {
+        } else if(state.mode == "add_friend"){
           return Row(
             children: [
               widget.avtUrl == null
@@ -386,7 +403,10 @@ class _AddFriendItemState extends State<AddFriendItem> {
                           Text("Yêu cầu đã được gửi",
                             style: TextStyle(
                                 fontSize: 12.0,
-                                color: Colors.black.withOpacity(0.6)))
+                                color: Colors.black.withOpacity(0.6))),
+                          const SizedBox(
+                              width: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -395,6 +415,8 @@ class _AddFriendItemState extends State<AddFriendItem> {
               ),
             ],
           );
+        } else {
+          return const SizedBox(height: 0,);
         }
       },
     );

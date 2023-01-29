@@ -19,4 +19,8 @@ class AddFriendItemCubit extends Cubit<AddFriendItemState> {
   Future<void> addFriend() async {
     emit(state.copyWith(mode: "add_friend"));
   }
+
+  Future<void> remove() async {
+    emit(state.copyWith(mode: "remove"));
+  }
 }

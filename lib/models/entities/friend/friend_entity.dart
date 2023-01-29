@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'friend_entity.g.dart';
 
 @JsonSerializable()
-class FriendEntity {
+class FriendSuggestEntity {
   @JsonKey(name: "user_id")
   String? userId;
   String? username;
@@ -13,31 +13,31 @@ class FriendEntity {
   String? sameFriend;
   
 
-  FriendEntity({this.userId, this.username, this.avatar, this.sameFriend});
+  FriendSuggestEntity({this.userId, this.username, this.avatar, this.sameFriend});
 
-  FriendEntity copyWith(
+  FriendSuggestEntity copyWith(
       {String? userId, String? username, String? avatar, String? sameFriend}) {
-    return FriendEntity(
+    return FriendSuggestEntity(
         userId: userId ?? this.userId,
         username: username ?? this.username,
         avatar: avatar ?? this.avatar,
         sameFriend: sameFriend ?? this.sameFriend);
   }
 
-  factory FriendEntity.fromJson(Map<String, dynamic> json) =>
-      _$FriendEntityFromJson(json);
+  factory FriendSuggestEntity.fromJson(Map<String, dynamic> json) =>
+      _$FriendSuggestEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FriendEntityToJson(this);
+  Map<String, dynamic> toJson() => _$FriendSuggestEntityToJson(this);
 }
 
 @JsonSerializable()
 class FriendDataResponse {
   String? total;
   @JsonKey(name: "list_users")
-  List<FriendEntity>? listUsers;
+  List<FriendSuggestEntity>? listUsers;
   FriendDataResponse({this.total, this.listUsers});
 
-  FriendDataResponse copyWith({String? total, List<FriendEntity>? listUsers}) {
+  FriendDataResponse copyWith({String? total, List<FriendSuggestEntity>? listUsers}) {
     return FriendDataResponse(
         total: total ?? this.total, listUsers: listUsers ?? this.listUsers);
   }
@@ -71,7 +71,7 @@ class FriendSuggestResponse {
 }
 
 @JsonSerializable()
-class FriendRequestEntity {
+class FriendEntity {
   @JsonKey(name: "id")
   String? userId;
   String? username;
@@ -79,7 +79,7 @@ class FriendRequestEntity {
   @JsonKey(name: "same_friends")
   String? sameFriend;
   String? created;
-  FriendRequestEntity({
+  FriendEntity({
     this.userId,
     this.username,
     this.avatar,
@@ -87,14 +87,14 @@ class FriendRequestEntity {
     this.created,
   });
 
-  FriendRequestEntity copyWith({
+  FriendEntity copyWith({
     String? userId,
     String? username,
     String? avatar,
     String? sameFriend,
     String? created,
   }) {
-    return FriendRequestEntity(
+    return FriendEntity(
       userId: userId ?? this.userId,
       username: username ?? this.username,
       avatar: avatar ?? this.avatar,
@@ -103,16 +103,16 @@ class FriendRequestEntity {
     );
   }
 
-  factory FriendRequestEntity.fromJson(Map<String, dynamic> json) =>
-      _$FriendRequestEntityFromJson(json);
+  factory FriendEntity.fromJson(Map<String, dynamic> json) =>
+      _$FriendEntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FriendRequestEntityToJson(this);
+  Map<String, dynamic> toJson() => _$FriendEntityToJson(this);
 }
 
 @JsonSerializable()
 class FriendRequestDataResponse {
-  @JsonKey(name: "request")
-  List<FriendRequestEntity>? listUsers;
+  @JsonKey(name: "list_user")
+  List<FriendEntity>? listUsers;
   String? total;
 
   FriendRequestDataResponse({
@@ -121,7 +121,7 @@ class FriendRequestDataResponse {
   });
 
   FriendRequestDataResponse copyWith({
-    List<FriendRequestEntity>? listUsers,
+    List<FriendEntity>? listUsers,
     String? total,
   }) {
     return FriendRequestDataResponse(
