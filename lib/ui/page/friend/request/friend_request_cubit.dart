@@ -1,46 +1,66 @@
-part of './friend_request_state.dart';
+import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:equatable/equatable.dart';
+import 'package:facebook/repositories/friend_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:facebook/utils/logger.dart';
+import 'package:facebook/models/entities/friend/friend_entity.dart';
+import 'package:facebook/models/enums/load_status.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:facebook/commons/share_preferences_helper.dart';
 
-class FriendRequestCardCubit extends Cubit<FriendRequestCardState> {
-  FriendRequestCardCubit(FriendRequestCardState initialState) : super(initialState);
+part './friend_request_state.dart';
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
-  
-  Future<void> accept() async {
-    emit(state.copyWith(code: "accept"));
-  }
-
-  Future<void> reject() async {
-    emit(state.copyWith(code: "reject"));
-  }
-}
 class FriendRequestCubit extends Cubit<FriendRequestState> {
-  FriendRequestCubit() : super(FriendRequestState());
+  FriendRepository? repository;
+  final loadingController = PublishSubject<LoadStatus>();
+
+  FriendRequestCubit({this.repository}) : super(FriendRequestState());
 
   @override
   Future<void> close() {
     return super.close();
   }
 
-  Future<void> sortIncrement() async {
-    state.friendEntities?.sort((a, b) {
-      return a.created!.compareTo(b.created!);
-    });
-    emit(state);
+  Future<void> getListRequestFriends() async {
+    String? token = await SharedPreferencesHelper.getToken();
+    emit(state.copyWith(loadingStatus: LoadStatus.LOADING));
+    try {
+      final response = await repository?.getRequestFriends(token, 0, 1000);
+      if (response != null) {
+        emit(state.copyWith(
+            loadingStatus: LoadStatus.SUCCESS,
+            listRequestFriends: response.data!.listUsers));
+      }
+    } catch (error) {
+      logger.e(error);
+      if (error is DioError) {
+        if (error.response!.data["message"] == "No data or end of list data") {
+          emit(state.copyWith(loadingStatus: LoadStatus.EMPTY));
+        } else {
+          emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
+        }
+      }
+    }
   }
 
   Future<void> sortDecrement() async {
-    state.friendEntities?.sort((a, b) {
-      return b.created!.compareTo(a.created!);
-    });
-    emit(state);
+    List<FriendEntity>? listUser = state.listRequestFriends;
+    listUser!.sort(((a, b) {
+      int createdA = int.parse(a.created!);
+      int createdB = int.parse(b.created!);
+      return createdA.compareTo(createdB);
+    }));
+    emit(state.copyWith(listRequestFriends: listUser));
   }
 
-  Future<void> getListRequest() async {
-    List<FriendEntity> friendEntityList = friends;
-    emit(state.copyWith(friendEntities: friendEntityList));
+  Future<void> sortIncrement() async {
+    List<FriendEntity>? listUser = state.listRequestFriends;
+    listUser!.sort(((a, b) {
+      int createdA = int.parse(a.created!);
+      int createdB = int.parse(b.created!);
+      return createdB.compareTo(createdA); 
+    }));
+    emit(state.copyWith(listRequestFriends: listUser));
   }
 }
-

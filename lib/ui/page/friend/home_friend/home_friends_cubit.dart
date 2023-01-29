@@ -8,13 +8,13 @@ import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'suggest_friends_state.dart';
+part 'home_friends_state.dart';
 
-class SuggestFriendsCubit extends Cubit<SuggestFriendsState> {
+class HomeFriendsCubit extends Cubit<HomeFriendsState> {
   FriendRepository? repository;
   final loadingController = PublishSubject<LoadStatus>();
 
-  SuggestFriendsCubit({this.repository}) : super(SuggestFriendsState());
+  HomeFriendsCubit({this.repository}) : super(HomeFriendsState());
 
   @override
   Future<void> close() {

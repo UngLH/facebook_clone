@@ -13,7 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://facebook-8qes.onrender.com';
+    baseUrl ??= 'https://facebookhust.onrender.com';
   }
 
   final Dio _dio;
@@ -355,7 +355,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<FriendSuggestResponse> getRequestFriends(
+  Future<FriendRequestResponse> getRequestFriends(
     token,
     index,
     count,
@@ -366,7 +366,7 @@ class _ApiClient implements ApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<FriendSuggestResponse>(Options(
+        _setStreamType<FriendRequestResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -378,7 +378,7 @@ class _ApiClient implements ApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FriendSuggestResponse.fromJson(_result.data!);
+    final value = FriendRequestResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -464,7 +464,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<dynamic> getUserFriends(
+  Future<FriendRequestResponse> getUserFriends(
     token,
     userId,
     index,
@@ -475,19 +475,20 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<FriendRequestResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/it4788/friend/get_user_friends?token=${token}&user_id=${userId}&index=${index}&count=${count}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+            .compose(
+              _dio.options,
+              '/it4788/friend/get_user_friends?token=${token}&user_id=${userId}&index=${index}&count=${count}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = FriendRequestResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -522,8 +523,7 @@ class _ApiClient implements ApiClient {
   Future<dynamic> setBlock(
     token,
     userId,
-    index,
-    count,
+    type,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -537,7 +537,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          '/it4788/friend/set_block?token=${token}&user_id=${userId}&type={type}',
+          '/it4788/friend/set_block?token=${token}&user_id=${userId}&type=${type}',
           queryParameters: queryParameters,
           data: _data,
         )
