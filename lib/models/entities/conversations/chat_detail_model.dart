@@ -43,7 +43,7 @@ class ChatDetailModel {
   Map<String, dynamic> toJson() => _$ChatDetailModelToJson(this);
 }
 
-var chatDetailList = List<String>.filled(20, '')
+var chatDetailList = List<String>.filled(0, '')
     .asMap()
     .map((index, str) => MapEntry(
         index,

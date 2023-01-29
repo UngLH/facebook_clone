@@ -36,6 +36,7 @@ class _ListFriendState extends State<ListFriend> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     _cubit = BlocProvider.of<ListFriendCubit>(context);
+    _cubit!.getListConversation();
     super.initState();
   }
 

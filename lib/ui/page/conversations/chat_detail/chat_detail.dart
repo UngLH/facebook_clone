@@ -69,7 +69,8 @@ class _ChatDetailState extends State<ChatDetail> {
             children: <Widget>[
               _buildAppBar(),
               Expanded(
-                child: ListView.builder(
+                child: _cubit!.state.chatDetailList!.length! != 0 ?
+                  ListView.builder(
                   padding: const EdgeInsets.only(top: 8.0),
                   reverse: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -92,7 +93,7 @@ class _ChatDetailState extends State<ChatDetail> {
                                   _cubit!.state.chatDetailList![index == state.chatDetailList!.length - 1 ? index : index + 1].isYour!
                                 || (index == state.chatDetailList!.length - 1))
                               ? AppBarNetworkRoundedImage(
-                                  imageUrl: widget.friendItem.imageAvatarUrl!)
+                                  imageUrl: widget.friendItem.partner!.avatar!)
                               : const SizedBox(width: 40.0),
                             const SizedBox(width: 15.0),
                             Container(
@@ -138,13 +139,66 @@ class _ChatDetailState extends State<ChatDetail> {
                     );
                   },
                   itemCount: _cubit!.state.chatDetailList!.length,
+                )
+                :
+                  Column(
+                  children: <Widget>[
+                    const SizedBox(height: 50.0),
+                    Center(
+                      child: Container(
+                        width: 160.0,
+                        height: 160.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(80.0),
+                          image: DecorationImage(
+                            image: AssetImage(widget.friendItem.partner!.avatar!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    Center(
+                      child: Text(
+                        widget.friendItem.partner!.username!,
+                        style: const TextStyle(
+                          fontSize: 32.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const Center(
+                      child: Text(
+                        "Facebook",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    const Center(
+                      child: Text(
+                        "Các bạn là bạn bè trên Facebook",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                  ],
                 ),
               ),
               _buildBottomChat(),
             ],
           ),
         ),
-      )  
+      )
     );
   }
 
@@ -192,7 +246,7 @@ class _ChatDetailState extends State<ChatDetail> {
             ),
             Expanded(
               child: TextField(
-                autofocus: true,
+                autofocus: false,
                 focusNode: myFocusNode,
                 controller: _messageController,
                 onChanged: (value) => {
