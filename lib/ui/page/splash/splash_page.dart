@@ -56,11 +56,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _setup() async {
-    var status = await Permission.storage.status;
-    if (status.isDenied) {
-      // You can request multiple permissions at once.
-      await Permission.storage.request();
-    }
+    // var status = await Permission.storage.status;
+    // if (status.isDenied) {
+    //   // You can request multiple permissions at once.
+    //   await Permission.storage.request();
+    // }
     _cubit.fetchInitialData();
   }
 
