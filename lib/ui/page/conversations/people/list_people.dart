@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/page/conversations/people/widgets/people_card.dart';
 import 'package:facebook/ui/widgets/messenger_app_bar/messenger_app_bar.dart';
@@ -58,8 +56,8 @@ class _ListFriendState extends State<ListPeople> {
                     color: Colors.grey.shade200,
                   ),
                   child: const Icon(
-                    FontAwesomeIcons.solidAddressBook,
-                    size: 18.0,
+                    Icons.account_box,
+                    size: 25.0,
                   ),
                 ),
                 Container(
@@ -70,8 +68,8 @@ class _ListFriendState extends State<ListPeople> {
                     color: Colors.grey.shade200,
                   ),
                   child: const Icon(
-                    FontAwesomeIcons.userPlus,
-                    size: 18.0,
+                    Icons.person_add,
+                    size: 25.0,
                   ),
                 ),
               ], isBack: false,

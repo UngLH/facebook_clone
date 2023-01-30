@@ -9,7 +9,7 @@ class AppAlertDialog extends StatelessWidget {
 
   AppAlertDialog({
     Key? key,
-    this.onConfirm,
+    required this.onConfirm,
     this.title,
     this.information,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class AppAlertDialog extends StatelessWidget {
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.only(top: 20, bottom: 15),
+        padding: const EdgeInsets.only(top: 20, bottom: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,20 +29,21 @@ class AppAlertDialog extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  Center(
-                    child: Text(
-                      '$title',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22
-                      )
-
-                    ),
+                  const Center(
+                    child: Text('Không có kết nối Internet',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 22)),
                   ),
                   const SizedBox(height: 18),
-                  Text('$information', style: AppTextStyle.blackS18.copyWith(fontWeight: FontWeight.w500),  textAlign: TextAlign.center,),
-                  const SizedBox(height: 25),
+                  Text(
+                    'Không thể sử dụng dịch vụ. Vui lòng kiểm tra kết nối của bạn và thử lại!',
+                    style: AppTextStyle.blackS16
+                        .copyWith(fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
@@ -53,14 +54,12 @@ class AppAlertDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: onConfirm,
                   child: const Text(
-                    'OK',
+                    'Thử lại',
                     style: TextStyle(
                         color: AppColors.blue5B,
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
                 )

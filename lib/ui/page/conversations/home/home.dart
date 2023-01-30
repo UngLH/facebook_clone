@@ -1,6 +1,5 @@
+import 'package:facebook/ui/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:facebook/ui/page/conversations/chats/list_friend.dart';
 import 'package:facebook/ui/page/conversations/discovery/list_discovery.dart';
 import 'package:facebook/ui/page/conversations/people/list_people.dart';
@@ -29,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarWidget(context: context, title: "Messenger"),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         selectedIconTheme: const IconThemeData(color: Colors.black87),
@@ -38,22 +38,22 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.solidComment,
-              size: 24.0,
+              Icons.forum,
+              size: 25.0,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.userFriends,
-              size: 24.0,
+              Icons.people,
+              size: 25.0,
             ),
             label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              FontAwesomeIcons.solidCompass,
-              size: 24.0,
+              Icons.explore,
+              size: 25.0,
             ),
             label: '',
           ),

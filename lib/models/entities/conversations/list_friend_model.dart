@@ -1,16 +1,19 @@
 import 'package:facebook/commons/app_images.dart';
+import 'package:facebook/models/entities/conversations/story_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'list_friend_model.g.dart';
 
 @JsonSerializable()
 class ListFriendModel {
-  int? id;
+  @JsonKey()
+  String? id;
   String? imageAvatarUrl;
   String? name;
   String? shortDescription;
   String? createdAt;
   bool? isActive;
+  List<StoryModel>? stories;
 
   ListFriendModel(
       {this.id,
@@ -18,15 +21,17 @@ class ListFriendModel {
       this.imageAvatarUrl,
       this.name,
       this.shortDescription,
-      this.isActive});
+      this.isActive,
+      this.stories});
 
   ListFriendModel copyWith({
-    int? id,
+    String? id,
     String? imageAvatarUrl,
     String? name,
     String? shortDescription,
     String? createdAt,
     bool? isActive,
+    List<StoryModel>? stories,
   }) {
     return ListFriendModel(
       id: id ?? this.id,
@@ -35,6 +40,7 @@ class ListFriendModel {
       shortDescription: shortDescription ?? this.shortDescription,
       createdAt: createdAt ?? this.createdAt,
       isActive: isActive ?? this.isActive,
+      stories: stories ?? this.stories,
     );
   }
 
@@ -49,12 +55,16 @@ var friendList = List<String>.filled(20, '')
     .map((index, str) => MapEntry(
         index,
         ListFriendModel(
-          id: index,
-          createdAt: "2019-10-07T13:50:11.633Z",
-          name: "User $index",
-          imageAvatarUrl: AppImages.icSignupIntro,
-          shortDescription: "AaAaAaAa $index",
-          isActive: index % 2 == 0 ? true : false,
-        )))
+            id: "ID",
+            createdAt: "2019-10-07T13:50:11.633Z",
+            name: "User $index",
+            imageAvatarUrl: AppImages.icSignupIntro,
+            shortDescription: "AaAaAaAa $index",
+            isActive: index % 2 == 0 ? true : false,
+            stories: [
+              StoryModel(text: "Story $index", imageUrl: null),
+              StoryModel(text: null, imageUrl: AppImages.icEmotion),
+              StoryModel(text: null, imageUrl: AppImages.testImagePost),
+            ])))
     .values
     .toList();

@@ -1,5 +1,7 @@
+import 'package:facebook/models/entities/conversations/chat_detail_model.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:facebook/ui/page/conversations/chat_detail/chat_detail.dart';
+import 'package:facebook/ui/page/conversations/chat_detail/chat_detail_cubit.dart';
 import 'package:facebook/ui/page/conversations/chats/list_friend_cubit.dart';
 import 'package:facebook/ui/page/conversations/home/home.dart';
 import 'package:facebook/ui/page/conversations/profile/profile.dart';
@@ -22,8 +24,15 @@ Handler conversationHandler = Handler(
 );
 
 Handler conversationDetailHandler = Handler(
-  handlerFunc: (BuildContext? context, Map<String, List<String>> params) =>
-      ChatDetail(friendItem: ListFriendModel()),
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    return BlocProvider(
+      create: (context) {
+        final repository = RepositoryProvider.of<AuthRepository>(context);
+        return ChatDetailCubit(authRepository: repository);
+      },
+      child: ChatDetail(friendItem: ListFriendModel()),
+    );
+  },
 );
 
 Handler conversationProfileHandler = Handler(

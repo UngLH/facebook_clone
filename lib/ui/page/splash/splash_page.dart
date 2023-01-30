@@ -9,6 +9,7 @@ import 'package:facebook/ui/page/splash/splash_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -55,6 +56,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   _setup() async {
+    // var status = await Permission.storage.status;
+    // if (status.isDenied) {
+    //   // You can request multiple permissions at once.
+    //   await Permission.storage.request();
+    // }
     _cubit.fetchInitialData();
   }
 

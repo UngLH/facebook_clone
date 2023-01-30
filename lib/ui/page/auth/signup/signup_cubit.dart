@@ -4,11 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/ui/page/auth/login/login_cubit.dart';
 import 'package:facebook/utils/logger.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'signup_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   AuthRepository? authRepository;
+  final loadingController = PublishSubject<LoadingStatus>();
 
   SignUpCubit({
     this.authRepository,
@@ -16,6 +18,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   @override
   Future<void> close() {
+    loadingController.close();
     return super.close();
   }
 
@@ -36,16 +39,22 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   Future<void> signUp() async {
+    loadingController.sink.add(LoadingStatus.LOADING);
     try {
-      emit(state.copyWith(loadingStatus: LoadingStatus.LOADING));
       final result = await authRepository!
           .signUp(state.phoneNumber ?? '', state.password ?? '');
-      print(result);
-      emit(state.copyWith(loadingStatus: LoadingStatus.SUCCESS));
+      await authRepository!
+          .verifyCode(state.phoneNumber ?? "", result['data']['verifyCode']);
+      final loginResult = await authRepository!
+          .authLogin(state.phoneNumber ?? '', state.password ?? '');
+      final token = loginResult['data']['token'];
+      await authRepository!
+          .updateUserInfor(token: token, username: state.fullName);
+      loadingController.sink.add(LoadingStatus.SUCCESS);
     } catch (error) {
       logger.e(error);
       if (error is DioError) {
-        emit(state.copyWith(loadingStatus: LoadingStatus.FAILURE));
+        loadingController.sink.add(LoadingStatus.FAILURE);
       }
     }
   }

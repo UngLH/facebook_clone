@@ -23,4 +23,6 @@ class AppImages {
   static const icGIF = 'assets/images/ic_gif.png';
   static const icMusic = 'assets/images/ic_music.png';
   static const icSignupIntro = 'assets/images/ic_signup_intro.png';
+  static const icLiked = 'assets/images/ic_liked.png';
+  static const icEmptyComment = 'assets/images/ic_empty_comment.png';
 }

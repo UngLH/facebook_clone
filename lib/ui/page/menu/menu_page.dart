@@ -1,6 +1,9 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/commons/app_text_styles.dart';
+import 'package:facebook/commons/share_preferences_helper.dart';
+import 'package:facebook/router/application.dart';
+import 'package:facebook/router/routers.dart';
 import 'package:facebook/ui/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +29,7 @@ class _MenuPageState extends State<MenuPage> {
           child: (Column(
             children: [
               AppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: AppColors.menuBackground,
                 elevation: 0,
                 title: const Text(
@@ -107,7 +111,13 @@ class _MenuPageState extends State<MenuPage> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   AppColors.roundIconButtonBackground),
-                          onPressed: () {},
+                          onPressed: () {
+                            SharedPreferencesHelper.removeTokenAndUserId();
+                            Application.router?.navigateTo(
+                              context,
+                              Routes.root,
+                            );
+                          },
                           child: const Text(
                             "Đăng xuất",
                             style: TextStyle(

@@ -88,6 +88,8 @@ class AppColors {
   static const Color menuBackground = Color(0xFFF1F2F6);
   static const Color roundIconButtonBackground = Color(0xFFD3D4D9);
   static const Color greenButtonColor = Color(0xFF42b72a);
+  static const Color snackBarBackground = Color(0xFF303433);
+  static const Color commentBackgroundColor = Color(0xFFF1F1F1);
 
   static const Color grayE5 = Color(0xFFE5E5E5);
   static const Color blueED = Color(0xFFEDF4FC);
