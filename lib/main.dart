@@ -9,6 +9,7 @@ import 'package:facebook/network/api_util.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/repositories/post_repository.dart';
+import 'package:facebook/ui/page/friend/friend_widget/add_friend_item_cubit.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
 import 'package:facebook/ui/page/friend/request/friend_request_cubit.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_cubit.dart';
@@ -139,6 +140,13 @@ class _MyAppState extends State<MyApp> {
                 final _postRepository =
                     RepositoryProvider.of<PostRepository>(context);
                 return AppCommentCubit(repository: _postRepository);
+              },
+            ),
+            BlocProvider<AddFriendItemCubit>(
+              create: (context) {
+                final _friendRepository =
+                    RepositoryProvider.of<FriendRepository>(context);
+                return AddFriendItemCubit(repository: _friendRepository);
               },
             ),
             BlocProvider<HomeFriendsCubit>(

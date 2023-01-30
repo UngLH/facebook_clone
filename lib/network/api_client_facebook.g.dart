@@ -13,7 +13,8 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://facebookhust.onrender.com';
+    baseUrl ??=
+        'https://a0b6-2405-4803-fdf5-bf30-14ff-5563-7d9e-f1a0.ap.ngrok.io';
   }
 
   final Dio _dio;
@@ -229,6 +230,9 @@ class _ApiClient implements ApiClient {
   Future<dynamic> editPost(
     token,
     postId,
+    described,
+    status,
+    listDelImage,
     images,
     videos,
   ) async {
@@ -261,7 +265,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          '/it4788/post/edit_post?token=${token}&id=${postId}&described={described}&status={status}&image_del={listDelImage}',
+          '/it4788/post/edit_post?token=${token}&id=${postId}&described=${described}&status=${status}&image_del=${listDelImage}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -355,7 +359,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<FriendRequestResponse> getRequestFriends(
+  Future<RequestFriendResponse> getRequestFriends(
     token,
     index,
     count,
@@ -366,7 +370,7 @@ class _ApiClient implements ApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<FriendRequestResponse>(Options(
+        _setStreamType<RequestFriendResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -378,7 +382,35 @@ class _ApiClient implements ApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FriendRequestResponse.fromJson(_result.data!);
+    final value = RequestFriendResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<RequestFriendResponse> getListFriends(
+    token,
+    index,
+    count,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RequestFriendResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/it4788/friend/get_list_friends?token=${token}&index=${index}&count=${count}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RequestFriendResponse.fromJson(_result.data!);
     return value;
   }
 
@@ -464,7 +496,7 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<FriendRequestResponse> getUserFriends(
+  Future<RequestFriendResponse> getUserFriends(
     token,
     userId,
     index,
@@ -476,7 +508,7 @@ class _ApiClient implements ApiClient {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<FriendRequestResponse>(Options(
+        _setStreamType<RequestFriendResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -488,12 +520,12 @@ class _ApiClient implements ApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FriendRequestResponse.fromJson(_result.data!);
+    final value = RequestFriendResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<dynamic> getListBlocks(
+  Future<ListBlockResponse> getListBlocks(
     token,
     index,
     count,
@@ -503,19 +535,20 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ListBlockResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/it4788/friend/get_list_blocks?token=${token}&index=${index}&count=${count}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+            .compose(
+              _dio.options,
+              '/it4788/friend/get_list_blocks?token=${token}&index=${index}&count=${count}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ListBlockResponse.fromJson(_result.data!);
     return value;
   }
 

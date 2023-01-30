@@ -31,7 +31,8 @@ class Routes {
   static String editPost = "/editPost";
 
   /// Friend
-  static String suggestFriends = " /suggestFriends";
+  static String suggestFriends = "/suggestFriends";
+  static String listBlockFriends = "/listBlockFriends";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notHandler;
@@ -98,7 +99,10 @@ class Routes {
         transitionType: TransitionType.inFromRight);
 
     /// Friend
-    ///Post
+    router.define(listBlockFriends,
+        handler: listBlockFriendsHandler,
+        transitionType: TransitionType.inFromBottom);
+
     router.define(suggestFriends,
         handler: suggestFriendHandler,
         transitionType: TransitionType.inFromBottom);

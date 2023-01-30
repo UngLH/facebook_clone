@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/commons/app_text_styles.dart';
+import 'package:facebook/models/entities/media/image_entity.dart';
+import 'package:facebook/models/entities/post/post_response_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
@@ -17,7 +20,8 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'edit_post_cubit.dart';
 
 class EditPostPage extends StatefulWidget {
-  const EditPostPage({Key? key}) : super(key: key);
+  PostResponseEntity? post;
+  EditPostPage({Key? key, required this.post}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,11 +32,12 @@ class EditPostPage extends StatefulWidget {
 class _EditPostPageState extends State<EditPostPage> {
   EditPostCubit? _cubit;
   late StreamSubscription _loadingSubscription;
-  final statusController = TextEditingController(text: "");
+  late TextEditingController statusController = TextEditingController(text: "");
 
   @override
   void initState() {
     _cubit = BlocProvider.of<EditPostCubit>(context);
+
     _loadingSubscription = _cubit!.loadingController.stream.listen((event) {
       if (event == LoadStatus.LOADING) {
         context.loaderOverlay.show();
@@ -46,6 +51,12 @@ class _EditPostPageState extends State<EditPostPage> {
         _showMessage("Đã có lỗi xảy ra!");
       }
     });
+    widget.post!.described != null
+        ? statusController.text = widget.post!.described.toString()
+        : statusController = TextEditingController(text: "");
+    for (var element in widget.post!.images!) {
+      _mediaImageShow.add(element);
+    }
     super.initState();
   }
 
@@ -64,9 +75,8 @@ class _EditPostPageState extends State<EditPostPage> {
   final List<XFile> _mediaVideoPicker = [];
   final List<File> _fileImageUpload = [];
   final List<File> _fileVideoUpload = [];
-  var search = false;
 
-  PickedFile? imageFile = null;
+  final List<String> listDelImageId = [];
 
   // Get from gallery
   _openGallery(BuildContext context) async {
@@ -139,7 +149,7 @@ class _EditPostPageState extends State<EditPostPage> {
           ),
           elevation: 1,
           title: const Text(
-            "Tạo bài viết",
+            "Chỉnh sửa bài viết",
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: AppColors.background,
@@ -148,21 +158,25 @@ class _EditPostPageState extends State<EditPostPage> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: ElevatedButton(
                   onPressed: () {
-                    _mediaImagePicker.forEach((element) {
+                    for (var element in _mediaImagePicker) {
                       _fileImageUpload.add(File(element.path));
-                      print(element.path);
-                    });
-                    _mediaVideoPicker.forEach((element) {
+                    }
+                    for (var element in _mediaVideoPicker) {
                       _fileVideoUpload.add(File(element.path));
-                    });
-                    _cubit!.addPost(statusController.text, "hạnh phúc",
-                        _fileImageUpload, _fileVideoUpload);
+                    }
+                    _cubit!.editPost(
+                        statusController.text,
+                        widget.post!.id.toString(),
+                        "hạnh phúc",
+                        listDelImageId,
+                        _fileImageUpload,
+                        _fileVideoUpload);
                   },
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size.fromHeight(60),
                       backgroundColor: AppColors.main,
                       elevation: 1),
-                  child: const Text("Đăng")),
+                  child: const Text("Lưu")),
             ),
           ],
         ),
@@ -325,39 +339,67 @@ class _EditPostPageState extends State<EditPostPage> {
   }
 
   Widget _mediaImageFile(var imageFile, int index) {
+    print(imageFile.runtimeType);
     return GestureDetector(
       onTap: () {},
-      child: Card(
-          child: (Stack(
-        children: <Widget>[
-          imageFile.runtimeType == XFile
-              ? Image.file(
-                  File(imageFile!.path),
-                  width: MediaQuery.of(context).size.width,
-                  height: 290,
-                  fit: BoxFit.fitWidth,
+      child: BlocBuilder<EditPostCubit, EditPostState>(
+          bloc: _cubit,
+          builder: (context, state) {
+            return Card(
+                child: (Stack(
+              children: <Widget>[
+                if (imageFile.runtimeType == ImageEntity) ...[
+                  CachedNetworkImage(
+                    imageUrl: imageFile.url,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 290,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ] else if (imageFile.runtimeType == XFile) ...[
+                  Image.file(
+                    File(imageFile!.path),
+                    width: MediaQuery.of(context).size.width,
+                    height: 290,
+                    fit: BoxFit.fitWidth,
+                  )
+                ] else ...[
+                  Image.memory(
+                    imageFile,
+                    width: MediaQuery.of(context).size.width,
+                    height: 290,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ],
+                Positioned(
+                  top: -5,
+                  right: -5,
+                  child: IconButton(
+                    icon:
+                        const Icon(Icons.close, size: 22, color: Colors.white),
+                    splashColor: Colors.blue.withAlpha(30),
+                    onPressed: () {
+                      setState(() {
+                        _mediaImageShow.removeAt(index);
+                        if (imageFile.runtimeType == ImageEntity) {
+                          listDelImageId.add("\"${imageFile.id}\"");
+                        }
+                      });
+                      print(listDelImageId);
+                    },
+                  ),
                 )
-              : Image.memory(
-                  imageFile,
-                  width: MediaQuery.of(context).size.width,
-                  height: 290,
-                  fit: BoxFit.fitWidth,
-                ),
-          Positioned(
-            top: -5,
-            right: -5,
-            child: IconButton(
-              icon: const Icon(Icons.close, size: 22, color: Colors.white),
-              splashColor: Colors.blue.withAlpha(30),
-              onPressed: () {
-                setState(() {
-                  _mediaImageShow.removeAt(index);
-                });
-              },
-            ),
-          )
-        ],
-      ))),
+              ],
+            )));
+          }),
     );
   }
 

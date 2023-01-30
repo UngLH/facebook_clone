@@ -1,6 +1,7 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
+import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
@@ -42,102 +43,92 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
     super.dispose();
   }
 
+  Future<void> _onRefreshData() async {
+    await _cubit!.getListSuggestFriends();
+    await _cubit!.getListRequestFriends();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: AppColors.background,
-        body: BlocBuilder<HomeFriendsCubit, HomeFriendsState>(
-            builder: (context, state) {
-          if (state.loadingStatus == LoadStatus.LOADING) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.main,
-              ),
-            );
-          } else if (state.loadingStatus == LoadStatus.FAILURE) {
-            return const Center(child: Text("Đã có lỗi xảy ra!"));
-          } else if (state.loadingStatus == LoadStatus.EMPTY) {
-            return AppEmptyListPostPage();
-          } else {
-            return Padding(
-              padding: const EdgeInsets.only(
-                  top: 10, left: 15, right: 15, bottom: 0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 45,
-                      child: TextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        cursorColor: Colors.black,
-                        cursorHeight: 20,
-                        cursorWidth: 1,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.commentBackgroundColor,
-                            hintText: "Tìm kiếm bạn bè",
-                            prefixIcon: const Icon(
-                              Icons.search_outlined,
-                              color: AppColors.grayIconButton,
-                            ),
-                            contentPadding:
-                                const EdgeInsets.only(bottom: 45 / 2, left: 15),
-                            hintStyle: const TextStyle(
-                                color: AppColors.grayText, fontSize: 16)),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 10.0),
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(30.0)),
-                            child: const Text('Gợi ý',
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.bold)),
+      key: _scaffoldKey,
+      backgroundColor: AppColors.background,
+      body: BlocBuilder<HomeFriendsCubit, HomeFriendsState>(
+          builder: (context, state) {
+        if (state.loadingStatus == LoadStatus.LOADING) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: AppColors.main,
+            ),
+          );
+        } else if (state.loadingStatus == LoadStatus.FAILURE) {
+          return const Center(child: Text("Đã có lỗi xảy ra!"));
+        } else if (state.loadingStatus == LoadStatus.EMPTY) {
+          return AppEmptyListPostPage();
+        } else {
+          return Padding(
+            padding:
+                const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 45,
+                    child: TextField(
+                      textAlignVertical: TextAlignVertical.center,
+                      cursorColor: Colors.black,
+                      cursorHeight: 20,
+                      cursorWidth: 1,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(40),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const FriendSuggestPage()),
-                            );
-                          },
+                          filled: true,
+                          fillColor: AppColors.commentBackgroundColor,
+                          hintText: "Tìm kiếm bạn bè",
+                          prefixIcon: const Icon(
+                            Icons.search_outlined,
+                            color: AppColors.grayIconButton,
+                          ),
+                          contentPadding:
+                              const EdgeInsets.only(bottom: 45 / 2, left: 15),
+                          hintStyle: const TextStyle(
+                              color: AppColors.grayText, fontSize: 16)),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(width: 10.0),
+                      InkWell(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(30.0)),
+                          child: const Text('Bạn bè',
+                              style: TextStyle(
+                                  fontSize: 17.0, fontWeight: FontWeight.bold)),
                         ),
-                        const SizedBox(width: 10.0),
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 10.0),
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(30.0)),
-                            child: const Text('Bạn bè',
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.bold)),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const ListFriendPage(userId: "userid",)),
-                            );
-                          },
-                        )
-                      ],
-                    ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ListFriendPage(
+                                      userId: "userid",
+                                    )),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                  if (state.listRequestFriends != null ||
+                      state.listRequestFriends!.isNotEmpty) ...[
                     const Divider(height: 30.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,26 +154,6 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                             ),
                           ],
                         ),
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 10.0),
-                            decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(30.0)),
-                            child: const Text('Xem tất cả',
-                                style: TextStyle(
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue)),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const FriendRequestPage()),
-            );
-                          },
-                        )
                       ],
                     ),
                     const SizedBox(
@@ -193,7 +164,7 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                       itemCount: state.listRequestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        FriendEntity friend =
+                        FriendRequestEntity friend =
                             state.listRequestFriends![index];
                         String? avatar = friend.avatar;
                         return AddFriendItem(
@@ -202,14 +173,10 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                           avtUrl: avatar,
                           acceptText: "Chấp nhận",
                           cancelText: "Từ chối",
-                          accept: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "1");
-                          }),
-                          cancel: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "0");
-                          }),
+                          userId: friend.userId,
+                          accept: () {
+                            _cubit!.getListSuggestFriends();
+                          },
                         );
                       },
                       separatorBuilder: (context, state) {
@@ -221,45 +188,46 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                     const Divider(
                       color: AppColors.borderColor,
                     ),
-                    const Text(
-                      "Những người bạn có thể biết",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: state.listSuggestFriends!.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        FriendSuggestEntity friend = state.listSuggestFriends![index];
-                        return AddFriendItem(
-                          friendName: friend.username,
-                          numMutualFriend: friend.sameFriend,
-                          avtUrl: friend.avatar,
-                          acceptText: "Thêm bạn bè",
-                          cancelText: "Gỡ",
-                          accept: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setRequestFriend(token, friend.userId);
-                          }),
-                        );
-                      },
-                      separatorBuilder: (context, state) {
-                        return Container(
-                          height: 10,
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                  ] else
+                    SizedBox(),
+                  const Text(
+                    "Những người bạn có thể biết",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: state.listSuggestFriends!.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      FriendSuggestEntity friend =
+                          state.listSuggestFriends![index];
+                      return AddFriendItem(
+                        userId: friend.userId,
+                        friendName: friend.username,
+                        numMutualFriend: friend.sameFriend,
+                        avtUrl: friend.avatar,
+                        acceptText: "Thêm bạn bè",
+                        cancelText: "Gỡ",
+                      );
+                    },
+                    separatorBuilder: (context, state) {
+                      return Container(
+                        height: 10,
+                      );
+                    },
+                  ),
+                ],
               ),
-            );
-          }
-        }));
+            ),
+          );
+        }
+      }),
+    );
   }
 }

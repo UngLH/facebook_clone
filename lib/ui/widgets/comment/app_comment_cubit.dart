@@ -22,10 +22,11 @@ class AppCommentCubit extends Cubit<AppCommentState> {
 
   Future<void> getListComments(String? postId, int? index, int? count) async {
     String? token = await SharedPreferencesHelper.getToken();
-    emit(state.copyWith(loadingStatus: LoadStatus.LOADING));
+    emit(state.copyWith(loadingStatus: LoadStatus.LOADING, listComments: []));
     try {
       final response =
           await repository!.getListComment(token, postId, index, count);
+      print(response);
       emit(state.copyWith(
           listComments: response.data, loadingStatus: LoadStatus.SUCCESS));
     } catch (error) {

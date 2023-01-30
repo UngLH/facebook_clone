@@ -1,3 +1,4 @@
+import 'package:facebook/models/entities/post/post_response_entity.dart';
 import 'package:facebook/repositories/post_repository.dart';
 import 'package:facebook/ui/page/add_post/add_post_cubit.dart';
 import 'package:facebook/ui/page/add_post/add_post_page.dart';
@@ -21,12 +22,15 @@ Handler addPostHandler = Handler(
 });
 Handler editPostHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+  PostResponseEntity args = context!.settings!.arguments as PostResponseEntity;
   return BlocProvider(
     create: (context) {
       final repository = RepositoryProvider.of<PostRepository>(context);
       return EditPostCubit(repository: repository);
     },
-    child: const EditPostPage(),
+    child: EditPostPage(
+      post: args,
+    ),
   );
 });
 // Handler appCommentHandler = Handler(

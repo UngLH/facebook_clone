@@ -26,3 +26,28 @@ class AuthorEntity {
 
   Map<String, dynamic> toJson() => _$AuthorEntityToJson(this);
 }
+
+@JsonSerializable()
+class CommentAuthorEntity {
+  String? id;
+  String? name;
+  String? avatar;
+
+  CommentAuthorEntity({this.id, this.name, this.avatar});
+
+  CommentAuthorEntity copyWith({
+    String? id,
+    String? name,
+    String? avatar,
+  }) {
+    return CommentAuthorEntity(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        avatar: avatar ?? this.avatar);
+  }
+
+  factory CommentAuthorEntity.fromJson(Map<String, dynamic> json) =>
+      _$CommentAuthorEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommentAuthorEntityToJson(this);
+}

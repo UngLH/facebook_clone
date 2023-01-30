@@ -18,3 +18,18 @@ Map<String, dynamic> _$AuthorEntityToJson(AuthorEntity instance) =>
       'username': instance.username,
       'avatar': instance.avatar,
     };
+
+CommentAuthorEntity _$CommentAuthorEntityFromJson(Map<String, dynamic> json) =>
+    CommentAuthorEntity(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      avatar: json['avatar'] as String?,
+    );
+
+Map<String, dynamic> _$CommentAuthorEntityToJson(
+        CommentAuthorEntity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'avatar': instance.avatar,
+    };

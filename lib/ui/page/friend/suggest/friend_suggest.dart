@@ -10,17 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'friend_suggest_cubit.dart';
 
-class FriendSuggestPage extends StatefulWidget{
+class FriendSuggestPage extends StatefulWidget {
   const FriendSuggestPage({Key? key}) : super(key: key);
-  
+
   @override
   State<StatefulWidget> createState() {
     return _FriendSuggestPage();
   }
-  
 }
 
-class _FriendSuggestPage extends State<FriendSuggestPage>{
+class _FriendSuggestPage extends State<FriendSuggestPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController? _controller;
   FriendSuggestCubit? _cubit;
@@ -38,11 +37,12 @@ class _FriendSuggestPage extends State<FriendSuggestPage>{
     _cubit!.getListSuggestFriends();
   }
 
-   @override
+  @override
   void dispose() {
     super.dispose();
   }
-  _scrollListener(){
+
+  _scrollListener() {
     if (_controller!.offset >= _controller!.position.maxScrollExtent &&
         !_controller!.position.outOfRange) {
       _cubit!.getMoreSuggestFriends();
@@ -57,17 +57,21 @@ class _FriendSuggestPage extends State<FriendSuggestPage>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black,),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text("Những người bạn có thể biết", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: const Text("Những người bạn có thể biết",
+              style: TextStyle(color: Colors.black)),
+          backgroundColor: Colors.white,
         ),
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
         body: BlocBuilder<FriendSuggestCubit, FriendSuggestState>(
-        builder: (context, state) {
+            builder: (context, state) {
           if (state.loadingStatus == LoadStatus.LOADING) {
             return const Center(
               child: CircularProgressIndicator(
@@ -105,17 +109,18 @@ class _FriendSuggestPage extends State<FriendSuggestPage>{
                       itemCount: state.listSuggestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        FriendSuggestEntity friend = state.listSuggestFriends![index];
+                        FriendSuggestEntity friend =
+                            state.listSuggestFriends![index];
                         return AddFriendItem(
                           friendName: friend.username,
                           numMutualFriend: friend.sameFriend,
                           avtUrl: friend.avatar,
                           acceptText: "Thêm bạn bè",
                           cancelText: "Gỡ",
-                          accept: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setRequestFriend(token, friend.userId);
-                          }),
+                          // accept: (() async {
+                          //   String? token = await SharedPreferencesHelper.getToken();
+                          //   _cubit!.repository!.setRequestFriend(token, friend.userId);
+                          // }),
                         );
                       },
                       separatorBuilder: (context, state) {
@@ -124,14 +129,11 @@ class _FriendSuggestPage extends State<FriendSuggestPage>{
                         );
                       },
                     ),
-                    
                   ],
                 ),
               ),
             );
           }
-        }
-        )
-    );
+        }));
   }
 }

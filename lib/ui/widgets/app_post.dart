@@ -15,6 +15,7 @@ class AppPost extends StatefulWidget {
   TextEditingController? commentController;
   Function pressLike;
   Function pressMoreAction;
+
   AppPost(
       {Key? key,
       this.post,
@@ -29,10 +30,11 @@ class AppPost extends StatefulWidget {
   }
 }
 
-class _AppPostState extends State<AppPost> {
+class _AppPostState extends State<AppPost> with AutomaticKeepAliveClientMixin {
   var timeNow = DateTime.now();
   String? _thumbnailUrl;
   bool isLikeState = false;
+
   Future<String> generateThumbnail() async {
     _thumbnailUrl = await VideoThumbnail.thumbnailFile(
         video: widget.post!.video!.url.toString(),
@@ -71,6 +73,7 @@ class _AppPostState extends State<AppPost> {
       createdString =
           "${DateTime.now().difference(timeStampToDate).inDays} ngày trước";
     }
+    double avtWidth = 40;
 
     return Padding(
         padding: const EdgeInsets.only(top: 10),
@@ -91,18 +94,47 @@ class _AppPostState extends State<AppPost> {
                     children: [
                       Row(
                         children: [
-                          Container(
-                              alignment: Alignment.bottomCenter,
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                  color: AppColors.grayBackground,
-                                  shape: BoxShape.circle),
-                              child: Image.asset(
-                                AppImages.icDefaultUser,
-                                color: Colors.white,
-                                width: 40,
-                              )),
+                          widget.post!.authorEntity!.avatar == null
+                              ? Container(
+                                  alignment: Alignment.bottomCenter,
+                                  width: avtWidth,
+                                  height: avtWidth,
+                                  decoration: const BoxDecoration(
+                                      color: AppColors.grayBackground,
+                                      shape: BoxShape.circle),
+                                  child: Image.asset(
+                                    AppImages.icDefaultUser,
+                                    color: Colors.white,
+                                    width: avtWidth - 5,
+                                  ))
+                              : CachedNetworkImage(
+                                  imageUrl: widget.post!.authorEntity!.avatar
+                                      .toString(),
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                        width: avtWidth,
+                                        height: avtWidth,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                  placeholder: (context, _) => Container(
+                                      alignment: Alignment.bottomCenter,
+                                      width: avtWidth,
+                                      height: avtWidth,
+                                      decoration: const BoxDecoration(
+                                          color: AppColors.grayBackground,
+                                          shape: BoxShape.circle),
+                                      child: Image.asset(
+                                        AppImages.icDefaultUser,
+                                        color: Colors.white,
+                                        width: avtWidth - 5,
+                                      ))),
                           const SizedBox(
                             width: 10,
                           ),
@@ -165,7 +197,7 @@ class _AppPostState extends State<AppPost> {
                       text: TextSpan(children: [
                         WidgetSpan(
                             child: Text(
-                          widget.post!.described ?? "Hello",
+                          widget.post!.described ?? "",
                           maxLines: 5,
                           style: const TextStyle(
                               fontSize: 14,
@@ -193,31 +225,34 @@ class _AppPostState extends State<AppPost> {
                 // widget.post!.video != null
                 //     ? videoWidget(video: widget.post!.video)
                 //     : Container(),
-                mediaShow(widget.post!.images),
+                mediaShow(widget.post!.images, widget.post?.video),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            AppImages.icLikeColor,
-                            width: 18,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text("7.3K")
-                        ],
-                      ),
-                      Row(
-                        children: const [
-                          Text("523 comments • "),
-                          Text("29 share")
-                        ],
-                      ),
+                      widget.post!.like == "0"
+                          ? Container()
+                          : Row(
+                              children: [
+                                Image.asset(
+                                  AppImages.icLikeColor,
+                                  width: 18,
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(widget.post!.like.toString())
+                              ],
+                            ),
+                      widget.post!.comment == "0"
+                          ? Container()
+                          : Row(
+                              children: [
+                                Text("${widget.post!.comment} bình luận  "),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -306,187 +341,356 @@ class _AppPostState extends State<AppPost> {
         ));
   }
 
-  Widget mediaShow(List<ImageEntity>? images) {
+  Widget mediaShow(List<ImageEntity>? images, VideoEntity? video) {
     var widthScreen = MediaQuery.of(context).size.width;
     var heightScreen = MediaQuery.of(context).size.height;
-    if (images == null) {
-      return Container();
-    } else if (images.length == 1) {
-      return CachedNetworkImage(
-        imageUrl: widget.post!.images![0].url.toString(),
-        imageBuilder: (context, imageProvider) => Container(
-          width: widthScreen,
-          height: heightScreen - 435,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-          ),
-        ),
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-      );
-    } else if (images.length == 2) {
-      return Column(
-        children: [
-          CachedNetworkImage(
-            imageUrl: widget.post!.images![0].url.toString(),
-            imageBuilder: (context, imageProvider) => Container(
-              width: widthScreen,
-              height: heightScreen - 600,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-              ),
-            ),
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-          const SizedBox(
-            height: 3,
-          ),
-          CachedNetworkImage(
-            imageUrl: widget.post!.images![1].url.toString(),
-            imageBuilder: (context, imageProvider) => Container(
-              width: widthScreen,
-              height: heightScreen - 600,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-              ),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-        ],
-      );
-    } else if (images.length == 3) {
-      return Row(
-        children: [
-          CachedNetworkImage(
-            imageUrl: widget.post!.images![0].url.toString(),
-            imageBuilder: (context, imageProvider) => Container(
-              width: widthScreen / 2,
-              height: heightScreen - 424,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-              ),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
-          const SizedBox(
-            width: 3,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![1].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2 - 3,
-                  height: heightScreen / 2 - 212,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
-                  ),
+    if (video == null) {
+      if (images == null) {
+        return Container();
+      } else {
+        switch (images.length) {
+          case 1:
+            return CachedNetworkImage(
+              imageUrl: widget.post!.images![0].url.toString(),
+              imageBuilder: (context, imageProvider) => Container(
+                width: widthScreen,
+                height: heightScreen - 435,
+                decoration: BoxDecoration(
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.fill),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
-              const SizedBox(
-                height: 3,
-              ),
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![2].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2 - 3,
-                  height: heightScreen / 2 - 212,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            );
+          case 2:
+            return Column(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: widget.post!.images![0].url.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: widthScreen,
+                    height: heightScreen - 600,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fill),
+                    ),
                   ),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ],
-          )
-        ],
-      );
+                const SizedBox(
+                  height: 3,
+                ),
+                CachedNetworkImage(
+                  imageUrl: widget.post!.images![1].url.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: widthScreen,
+                    height: heightScreen - 600,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fill),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ],
+            );
+          case 3:
+            return Row(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: widget.post!.images![0].url.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: widthScreen / 2,
+                    height: heightScreen - 424,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fill),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![1].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: heightScreen / 2 - 212,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![2].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: heightScreen / 2 - 212,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ],
+                )
+              ],
+            );
+          case 4:
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![0].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![1].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![2].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![3].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ],
+                )
+              ],
+            );
+          default:
+            {
+              return Container();
+            }
+        }
+      }
     } else {
-      return Column(
-        children: [
-          Row(
-            children: [
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![0].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2,
-                  height: (heightScreen - 600) / 2,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
+      if (images == null) {
+        return videoWidget(
+          video: video,
+          width: widthScreen,
+          height: heightScreen - 424,
+        );
+      } else {
+        switch (images.length) {
+          case 1:
+            return Column(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: widget.post!.images![0].url.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: widthScreen,
+                    height: heightScreen - 600,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fill),
+                    ),
                   ),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-              // Image.network(
-              //   widget.post!.images![0].url.toString(),
-              //   width: widthScreen / 2,
-              //   fit: BoxFit.fill,
-              //   height: (heightScreen - 600) / 2,
-              // ),
-              const SizedBox(
-                width: 3,
-              ),
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![1].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2 - 3,
-                  height: (heightScreen - 600) / 2,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                const SizedBox(
+                  height: 3,
+                ),
+                videoWidget(
+                    video: video,
+                    width: widthScreen,
+                    height: heightScreen - 600),
+              ],
+            );
+          case 2:
+            return Row(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: widget.post!.images![0].url.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: widthScreen / 2,
+                    height: heightScreen - 424,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.fill),
+                    ),
                   ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 3,
-          ),
-          Row(
-            children: [
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![2].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2,
-                  height: (heightScreen - 600) / 2,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
-                  ),
+                const SizedBox(
+                  width: 3,
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              CachedNetworkImage(
-                imageUrl: widget.post!.images![3].url.toString(),
-                imageBuilder: (context, imageProvider) => Container(
-                  width: widthScreen / 2 - 3,
-                  height: (heightScreen - 600) / 2,
-                  decoration: BoxDecoration(
-                    image:
-                        DecorationImage(image: imageProvider, fit: BoxFit.fill),
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![1].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: heightScreen / 2 - 212,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    videoWidget(
+                      video: video,
+                      width: widthScreen / 2 - 3,
+                      height: heightScreen / 2 - 212,
+                    ),
+                  ],
+                )
+              ],
+            );
+          case 3:
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![0].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![1].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2 - 3,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ],
                 ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ],
-          )
-        ],
-      );
+                const SizedBox(
+                  height: 3,
+                ),
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: widget.post!.images![2].url.toString(),
+                      imageBuilder: (context, imageProvider) => Container(
+                        width: widthScreen / 2,
+                        height: (heightScreen - 600) / 2,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    const SizedBox(
+                      width: 3,
+                    ),
+                    videoWidget(
+                        video: video,
+                        width: widthScreen / 2 - 3,
+                        height: (heightScreen - 600) / 2),
+                  ],
+                )
+              ],
+            );
+          default:
+            {
+              return Container();
+            }
+        }
+      }
     }
   }
 
-  Widget videoWidget({VideoEntity? video}) {
+  Widget videoWidget({VideoEntity? video, double? width, double? height}) {
+    var widthScreen = MediaQuery.of(context).size.width;
+    var heightScreen = MediaQuery.of(context).size.height;
     return FutureBuilder<String>(
       future:
           generateThumbnail(), // a previously-obtained Future<String> or null
@@ -497,7 +701,12 @@ class _AppPostState extends State<AppPost> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Image.file(File(_thumbnailUrl!)),
+                Image.file(
+                  File(_thumbnailUrl!),
+                  width: widthScreen,
+                  height: heightScreen - 424,
+                  fit: BoxFit.fill,
+                ),
                 const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.black45,
@@ -540,4 +749,7 @@ class _AppPostState extends State<AppPost> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

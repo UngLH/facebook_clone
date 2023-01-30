@@ -93,7 +93,12 @@ class _MenuPageState extends State<MenuPage> {
                 crossAxisCount: 2,
                 children: <Widget>[
                   _menuButton(),
-                  _menuButton(),
+                  _menuButton(
+                      title: "Danh sách block",
+                      action: () {
+                        Application.router
+                            ?.navigateTo(context, Routes.listBlockFriends);
+                      }),
                   _menuButton(),
                   _menuButton(),
                   _menuButton(),
@@ -133,29 +138,34 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  Widget _menuButton() {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        width: MediaQuery.of(context).size.width / 2 - 25,
-        decoration: BoxDecoration(
-            color: AppColors.greyF8F8F8,
-            borderRadius: BorderRadius.circular(10)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset(
-            AppImages.icEmotion,
-            width: 24,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Bạn bè",
-            style: AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w500),
-          )
-        ]),
+  Widget _menuButton({String? title, VoidCallback? action}) {
+    return GestureDetector(
+      onTap: action,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          width: MediaQuery.of(context).size.width / 2 - 25,
+          decoration: BoxDecoration(
+              color: AppColors.greyF8F8F8,
+              borderRadius: BorderRadius.circular(10)),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Image.asset(
+              AppImages.icEmotion,
+              width: 24,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              title ?? "Bạn bè",
+              style:
+                  AppTextStyle.blackS14.copyWith(fontWeight: FontWeight.w500),
+            )
+          ]),
+        ),
       ),
     );
   }

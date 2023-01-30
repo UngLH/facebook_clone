@@ -11,9 +11,9 @@ class FriendSuggestEntity {
   String? avatar;
   @JsonKey(name: "same_friends")
   String? sameFriend;
-  
 
-  FriendSuggestEntity({this.userId, this.username, this.avatar, this.sameFriend});
+  FriendSuggestEntity(
+      {this.userId, this.username, this.avatar, this.sameFriend});
 
   FriendSuggestEntity copyWith(
       {String? userId, String? username, String? avatar, String? sameFriend}) {
@@ -37,7 +37,8 @@ class FriendDataResponse {
   List<FriendSuggestEntity>? listUsers;
   FriendDataResponse({this.total, this.listUsers});
 
-  FriendDataResponse copyWith({String? total, List<FriendSuggestEntity>? listUsers}) {
+  FriendDataResponse copyWith(
+      {String? total, List<FriendSuggestEntity>? listUsers}) {
     return FriendDataResponse(
         total: total ?? this.total, listUsers: listUsers ?? this.listUsers);
   }
@@ -134,34 +135,4 @@ class FriendRequestDataResponse {
       _$FriendRequestDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$FriendRequestDataResponseToJson(this);
-
-}
-
-@JsonSerializable()
-class FriendRequestResponse {
-  String? code;
-  String? message;
-  FriendRequestDataResponse? data;
-  FriendRequestResponse({
-    this.code,
-    this.message,
-    this.data,
-  });
-
-  FriendRequestResponse copyWith({
-    String? code,
-    String? message,
-    FriendRequestDataResponse? data,
-  }) {
-    return FriendRequestResponse(
-      code: code ?? this.code,
-      message: message ?? this.message,
-      data: data ?? this.data,
-    );
-  }
-
-  factory FriendRequestResponse.fromJson(Map<String, dynamic> json) =>
-      _$FriendRequestResponseFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FriendRequestResponseToJson(this);
 }

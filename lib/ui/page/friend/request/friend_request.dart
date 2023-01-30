@@ -1,6 +1,7 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
+import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
@@ -10,17 +11,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'friend_request_cubit.dart';
 
-class FriendRequestPage extends StatefulWidget{
+class FriendRequestPage extends StatefulWidget {
   const FriendRequestPage({Key? key}) : super(key: key);
-  
+
   @override
   State<StatefulWidget> createState() {
     return _FriendRequestPage();
   }
-  
 }
 
-class _FriendRequestPage extends State<FriendRequestPage>{
+class _FriendRequestPage extends State<FriendRequestPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   FriendRequestCubit? _cubit;
 
@@ -35,7 +35,7 @@ class _FriendRequestPage extends State<FriendRequestPage>{
     _cubit!.getListRequestFriends();
   }
 
-   @override
+  @override
   void dispose() {
     super.dispose();
   }
@@ -44,17 +44,21 @@ class _FriendRequestPage extends State<FriendRequestPage>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black,),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: const Text("Lời mời kết bạn", style: TextStyle(color: Colors.black)),
-        backgroundColor: AppColors.background,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: const Text("Lời mời kết bạn",
+              style: TextStyle(color: Colors.black)),
+          backgroundColor: AppColors.background,
         ),
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
         body: BlocBuilder<FriendRequestCubit, FriendRequestState>(
-        builder: (context, state) {
+            builder: (context, state) {
           if (state.loadingStatus == LoadStatus.LOADING) {
             return const Center(
               child: CircularProgressIndicator(
@@ -116,52 +120,61 @@ class _FriendRequestPage extends State<FriendRequestPage>{
                           ),
                           onTap: () {
                             showBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  height: 100,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        child: Container(
-                                          color: Colors.grey.withOpacity(0.4),
-                                          height: 50,
-                                          width: MediaQuery.of(context).size.width,
-                                          alignment: Alignment.center,
-                                          child: const Text('Mới nhất từ trước đến nay',
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  color: Colors.black)),
-                                        ),
-                                        onTap: () {
-                                          _cubit!.sortIncrement();
-                                          print("sort incre");
-                                        },
-                                      ),
-                                      InkWell(
-                                        child: Container(
-                                          color: Colors.grey.withOpacity(0.4),
-                                          height: 50,
-                                          width: MediaQuery.of(context).size.width,
-                                          alignment: Alignment.center,
-                                          child: const Text('Cũ nhất từ trước đến nay',
-                                              style: TextStyle(
-                                                  fontSize: 17.0,
-                                                  color: Colors.black)),
-                                        ),
-                                        onTap:() {
-                                          _cubit!.sortDecrement();
-                                          print("sort");
-                                        },
-                                      )
-                                    ],
-                                  ) 
-                                );
-                              });
-                              _cubit!.sortDecrement();
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                      height: 100,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            child: Container(
+                                              color:
+                                                  Colors.grey.withOpacity(0.4),
+                                              height: 50,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              alignment: Alignment.center,
+                                              child: const Text(
+                                                  'Mới nhất từ trước đến nay',
+                                                  style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      color: Colors.black)),
+                                            ),
+                                            onTap: () {
+                                              _cubit!.sortIncrement();
+                                              print("sort incre");
+                                            },
+                                          ),
+                                          InkWell(
+                                            child: Container(
+                                              color:
+                                                  Colors.grey.withOpacity(0.4),
+                                              height: 50,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              alignment: Alignment.center,
+                                              child: const Text(
+                                                  'Cũ nhất từ trước đến nay',
+                                                  style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      color: Colors.black)),
+                                            ),
+                                            onTap: () {
+                                              _cubit!.sortDecrement();
+                                              print("sort");
+                                            },
+                                          )
+                                        ],
+                                      ));
+                                });
+                            _cubit!.sortDecrement();
                           },
                         )
                       ],
@@ -174,7 +187,7 @@ class _FriendRequestPage extends State<FriendRequestPage>{
                       itemCount: state.listRequestFriends!.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        FriendEntity friend =
+                        FriendRequestEntity friend =
                             state.listRequestFriends![index];
                         String? avatar = friend.avatar;
                         return AddFriendItem(
@@ -184,14 +197,14 @@ class _FriendRequestPage extends State<FriendRequestPage>{
                           avtUrl: avatar,
                           acceptText: "Chấp nhận",
                           cancelText: "Từ chối",
-                          accept: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "1");
-                          }),
-                          cancel: (() async {
-                            String? token = await SharedPreferencesHelper.getToken();
-                            _cubit!.repository!.setAcceptFriend(token, friend.userId, "0");
-                          }),
+                          // accept: (() async {
+                          //   String? token = await SharedPreferencesHelper.getToken();
+                          //   _cubit!.repository!.setAcceptFriend(token, friend.userId, "1");
+                          // }),
+                          // cancel: (() async {
+                          //   String? token = await SharedPreferencesHelper.getToken();
+                          //   _cubit!.repository!.setAcceptFriend(token, friend.userId, "0");
+                          // }),
                         );
                       },
                       separatorBuilder: (context, state) {
@@ -200,14 +213,11 @@ class _FriendRequestPage extends State<FriendRequestPage>{
                         );
                       },
                     ),
-                    
                   ],
                 ),
               ),
             );
           }
-        }
-        )
-    );
+        }));
   }
 }

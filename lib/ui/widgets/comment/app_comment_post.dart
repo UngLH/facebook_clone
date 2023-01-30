@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/commons/app_text_styles.dart';
@@ -133,7 +134,7 @@ class _AppCommentPostWidgetState extends State<AppCommentPostWidget> {
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20))),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +194,9 @@ class _AppCommentPostWidgetState extends State<AppCommentPostWidget> {
                                   onRefresh: _onRefreshData,
                                   child: ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount: state.listComments!.length,
+                                    itemCount: state.listComments == null
+                                        ? 0
+                                        : state.listComments!.length,
                                     itemBuilder: (context, index) {
                                       return _commentItem(
                                           state.listComments![index]);
@@ -217,6 +220,7 @@ class _AppCommentPostWidgetState extends State<AppCommentPostWidget> {
 
   Widget _commentItem(CommentEntity commentEntity) {
     String created = commentEntity.created ?? "";
+    double avtWidth = 40;
     DateTime timeStampToDate =
         DateTime.fromMillisecondsSinceEpoch(int.parse(created) * 1000);
     var createdDateInMinute =
@@ -244,17 +248,45 @@ class _AppCommentPostWidgetState extends State<AppCommentPostWidget> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-              alignment: Alignment.bottomCenter,
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                  color: AppColors.grayBackground, shape: BoxShape.circle),
-              child: Image.asset(
-                AppImages.icDefaultUser,
-                color: Colors.white,
-                width: 45,
-              )),
+          commentEntity.commentAuthorEntity!.avatar == null
+              ? Container(
+                  alignment: Alignment.bottomCenter,
+                  width: avtWidth,
+                  height: avtWidth,
+                  decoration: const BoxDecoration(
+                      color: AppColors.grayBackground, shape: BoxShape.circle),
+                  child: Image.asset(
+                    AppImages.icDefaultUser,
+                    color: Colors.white,
+                    width: avtWidth - 5,
+                  ))
+              : CachedNetworkImage(
+                  imageUrl:
+                      commentEntity.commentAuthorEntity!.avatar.toString(),
+                  imageBuilder: (context, imageProvider) => Container(
+                        width: avtWidth,
+                        height: avtWidth,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                  placeholder: (context, _) => Container(
+                      alignment: Alignment.bottomCenter,
+                      width: avtWidth,
+                      height: avtWidth,
+                      decoration: const BoxDecoration(
+                          color: AppColors.grayBackground,
+                          shape: BoxShape.circle),
+                      child: Image.asset(
+                        AppImages.icDefaultUser,
+                        color: Colors.white,
+                        width: avtWidth - 5,
+                      ))),
           SizedBox(
             width: 5,
           ),
@@ -277,7 +309,7 @@ class _AppCommentPostWidgetState extends State<AppCommentPostWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          commentEntity.authorEntity!.username ??
+                          commentEntity.commentAuthorEntity!.name ??
                               "Người dùng facebook",
                           style: AppTextStyle.blackS16Bold,
                         ),

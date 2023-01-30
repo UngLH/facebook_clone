@@ -25,4 +25,6 @@ class AppImages {
   static const icSignupIntro = 'assets/images/ic_signup_intro.png';
   static const icLiked = 'assets/images/ic_liked.png';
   static const icEmptyComment = 'assets/images/ic_empty_comment.png';
+
+  static const icEmptyFriend = 'assets/images/ic_empty_friend.png';
 }

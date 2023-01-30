@@ -12,9 +12,10 @@ CommentEntity _$CommentEntityFromJson(Map<String, dynamic> json) =>
       created: json['created'] as String?,
       comment: json['comment'] as String?,
       isBlocked: json['is_blocked'] as String?,
-      authorEntity: json['poster'] == null
+      commentAuthorEntity: json['poster'] == null
           ? null
-          : AuthorEntity.fromJson(json['poster'] as Map<String, dynamic>),
+          : CommentAuthorEntity.fromJson(
+              json['poster'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CommentEntityToJson(CommentEntity instance) =>
@@ -22,7 +23,7 @@ Map<String, dynamic> _$CommentEntityToJson(CommentEntity instance) =>
       'id': instance.id,
       'comment': instance.comment,
       'created': instance.created,
-      'poster': instance.authorEntity,
+      'poster': instance.commentAuthorEntity,
       'is_blocked': instance.isBlocked,
     };
 

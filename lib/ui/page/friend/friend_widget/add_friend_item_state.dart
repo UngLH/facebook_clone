@@ -1,26 +1,23 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:ui';
-
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'add_friend_item_cubit.dart';
+part of 'add_friend_item_cubit.dart';
 
 class AddFriendItemState extends Equatable {
   String? mode;
+  LoadStatus? isAcceptLoading;
+  bool? isCancelLoading;
 
-  AddFriendItemState({
-    this.mode,
-  });
+  AddFriendItemState(
+      {this.mode,
+      this.isAcceptLoading = LoadStatus.SUCCESS,
+      this.isCancelLoading});
 
-  AddFriendItemState copyWith({
-    String? mode,
-  }) {
+  AddFriendItemState copyWith(
+      {String? mode, LoadStatus? isAcceptLoading, bool? isCancelLoading}) {
     return AddFriendItemState(
-      mode: mode ?? this.mode,
-    );
+        mode: mode ?? this.mode,
+        isAcceptLoading: isAcceptLoading ?? this.isAcceptLoading,
+        isCancelLoading: isCancelLoading ?? this.isCancelLoading);
   }
-  
+
   @override
-  List<Object?> get props => [mode];
+  List<Object?> get props => [mode, isCancelLoading, isAcceptLoading];
 }

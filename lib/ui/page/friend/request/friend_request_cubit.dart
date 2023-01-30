@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/repositories/friend_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:facebook/utils/logger.dart';
@@ -30,7 +31,7 @@ class FriendRequestCubit extends Cubit<FriendRequestState> {
       if (response != null) {
         emit(state.copyWith(
             loadingStatus: LoadStatus.SUCCESS,
-            listRequestFriends: response.data!.listUsers));
+            listRequestFriends: response.data!.requestList));
       }
     } catch (error) {
       logger.e(error);
@@ -45,7 +46,7 @@ class FriendRequestCubit extends Cubit<FriendRequestState> {
   }
 
   Future<void> sortDecrement() async {
-    List<FriendEntity>? listUser = state.listRequestFriends;
+    List<FriendRequestEntity>? listUser = state.listRequestFriends;
     listUser!.sort(((a, b) {
       int createdA = int.parse(a.created!);
       int createdB = int.parse(b.created!);
@@ -55,11 +56,11 @@ class FriendRequestCubit extends Cubit<FriendRequestState> {
   }
 
   Future<void> sortIncrement() async {
-    List<FriendEntity>? listUser = state.listRequestFriends;
+    List<FriendRequestEntity>? listUser = state.listRequestFriends;
     listUser!.sort(((a, b) {
       int createdA = int.parse(a.created!);
       int createdB = int.parse(b.created!);
-      return createdB.compareTo(createdA); 
+      return createdB.compareTo(createdA);
     }));
     emit(state.copyWith(listRequestFriends: listUser));
   }

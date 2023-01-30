@@ -4,24 +4,22 @@ part of './friend_request_cubit.dart';
 
 class FriendRequestState extends Equatable {
   LoadStatus? loadingStatus;
-  List<FriendEntity>? listRequestFriends;
+  List<FriendRequestEntity>? listRequestFriends;
   FriendRequestState({
     this.loadingStatus,
     this.listRequestFriends,
   });
-  
+
   @override
   List<Object?> get props => [loadingStatus, listRequestFriends];
 
-
   FriendRequestState copyWith({
     LoadStatus? loadingStatus,
-    List<FriendEntity>? listRequestFriends,
+    List<FriendRequestEntity>? listRequestFriends,
   }) {
     return FriendRequestState(
       loadingStatus: loadingStatus ?? this.loadingStatus,
       listRequestFriends: listRequestFriends ?? this.listRequestFriends,
     );
   }
-
 }

@@ -57,6 +57,7 @@ class HomePageCubit extends Cubit<HomePageState> {
     String? token = await SharedPreferencesHelper.getToken();
     try {
       await repository?.delPost(token, postId);
+      await getListPost();
     } catch (error) {
       logger.e(error);
     }

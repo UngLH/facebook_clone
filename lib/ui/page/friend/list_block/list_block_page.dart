@@ -1,23 +1,26 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/friend_item.dart';
+import 'package:facebook/ui/page/friend/list_block/list_block_cubit.dart';
 import 'package:facebook/ui/page/friend/list_friend/list_friend_cubit.dart';
+import 'package:facebook/ui/widgets/comment/app_empty_comment.dart';
+import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:facebook/ui/widgets/friend/app_empty_friend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListFriendPage extends StatefulWidget {
-  const ListFriendPage({Key? key, String? userId}) : super(key: key);
+class ListBlockPage extends StatefulWidget {
+  const ListBlockPage({Key? key, String? userId}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ListFriendPageState();
+    return _ListBlockPageState();
   }
 }
 
-class _ListFriendPageState extends State<ListFriendPage> {
-  ListFriendCubit? _cubit;
+class _ListBlockPageState extends State<ListBlockPage> {
+  ListBlockCubit? _cubit;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -27,8 +30,8 @@ class _ListFriendPageState extends State<ListFriendPage> {
       statusBarColor: Colors.transparent,
     ));
 
-    _cubit = BlocProvider.of<ListFriendCubit>(context);
-    _cubit!.getListFriends("userid"); // todo: lay danh sach friend;
+    _cubit = BlocProvider.of<ListBlockCubit>(context);
+    _cubit!.getListBlocks();
   }
 
   @override
@@ -56,11 +59,11 @@ class _ListFriendPageState extends State<ListFriendPage> {
               },
             ),
             title: const Text(
-              "Bạn bè",
+              "Danh sách block",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
-        body: BlocBuilder<ListFriendCubit, ListFriendState>(
+        body: BlocBuilder<ListBlockCubit, ListBlockState>(
             builder: (context, state) {
           if (state.loadingStatus == LoadStatus.LOADING) {
             return const Center(
@@ -69,11 +72,11 @@ class _ListFriendPageState extends State<ListFriendPage> {
               ),
             );
           } else if (state.loadingStatus == LoadStatus.FAILURE) {
-            return const Center(child: Text("Đã có lỗi xảy ra!"));
+            return const AppEmptyFriend();
           } else if (state.loadingStatus == LoadStatus.EMPTY) {
             return const AppEmptyFriend();
           } else if (state.loadingStatus == LoadStatus.SUCCESS) {
-            return state.listFriends!.isNotEmpty
+            return state.listBlocks!.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
@@ -109,7 +112,7 @@ class _ListFriendPageState extends State<ListFriendPage> {
                           height: 20,
                         ),
                         Text(
-                          "${state.listFriends!.length.toString()} bạn bè",
+                          "${state.listBlocks!.length.toString()} người bị block",
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 22,
@@ -121,16 +124,12 @@ class _ListFriendPageState extends State<ListFriendPage> {
                         Expanded(
                           child: ListView.separated(
                             shrinkWrap: true,
-                            itemCount: state.listFriends!.length,
+                            itemCount: state.listBlocks!.length,
                             itemBuilder: (context, index) {
                               return FriendItem(
-                                friendName:
-                                    state.listFriends![index].username ??
-                                        "Người dùng facebook",
-                                numMutualFriend:
-                                    state.listFriends![index].sameFriend,
-                                avtUrl: state.listFriends![index].avatar,
-                                created: state.listFriends![index].created,
+                                friendName: state.listBlocks![index].username ??
+                                    "Người dùng facebook",
+                                avtUrl: state.listBlocks![index].avatar,
                               );
                             },
                             separatorBuilder: (context, state) {

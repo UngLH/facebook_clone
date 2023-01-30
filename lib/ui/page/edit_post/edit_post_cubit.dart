@@ -22,13 +22,13 @@ class EditPostCubit extends Cubit<EditPostState> {
     return super.close();
   }
 
-  Future<void> addPost(String described, String status, List<File> images,
-      List<File> videos) async {
+  Future<void> editPost(String described, String postId, String status,
+      List<String> listDelImageId, List<File> images, List<File> videos) async {
     String? token = await SharedPreferencesHelper.getToken();
     try {
       loadingController.sink.add(LoadStatus.LOADING);
-      final result =
-          await repository?.addPost(token!, described, status, images, videos);
+      await repository?.editPost(token.toString(), postId, described, status,
+          listDelImageId, images, videos);
       loadingController.sink.add(LoadStatus.SUCCESS);
     } catch (error) {
       loadingController.sink.add(LoadStatus.FAILURE);

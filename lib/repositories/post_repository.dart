@@ -7,6 +7,14 @@ import 'package:facebook/network/api_client_facebook.dart';
 abstract class PostRepository {
   Future<dynamic> addPost(String accessToken, String described, String status,
       List<File> images, List<File> videos);
+  Future<dynamic> editPost(
+      String accessToken,
+      String postId,
+      String described,
+      String status,
+      List<String>? listDelImageId,
+      List<File> images,
+      List<File> videos);
   Future<dynamic> delPost(String? accessToken, String? postId);
   Future<PostResponseRequest> getListPosts(
       String? token, int? lastId, int? index, int? count);
@@ -58,5 +66,18 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future delPost(String? accessToken, String? postId) {
     return _apiClientFacebook!.delPost(accessToken, postId);
+  }
+
+  @override
+  Future editPost(
+      String accessToken,
+      String postId,
+      String described,
+      String status,
+      List<String>? listDelImageId,
+      List<File> images,
+      List<File> videos) {
+    return _apiClientFacebook!.editPost(
+        accessToken, postId, described, status, listDelImageId, images, videos);
   }
 }

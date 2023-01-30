@@ -87,22 +87,3 @@ Map<String, dynamic> _$FriendRequestDataResponseToJson(
       'list_user': instance.listUsers,
       'total': instance.total,
     };
-
-FriendRequestResponse _$FriendRequestResponseFromJson(
-        Map<String, dynamic> json) =>
-    FriendRequestResponse(
-      code: json['code'] as String?,
-      message: json['message'] as String?,
-      data: json['data'] == null
-          ? null
-          : FriendRequestDataResponse.fromJson(
-              json['data'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$FriendRequestResponseToJson(
-        FriendRequestResponse instance) =>
-    <String, dynamic>{
-      'code': instance.code,
-      'message': instance.message,
-      'data': instance.data,
-    };

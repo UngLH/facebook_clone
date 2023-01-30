@@ -10,25 +10,29 @@ class CommentEntity {
   String? comment;
   String? created;
   @JsonKey(name: "poster")
-  AuthorEntity? authorEntity;
+  CommentAuthorEntity? commentAuthorEntity;
   @JsonKey(name: "is_blocked")
   String? isBlocked;
 
   CommentEntity(
-      {this.id, this.created, this.comment, this.isBlocked, this.authorEntity});
+      {this.id,
+      this.created,
+      this.comment,
+      this.isBlocked,
+      this.commentAuthorEntity});
 
   CommentEntity copyWith(
       {String? id,
       String? created,
       String? comment,
       String? isBlocked,
-      AuthorEntity? authorEntity}) {
+      CommentAuthorEntity? commentAuthorEntity}) {
     return CommentEntity(
         id: id ?? this.id,
         created: created ?? this.created,
         comment: comment ?? this.comment,
         isBlocked: isBlocked ?? this.isBlocked,
-        authorEntity: authorEntity ?? this.authorEntity);
+        commentAuthorEntity: commentAuthorEntity ?? this.commentAuthorEntity);
   }
 
   factory CommentEntity.fromJson(Map<String, dynamic> json) =>

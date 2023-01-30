@@ -1,6 +1,5 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
-import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
@@ -9,6 +8,7 @@ import 'package:facebook/ui/widgets/app_post.dart';
 import 'package:facebook/ui/widgets/app_post_modal.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,6 +27,9 @@ class _HomePageState extends State<HomePage>
   String? userId;
   @override
   void initState() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     _cubit = BlocProvider.of<HomePageCubit>(context);
     _cubit!.getListPost();
     commentController = TextEditingController(text: '');
@@ -152,10 +155,14 @@ class _HomePageState extends State<HomePage>
                                         Navigator.pop(context);
                                         _cubit!
                                             .delPost(state.listPost![index].id);
-                                        _onRefreshData();
+                                        // _onRefreshData();
                                       },
                                       editPost: () {
-                                        print("Edit post");
+                                        Application.router?.navigateTo(
+                                            context, Routes.editPost,
+                                            routeSettings: RouteSettings(
+                                                arguments:
+                                                    state.listPost![index]));
                                       },
                                     );
                                   });
