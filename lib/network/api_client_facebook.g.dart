@@ -13,8 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??=
-        'https://a0b6-2405-4803-fdf5-bf30-14ff-5563-7d9e-f1a0.ap.ngrok.io';
+    baseUrl ??= 'http://10.0.2.2:5000';
   }
 
   final Dio _dio;
