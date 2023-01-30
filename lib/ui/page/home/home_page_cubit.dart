@@ -18,25 +18,31 @@ class HomePageCubit extends Cubit<HomePageState> {
 
   @override
   Future<void> close() {
+    loadingController.close();
     return super.close();
   }
 
   Future<void> getListPost() async {
     String? token = await SharedPreferencesHelper.getToken();
     emit(state.copyWith(loadingStatus: LoadStatus.LOADING));
+    List<PostResponseEntity> listPost = [];
     try {
       final response = await repository?.getListPosts(token, 0, 0, 20);
-      if (response != null) {
+      listPost = response!.data!.posts ?? [];
+      for (var i = 0; i < response.data!.posts!.length; i++) {
+        if (response.data!.posts![i].isBlocked == "1") {
+          listPost.removeAt(i);
+        }
         emit(state.copyWith(
-            loadingStatus: LoadStatus.SUCCESS, listPost: response.data!.posts));
-        print(state.loadingStatus);
+            loadingStatus: LoadStatus.SUCCESS, listPost: listPost));
       }
     } catch (error) {
       logger.e(error);
       if (error is DioError) {
-        print(error.response!.data["message"]);
         if (error.response!.data["message"] == "No data or end of list data") {
           emit(state.copyWith(loadingStatus: LoadStatus.EMPTY));
+        } else if (error.response!.data["message"] == "Token is invalid") {
+          loadingController.sink.add(LoadStatus.TOKEN_INVALID);
         } else {
           emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
         }

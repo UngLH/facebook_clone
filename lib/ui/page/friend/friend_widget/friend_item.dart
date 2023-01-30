@@ -104,7 +104,7 @@ class _FriendItemState extends State<FriendItem> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: widget.blockFriend,
           icon: const Icon(
             Icons.more_horiz_outlined,
             color: AppColors.grayIconButton,

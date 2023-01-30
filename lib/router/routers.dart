@@ -24,6 +24,7 @@ class Routes {
   static String conversation_detail = '/conversation/chatDetail';
   static String conversation_profile = '/conversation/profile';
   static String profile = '/profile';
+  static String profileEdit = '/profileEdit';
 
   /// Home
   static String homeTab = "/homeTab";
@@ -114,6 +115,11 @@ class Routes {
     router.define(
       profile,
       handler: profileHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      profileEdit,
+      handler: profileEditHandler,
       transitionType: TransitionType.fadeIn,
     );
   }

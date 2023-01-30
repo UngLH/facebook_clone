@@ -4,7 +4,7 @@ import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_page.dart';
 import 'package:facebook/ui/page/home/home_page.dart';
-import 'package:facebook/ui/page/menu/menu_page.dart';
+import 'package:facebook/ui/page/profile/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

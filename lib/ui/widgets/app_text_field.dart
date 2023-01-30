@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AppTextFieldUnderLine extends StatelessWidget {
   final String labelText;
   final String hintText;
+  final IconData? prefixIcon;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final FormFieldValidator<String>? validator;
@@ -19,6 +20,7 @@ class AppTextFieldUnderLine extends StatelessWidget {
     Key? key,
     this.initialValue,
     this.labelText = '',
+    this.prefixIcon,
     this.hintText = '',
     this.controller,
     this.onChanged,
@@ -41,7 +43,9 @@ class AppTextFieldUnderLine extends StatelessWidget {
           child: TextFormField(
             enabled: enable,
             controller: controller,
+
             decoration: InputDecoration(
+              prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
               hintText: hintText,
               labelText: labelText,
               contentPadding:

@@ -8,6 +8,7 @@ import 'package:facebook/models/entities/friend/friend_block_entity.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/entities/post/post_response_request.dart';
+import 'package:facebook/models/entities/user/user_profile_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client_facebook.g.dart';
@@ -121,6 +122,7 @@ abstract class ApiClient {
       "/it4788/friend/set_accept_friend?token={token}&user_id={userId}&is_accept={isAccept}")
   Future<dynamic> setAcceptFriend(@Path("token") String? token,
       @Path("userId") String? userId, @Path("isAccept") String? isAccept);
+
   @POST(
       "/it4788/friend/get_user_friends?token={token}&user_id={userId}&index={index}&count={count}")
   Future<RequestFriendResponse> getUserFriends(
@@ -128,6 +130,7 @@ abstract class ApiClient {
       @Path("userId") String? userId,
       @Path("index") int? index,
       @Path("count") int? count);
+
   @POST(
       "/it4788/friend/get_list_blocks?token={token}&index={index}&count={count}")
   Future<ListBlockResponse> getListBlocks(@Path("token") String? token,
@@ -144,4 +147,48 @@ abstract class ApiClient {
       @Path("token") String? token,
       @Path("index") int? index,
       @Path("count") int? count);
+
+  ///User
+  @POST("/it4788/user/get_user_info?token={token}&user_id={userId}")
+  Future<ProfileResponse> getUserInfor(
+      @Path("token") String? token, @Path("userId") String? userId);
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  Future<dynamic> setUserInfor(
+      @Path("token") String? token,
+      @Path("username") String? username,
+      @Path("description") String? description,
+      @Path("address") String? address,
+      @Path("city") String? city,
+      @Path("country") String? country,
+      @Path("link") String? link);
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  @MultiPart()
+  Future<dynamic> setUserAvt(
+    @Path("token") String? token,
+    @Path("username") String? username,
+    @Path("description") String? description,
+    @Path("address") String? address,
+    @Path("city") String? city,
+    @Path("country") String? country,
+    @Path("link") String? link,
+    @Part(name: "avatar") File? image,
+  );
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  @MultiPart()
+  Future<dynamic> setUserBackground(
+    @Path("token") String? token,
+    @Path("username") String? username,
+    @Path("description") String? description,
+    @Path("address") String? address,
+    @Path("city") String? city,
+    @Path("country") String? country,
+    @Path("link") String? link,
+    @Part(name: "cover_image") File? background,
+  );
 }

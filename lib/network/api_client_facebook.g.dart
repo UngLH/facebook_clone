@@ -13,8 +13,7 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??=
-        'https://a0b6-2405-4803-fdf5-bf30-14ff-5563-7d9e-f1a0.ap.ngrok.io';
+    baseUrl ??= 'http://10.0.2.2:5000';
   }
 
   final Dio _dio;
@@ -604,6 +603,144 @@ class _ApiClient implements ApiClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ListConversationResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ProfileResponse> getUserInfor(
+    token,
+    userId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ProfileResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/it4788/user/get_user_info?token=${token}&user_id=${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ProfileResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> setUserInfor(
+    token,
+    username,
+    description,
+    address,
+    city,
+    country,
+    link,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/it4788/user/set_user_info?token=${token}&username=${username}&description=${description}&address=${address}&city=${city}&country=${country}&link=${link}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> setUserAvt(
+    token,
+    username,
+    description,
+    address,
+    city,
+    country,
+    link,
+    image,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'avatar',
+      MultipartFile.fromFileSync(
+        image!.path,
+        filename: image.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/it4788/user/set_user_info?token=${token}&username=${username}&description=${description}&address=${address}&city=${city}&country=${country}&link=${link}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> setUserBackground(
+    token,
+    username,
+    description,
+    address,
+    city,
+    country,
+    link,
+    background,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'cover_image',
+      MultipartFile.fromFileSync(
+        background!.path,
+        filename: background.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/it4788/user/set_user_info?token=${token}&username=${username}&description=${description}&address=${address}&city=${city}&country=${country}&link=${link}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
     return value;
   }
 

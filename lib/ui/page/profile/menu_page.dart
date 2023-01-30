@@ -67,18 +67,25 @@ class _MenuPageState extends State<MenuPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Lê Hồng Ưng",
-                      style: AppTextStyle.blackS18Bold,
-                    ),
-                    Text(
-                      "Xem trang cá nhân của bạn",
-                      style: AppTextStyle.greyS14,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () async {
+                    String? userId = await SharedPreferencesHelper.getUserId();
+                    Application.router?.navigateTo(context, Routes.profile,
+                        routeSettings: RouteSettings(arguments: userId));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Lê Hồng Ưng",
+                        style: AppTextStyle.blackS18Bold,
+                      ),
+                      Text(
+                        "Xem trang cá nhân của bạn",
+                        style: AppTextStyle.greyS14,
+                      )
+                    ],
+                  ),
                 )
               ]),
               const Divider(

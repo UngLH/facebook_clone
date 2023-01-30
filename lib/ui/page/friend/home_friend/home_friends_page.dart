@@ -1,13 +1,13 @@
+import 'dart:async';
+
 import 'package:facebook/commons/app_colors.dart';
-import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/enums/load_status.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item.dart';
+import 'package:facebook/ui/page/friend/friend_widget/block_friend_modal.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
 import 'package:facebook/ui/page/friend/list_friend/list_friend_page.dart';
-import 'package:facebook/ui/page/friend/request/friend_request.dart';
-import 'package:facebook/ui/page/friend/suggest/friend_suggest.dart';
 import 'package:facebook/ui/widgets/empty_post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,8 +23,9 @@ class HomeFriendPage extends StatefulWidget {
 }
 
 class _HomeFriendPageState extends State<HomeFriendPage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   HomeFriendsCubit? _cubit;
+  late StreamSubscription _loadingSubscription;
 
   @override
   void initState() {
@@ -41,17 +42,17 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
   @override
   void dispose() {
     super.dispose();
+    _loadingSubscription.cancel();
   }
 
   Future<void> _onRefreshData() async {
-    await _cubit!.getListSuggestFriends();
-    await _cubit!.getListRequestFriends();
+    _cubit!.getListSuggestFriends();
+    _cubit!.getListRequestFriends();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: AppColors.background,
       body: BlocBuilder<HomeFriendsCubit, HomeFriendsState>(
           builder: (context, state) {
@@ -177,6 +178,26 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                           accept: () {
                             _cubit!.getListSuggestFriends();
                           },
+                          block: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor:
+                                    AppColors.commentBackgroundColor,
+                                builder: (context) {
+                                  return BlockFriendModal(
+                                    block: () {
+                                      _cubit!
+                                          .setBlock(friend.userId.toString());
+                                      Navigator.of(context).pop();
+                                      _onRefreshData();
+                                    },
+                                  );
+                                });
+                          },
                         );
                       },
                       separatorBuilder: (context, state) {
@@ -189,7 +210,7 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                       color: AppColors.borderColor,
                     ),
                   ] else
-                    SizedBox(),
+                    const SizedBox(),
                   const Text(
                     "Những người bạn có thể biết",
                     style: TextStyle(
@@ -214,6 +235,24 @@ class _HomeFriendPageState extends State<HomeFriendPage> {
                         avtUrl: friend.avatar,
                         acceptText: "Thêm bạn bè",
                         cancelText: "Gỡ",
+                        block: () {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              backgroundColor: AppColors.commentBackgroundColor,
+                              builder: (context) {
+                                return BlockFriendModal(
+                                  block: () {
+                                    _cubit!.setBlock(friend.userId.toString());
+                                    Navigator.of(context).pop();
+                                    _onRefreshData();
+                                  },
+                                );
+                              });
+                        },
                       );
                     },
                     separatorBuilder: (context, state) {

@@ -58,7 +58,6 @@ class HomeFriendsCubit extends Cubit<HomeFriendsState> {
         for (int j = 0; j < state.listFriends!.length; j++) {
           if (state.listFriends![j].userId == suggestFriends[i].userId) {
             suggestFriends.removeAt(i);
-            print("user $i: ${suggestFriends[i].userId}");
           }
         }
       }
@@ -105,6 +104,15 @@ class HomeFriendsCubit extends Cubit<HomeFriendsState> {
           emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
         }
       }
+    }
+  }
+
+  Future<void> setBlock(String userId) async {
+    String? token = await SharedPreferencesHelper.getToken();
+    try {
+      await repository!.setBlock(token, userId, "0");
+    } catch (error) {
+      logger.e(error);
     }
   }
 }
