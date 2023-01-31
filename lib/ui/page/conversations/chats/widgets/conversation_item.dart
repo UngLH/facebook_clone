@@ -1,5 +1,6 @@
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/ui/page/conversations/chat_detail/chat_detail_cubit.dart';
+import 'package:facebook/ui/page/conversations/chats/list_friend_cubit.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/story_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +12,10 @@ import 'package:get/get_utils/get_utils.dart';
 import 'package:intl/intl.dart';
 
 class ConversationItem extends StatefulWidget {
+  final ListFriendCubit? cubit_;
   final ListFriendModel friendItem;
   final String dateFormat;
-  const ConversationItem({Key? key, required this.friendItem, required this.dateFormat})
+  const ConversationItem({Key? key, required this.friendItem, required this.dateFormat, required this.cubit_})
       : super(key: key);
 
   @override
@@ -101,7 +103,8 @@ class _ConversationItemState extends State<ConversationItem> {
   _buildTitleAndLatestMessage() {
     return Expanded(
       child: InkWell(
-        onTap: () => Navigator.push(
+        onTap: () {
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => 
@@ -113,7 +116,9 @@ class _ConversationItemState extends State<ConversationItem> {
                   child: ChatDetail(friendItem: widget.friendItem),
                 )
             ),
-          ),
+          );
+          widget.cubit_!.createConversation(widget.friendItem);
+        } ,
         child: Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: Column(
@@ -144,7 +149,6 @@ class _ConversationItemState extends State<ConversationItem> {
   }
 
   _buildLatestMessage() {
-    print(widget.friendItem.lastMessage!.toJson());
     return SizedBox(
       width: 120.0,
       child: Text(

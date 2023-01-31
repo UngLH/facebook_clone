@@ -24,7 +24,7 @@ class _StoryDetailState extends State<StoryDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.listFriendModel.partner!.avatar!),
+          title: Text(widget.listFriendModel.partner!.username!),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
         ),

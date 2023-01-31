@@ -149,12 +149,19 @@ abstract class ApiClient {
       @Path("userId") String? userId, @Path("type") String? type);
 
   ///Chat
-  @POST(
-      "/it4788/chat/get_list_conversation?token={token}&index={index}&count={count}")
+  @POST("/it4788/chat/get_list_conversation?token={token}&index={index}&count={count}")
   Future<ListConversationResponse> getListConversation(
       @Path("token") String? token,
       @Path("index") int? index,
       @Path("count") int? count);
+
+  @POST("/it4788/chat/create_conversation?token={token}&conversationId={conversationId}&firstUser={firstUser}&secondUser={secondUser}")
+  Future<dynamic> createConversation(
+      @Path("token") String? token,
+      @Path("conversationId") String? conversationId,
+      @Path("firstUser") String? firstUser,
+      @Path("secondUser") String? secondUser
+    );
 
   ///User
   @POST("/it4788/user/get_user_info?token={token}&user_id={userId}")

@@ -635,6 +635,34 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<dynamic> createConversation(
+    token,
+    conversationId,
+    firstUser,
+    secondUser,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/it4788/chat/create_conversation?token=${token}&conversationId=${conversationId}&firstUser=${firstUser}&secondUser=${secondUser}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   Future<ProfileResponse> getUserInfor(
     token,
     userId,

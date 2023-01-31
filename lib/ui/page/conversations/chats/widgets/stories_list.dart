@@ -1,9 +1,11 @@
+import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/story_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 
 class StoriesList extends StatefulWidget {
-  const StoriesList({Key? key}) : super(key: key);
+  final List<ListFriendModel> friendList;
+  const StoriesList({Key? key, required this.friendList}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,11 +22,12 @@ class _StoriesListState extends State<StoriesList> {
         if (index == 0) {
           return const AddToYourStoryButton();
         } else {
+          print(widget.friendList);
           return StoryListItem(
-              friendItem: friendList[index - 1], friendIndex: index);
+              friendItem: widget.friendList[index - 1], friendIndex: index);
         }
       },
-      itemCount: friendList.length + 1,
+      itemCount: widget.friendList.length + 1,
     );
   }
 }
@@ -82,7 +85,7 @@ class _StoryListItemState extends State<StoryListItem> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                     image: DecorationImage(
-                      image: AssetImage(widget.friendItem.imageAvatarUrl!),
+                      image: AssetImage(widget.friendItem.partner!.avatar ?? AppImages.icFacebookLogo),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -93,7 +96,7 @@ class _StoryListItemState extends State<StoryListItem> {
             SizedBox(
               width: 60.0,
               child: Text(
-                widget.friendItem.name!,
+                widget.friendItem.partner!.username!,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
                 style: _getTextStyle(),
