@@ -99,6 +99,32 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<dynamic> changePassword(
+    password,
+    newPassword,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/it4788/auth/change_password?password=${password}&new_password=${newPassword}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   Future<dynamic> createUserInforAndAvt(
     token,
     username,
@@ -736,6 +762,90 @@ class _ApiClient implements ApiClient {
         .compose(
           _dio.options,
           '/it4788/user/set_user_info?token=${token}&username=${username}&description=${description}&address=${address}&city=${city}&country=${country}&link=${link}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<PostSearchResponse> search(
+    token,
+    index,
+    count,
+    keyword,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PostSearchResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/it4788/search/search?token=${token}&index=${index}&count=${count}&keyword=${keyword}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PostSearchResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<SavedSearchResponse> getSavedSearch(
+    token,
+    index,
+    count,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SavedSearchResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/it4788/search/get_saved_search?token=${token}&index=${index}&count=${count}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SavedSearchResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<dynamic> delSavedSearch(
+    token,
+    all,
+    searchId,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/it4788/search/del_saved_search?token=${token}&all=${all}&search_id=${searchId}',
           queryParameters: queryParameters,
           data: _data,
         )

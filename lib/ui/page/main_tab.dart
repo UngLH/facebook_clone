@@ -63,11 +63,12 @@ class _TabBarState extends State<TabBarPage>
                         fontWeight: FontWeight.bold),
                   ),
                   actions: [
-                    _headerButton(Icons.add),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    _headerButton(Icons.search),
+                    _headerButton(Icons.search, () {
+                      Application.router?.navigateTo(
+                        context,
+                        Routes.search,
+                      );
+                    }),
                     const SizedBox(
                       width: 10,
                     ),
@@ -157,10 +158,10 @@ class _TabBarState extends State<TabBarPage>
         ));
   }
 
-  Widget _headerButton(IconData? iconData) {
+  Widget _headerButton(IconData? iconData, VoidCallback? onPress) {
     return InkWell(
       customBorder: const CircleBorder(),
-      onTap: () {},
+      onTap: onPress,
       child: Container(
           width: 30,
           height: 30,

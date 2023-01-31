@@ -8,6 +8,8 @@ import 'package:facebook/models/entities/friend/friend_block_entity.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/entities/post/post_response_request.dart';
+import 'package:facebook/models/entities/post/post_search_entity.dart';
+import 'package:facebook/models/entities/search/search_entity.dart';
 import 'package:facebook/models/entities/user/user_profile_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -29,6 +31,10 @@ abstract class ApiClient {
       "/it4788/auth/check_verify_code?phonenumber={phoneNumber}&code_verify={code}")
   Future<dynamic> verifyCode(
       @Path("phoneNumber") String? phoneNumber, @Path("code") String? code);
+  @POST(
+      "/it4788/auth/change_password?password={password}&new_password={newPassword}")
+  Future<dynamic> changePassword(@Path("password") String? password,
+      @Path("newPassword") String? newPassword);
 
   //update infor and avatar
   @POST(
@@ -191,4 +197,21 @@ abstract class ApiClient {
     @Path("link") String? link,
     @Part(name: "cover_image") File? background,
   );
+
+  ///Search
+  @POST(
+      "/it4788/search/search?token={token}&index={index}&count={count}&keyword={keyword}")
+  Future<PostSearchResponse> search(
+      @Path("token") String? token,
+      @Path("index") int? index,
+      @Path("count") int? count,
+      @Path("keyword") String? keyword);
+  @POST(
+      "/it4788/search/get_saved_search?token={token}&index={index}&count={count}")
+  Future<SavedSearchResponse> getSavedSearch(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
+  @POST(
+      "/it4788/search/del_saved_search?token={token}&all={all}&search_id={searchId}")
+  Future<dynamic> delSavedSearch(@Path("token") String? token,
+      @Path("all") String? all, @Path("searchId") String? searchId);
 }

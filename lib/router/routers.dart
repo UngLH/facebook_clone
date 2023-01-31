@@ -3,6 +3,7 @@ import 'package:facebook/router/router_handlers/friend_router_handler.dart';
 import 'package:facebook/router/router_handlers/home_router_handler.dart';
 import 'package:facebook/router/router_handlers/profile_router_handler.dart';
 import 'package:facebook/router/router_handlers/post_router_handler.dart';
+import 'package:facebook/router/router_handlers/searchHandler.dart';
 import 'package:facebook/router/router_handlers/signUp_router_handler.dart';
 import 'package:fluro/fluro.dart';
 
@@ -36,6 +37,10 @@ class Routes {
   /// Friend
   static String suggestFriends = "/suggestFriends";
   static String listBlockFriends = "/listBlockFriends";
+
+  // Search
+  static String search = "/search";
+  static String searchResult = "/searchResult";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notHandler;
@@ -120,6 +125,18 @@ class Routes {
     router.define(
       profileEdit,
       handler: profileEditHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+
+    /// search
+    router.define(
+      search,
+      handler: searchHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      searchResult,
+      handler: searchResultHandler,
       transitionType: TransitionType.fadeIn,
     );
   }

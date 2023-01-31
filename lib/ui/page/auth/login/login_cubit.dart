@@ -39,7 +39,9 @@ class LoginCubit extends Cubit<LoginState> {
 
       /// save Token to Shared Preferences
       SharedPreferencesHelper.setToken(
-          result['data']['token'], result['data']['id']);
+          result['data']['token'],
+          result['data']['id'],
+          result['data']['username'] ?? "Người dùng facebook");
 
       loadingController.sink.add(LoadingStatus.SUCCESS);
     } catch (error) {

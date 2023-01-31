@@ -5,6 +5,7 @@ import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/commons/app_text_styles.dart';
 import 'package:facebook/models/entities/media/image_entity.dart';
 import 'package:facebook/models/entities/post/post_response_entity.dart';
+import 'package:facebook/models/entities/post/post_search_entity.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_post.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -753,3 +754,4 @@ class _AppPostState extends State<AppPost> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 }
+
