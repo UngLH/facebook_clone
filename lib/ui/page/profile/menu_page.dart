@@ -131,6 +131,29 @@ class _MenuPageState extends State<MenuPage> {
                   _menuButton(),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.main),
+                          onPressed: () {
+                            Application.router?.navigateTo(
+                              context,
+                              Routes.changePassword,
+                            );
+                          },
+                          child: const Text(
+                            "Thay đổi mật khẩu",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ))),
+                ],
+              ),
               Row(
                 children: [
                   Expanded(

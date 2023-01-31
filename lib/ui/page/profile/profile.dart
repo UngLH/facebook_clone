@@ -32,12 +32,14 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   ProfileCubit? _cubit;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String? userIdFromStorage;
 
   @override
   void initState() {
     super.initState();
     _cubit = BlocProvider.of<ProfileCubit>(context);
     _cubit!.getUserProfile(widget.userId);
+    getUserId();
   }
 
   @override
@@ -47,6 +49,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _onReFreshData() async {
     _cubit!.getUserProfile(widget.userId);
+  }
+
+  Future<void> getUserId() async {
+    userIdFromStorage = await SharedPreferencesHelper.getUserId();
   }
 
   // Image Picker
@@ -241,80 +247,86 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ],
                                   ),
                                 ),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 145,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
+                                widget.userId == userIdFromStorage
+                                    ? Positioned(
+                                        bottom: 10,
+                                        left: 145,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                isScrollControlled: true,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                ),
+                                                backgroundColor: AppColors
+                                                    .commentBackgroundColor,
+                                                builder: (context) {
+                                                  return ModalProfilePhotoWidget(
+                                                    openGallery: () {
+                                                      _openGalleryAvt(context);
+                                                    },
+                                                    openCamera: () {
+                                                      _openCameraAvt(context);
+                                                    },
+                                                  );
+                                                });
+                                          },
+                                          child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                              color: AppColors.grayBackground,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                                Icons.camera_alt_rounded),
                                           ),
-                                          backgroundColor:
-                                              AppColors.commentBackgroundColor,
-                                          builder: (context) {
-                                            return ModalProfilePhotoWidget(
-                                              openGallery: () {
-                                                _openGalleryAvt(context);
-                                              },
-                                              openCamera: () {
-                                                _openCameraAvt(context);
-                                              },
-                                            );
-                                          });
-                                    },
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.grayBackground,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child:
-                                          const Icon(Icons.camera_alt_rounded),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 150,
-                                  right: 20,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
+                                        ),
+                                      )
+                                    : Container(),
+                                widget.userId == userIdFromStorage
+                                    ? Positioned(
+                                        top: 150,
+                                        right: 20,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                isScrollControlled: true,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                ),
+                                                backgroundColor: AppColors
+                                                    .commentBackgroundColor,
+                                                builder: (context) {
+                                                  return ModalProfilePhotoWidget(
+                                                    openGallery: () {
+                                                      _openGalleryBg(context);
+                                                    },
+                                                    openCamera: () {
+                                                      _openCameraBg(context);
+                                                    },
+                                                  );
+                                                });
+                                          },
+                                          child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                              color: AppColors.grayBackground,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                                Icons.camera_alt_rounded),
                                           ),
-                                          backgroundColor:
-                                              AppColors.commentBackgroundColor,
-                                          builder: (context) {
-                                            return ModalProfilePhotoWidget(
-                                              openGallery: () {
-                                                _openGalleryBg(context);
-                                              },
-                                              openCamera: () {
-                                                _openCameraBg(context);
-                                              },
-                                            );
-                                          });
-                                    },
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.grayBackground,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child:
-                                          const Icon(Icons.camera_alt_rounded),
-                                    ),
-                                  ),
-                                )
+                                        ),
+                                      )
+                                    : Container()
                               ],
                             ),
                           ),
@@ -365,67 +377,71 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton(
-                                          onPressed: () async {
-                                            String? userId =
-                                                await SharedPreferencesHelper
-                                                    .getUserId();
-                                            bool status = await Application.router?.navigateTo(
-                                                context, Routes.profileEdit,
-                                                routeSettings: RouteSettings(
-                                                    arguments: EditPageArgument(
-                                                        userId: userId,
-                                                        username: state
-                                                            .userProfile!
-                                                            .username,
-                                                        description: state
-                                                            .userProfile!
-                                                            .description,
-                                                        country: state
-                                                            .userProfile!
-                                                            .country,
-                                                        city: state
-                                                            .userProfile!.city,
-                                                        address: state
-                                                            .userProfile!
-                                                            .address,
-                                                        website: state
-                                                            .userProfile!
-                                                            .link)));
-                                            if (status) {
-                                              _onReFreshData();
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              backgroundColor: AppColors
-                                                  .commentBackgroundColor),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.edit,
-                                                color: Colors.black,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Chỉnh sửa chi tiết",
-                                                style:
-                                                    AppTextStyle.blackS16Bold,
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ],
-                                )
+                                widget.userId == userIdFromStorage
+                                    ? Row(
+                                        children: [
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                onPressed: () async {
+                                                  String? userId =
+                                                      await SharedPreferencesHelper
+                                                          .getUserId();
+                                                  bool status = await Application.router?.navigateTo(
+                                                      context,
+                                                      Routes.profileEdit,
+                                                      routeSettings: RouteSettings(
+                                                          arguments: EditPageArgument(
+                                                              userId: userId,
+                                                              username: state
+                                                                  .userProfile!
+                                                                  .username,
+                                                              description: state
+                                                                  .userProfile!
+                                                                  .description,
+                                                              country: state
+                                                                  .userProfile!
+                                                                  .country,
+                                                              city: state
+                                                                  .userProfile!
+                                                                  .city,
+                                                              address: state
+                                                                  .userProfile!
+                                                                  .address,
+                                                              website: state
+                                                                  .userProfile!
+                                                                  .link)));
+                                                  if (status) {
+                                                    _onReFreshData();
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    elevation: 0,
+                                                    backgroundColor: AppColors
+                                                        .commentBackgroundColor),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.edit,
+                                                      color: Colors.black,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "Chỉnh sửa chi tiết",
+                                                      style: AppTextStyle
+                                                          .blackS16Bold,
+                                                    ),
+                                                  ],
+                                                )),
+                                          ),
+                                        ],
+                                      )
+                                    : Container()
                               ],
                             ),
                           ),

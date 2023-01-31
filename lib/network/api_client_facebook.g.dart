@@ -13,7 +13,8 @@ class _ApiClient implements ApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.2.2:5000';
+    baseUrl ??=
+        'https://1756-2405-4803-fbb2-7940-1dba-c57c-2540-52b9.ap.ngrok.io';
   }
 
   final Dio _dio;
@@ -100,6 +101,7 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<dynamic> changePassword(
+    token,
     password,
     newPassword,
   ) async {
@@ -115,7 +117,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          '/it4788/auth/change_password?password=${password}&new_password=${newPassword}',
+          '/it4788/auth/change_password?token=${token}&password=${password}&new_password=${newPassword}',
           queryParameters: queryParameters,
           data: _data,
         )

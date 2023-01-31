@@ -32,8 +32,10 @@ abstract class ApiClient {
   Future<dynamic> verifyCode(
       @Path("phoneNumber") String? phoneNumber, @Path("code") String? code);
   @POST(
-      "/it4788/auth/change_password?password={password}&new_password={newPassword}")
-  Future<dynamic> changePassword(@Path("password") String? password,
+      "/it4788/auth/change_password?token={token}&password={password}&new_password={newPassword}")
+  Future<dynamic> changePassword(
+      @Path("token") String? token,
+      @Path("password") String? password,
       @Path("newPassword") String? newPassword);
 
   //update infor and avatar

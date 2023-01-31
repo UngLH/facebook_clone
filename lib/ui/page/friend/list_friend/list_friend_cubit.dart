@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:facebook/models/entities/friend/friend_block_entity.dart';
 import 'package:facebook/models/entities/friend/friend_request_entity.dart';
@@ -40,8 +41,14 @@ class ListFriendCubit extends Cubit<ListFriendState> {
       emit(state.copyWith(
           loadingStatus: LoadStatus.SUCCESS, listFriends: listFriends));
     } catch (error) {
-      emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
-      logger.e(error);
+      if (error is DioError) {
+        if (error.response!.data["message"] == "No data or end of list data") {
+          emit(state.copyWith(loadingStatus: LoadStatus.EMPTY));
+        } else {
+          emit(state.copyWith(loadingStatus: LoadStatus.FAILURE));
+          logger.e(error);
+        }
+      }
     }
   }
 
@@ -53,6 +60,17 @@ class ListFriendCubit extends Cubit<ListFriendState> {
     } catch (error) {
       emit(state.copyWith(listBlocks: []));
       logger.e(error);
+    }
+  }
+
+  Future<void> setBlock(String userId, String? myId) async {
+    String? token = await SharedPreferencesHelper.getToken();
+    try {
+      await repository!.setBlock(token, userId, "0");
+      await getListFriends(myId);
+    } catch (error) {
+      logger.e(error);
+      await getListFriends(myId);
     }
   }
 }

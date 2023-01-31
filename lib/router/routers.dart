@@ -15,6 +15,7 @@ class Routes {
 
   /// Auth
   static String login = "/login";
+  static String changePassword = "/changePassword";
 
   /// Sign up
   static String signUpIntro = '/signUpIntro';
@@ -56,6 +57,13 @@ class Routes {
     router.define(
       login,
       handler: loginHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+
+    /// Change password
+    router.define(
+      changePassword,
+      handler: changePasswordHandler,
       transitionType: TransitionType.fadeIn,
     );
 

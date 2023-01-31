@@ -17,6 +17,7 @@ class AddFriendItem extends StatefulWidget {
   final VoidCallback? accept;
   final VoidCallback? cancel;
   final VoidCallback? block;
+  final VoidCallback? openProfile;
 
   AddFriendItem(
       {Key? key,
@@ -28,6 +29,7 @@ class AddFriendItem extends StatefulWidget {
       this.accept,
       this.cancel,
       this.block,
+      this.openProfile,
       this.avtUrl})
       : super(key: key);
 
@@ -54,6 +56,7 @@ class _AddFriendItemState extends State<AddFriendItem> {
         builder: (context, state) {
           return GestureDetector(
             onLongPress: widget.block,
+            onTap: widget.openProfile,
             child: Row(
               children: [
                 widget.avtUrl == null

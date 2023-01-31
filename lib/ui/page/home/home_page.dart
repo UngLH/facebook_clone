@@ -166,6 +166,13 @@ class _HomePageState extends State<HomePage>
                           return AppPost(
                             post: state.listPost![index],
                             commentController: commentController,
+                            openProfile: () {
+                              Application.router?.navigateTo(
+                                  context, Routes.profile,
+                                  routeSettings: RouteSettings(
+                                      arguments: state
+                                          .listPost![index].authorEntity!.id));
+                            },
                             pressLike: () {
                               _cubit!.likePost(state.listPost![index].id);
                             },

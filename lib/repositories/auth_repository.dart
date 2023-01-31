@@ -9,6 +9,7 @@ abstract class AuthRepository {
   //
   Future<void> removeToken();
   Future<dynamic> authLogin(String phoneNumber, String password);
+  Future<dynamic> changePassword(String? token, String oldPass, String newPass);
   Future<dynamic> signUp(String phoneNumber, String password);
   Future<dynamic> verifyCode(String phoneNumber, String verifyCode);
   Future<dynamic> updateUserInfor({String? token, String? username});
@@ -52,5 +53,10 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<ListConversationResponse> getListConversation(
       String? token, int? index, int? count) {
     return _apiClientFacebook!.getListConversation(token, index, count);
+  }
+
+  @override
+  Future changePassword(String? token, String oldPass, String newPass) {
+    return _apiClientFacebook!.changePassword(token, oldPass, newPass);
   }
 }
