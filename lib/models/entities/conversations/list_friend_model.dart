@@ -20,7 +20,7 @@ class ListFriendModel {
   ListFriendModel(
       {this.id = "",
       this.createdAt = "",
-      this.imageAvatarUrl = "",
+      this.imageAvatarUrl = AppImages.icSignupIntro,
       this.name = "",
       this.shortDescription = "",
       this.isActive = false,
@@ -74,7 +74,10 @@ var friendList = List<String>.filled(20, '')
               StoryModel(text: "Story $index", imageUrl: null),
               StoryModel(text: null, imageUrl: AppImages.icEmotion),
               StoryModel(text: null, imageUrl: AppImages.testImagePost),
-            ])))
+            ],
+            partner: PartnerModel(id: "$index", username: "User $index", avatar: AppImages.icFacebookLogo),
+            lastMessage: LastMessageModel(message: "message $index", created: "166455335")
+      )))
     .values
     .toList();
 
@@ -83,7 +86,7 @@ class LastMessageModel {
   String? message;
   String? created;
   String? unread;
-  LastMessageModel({this.message = "", this.created = "", this.unread = ""});
+  LastMessageModel({this.message = "message", this.created = "166839282", this.unread = "1"});
 
   LastMessageModel copyWith({String? message, String? created, String? unread}) {
     return LastMessageModel(

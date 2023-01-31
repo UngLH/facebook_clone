@@ -1,3 +1,4 @@
+import 'package:facebook/models/entities/conversations/list_friend_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:facebook/ui/page/conversations/chats/widgets/conversation_item.dart';
@@ -103,11 +104,12 @@ class _ListFriendState extends State<ListFriend> {
             if (index == 0) {
               return _buildSearchBar();
             } else if (index == 1) {
-              return _buildStoriesList();
+              return _buildStoriesList(_cubit?.searchConversations());
             } else {
               return ConversationItem(
                 friendItem: (_cubit?.searchConversations())![index - 2],
                 dateFormat: '',
+                cubit_: _cubit,
               );
             }
           },
@@ -124,11 +126,11 @@ class _ListFriendState extends State<ListFriend> {
     );
   }
 
-  _buildStoriesList() {
+  _buildStoriesList(List<ListFriendModel>? data) {
     return Container(
       height: 100,
       padding: const EdgeInsets.only(top: 16.0),
-      child: const StoriesList(),
+      child: StoriesList(friendList: data ?? friendList),
     );
   }
 }

@@ -79,7 +79,7 @@ class _MessengerAppBarActionState extends State<MessengerAppBarAction> {
                     child: SizedBox(
                       width: 120.0,
                       child: Text(
-                        widget.listFriendModel!.partner!.avatar!,
+                        widget.listFriendModel!.partner!.username!,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20.0,

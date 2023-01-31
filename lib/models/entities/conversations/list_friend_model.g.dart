@@ -10,7 +10,8 @@ ListFriendModel _$ListFriendModelFromJson(Map<String, dynamic> json) =>
     ListFriendModel(
       id: json['id'] as String? ?? "",
       createdAt: json['createdAt'] as String? ?? "",
-      imageAvatarUrl: json['imageAvatarUrl'] as String? ?? "",
+      imageAvatarUrl:
+          json['imageAvatarUrl'] as String? ?? AppImages.icFacebookLogo,
       name: json['name'] as String? ?? "",
       shortDescription: json['shortDescription'] as String? ?? "",
       isActive: json['isActive'] as bool? ?? false,
