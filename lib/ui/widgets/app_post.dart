@@ -5,6 +5,7 @@ import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/commons/app_text_styles.dart';
 import 'package:facebook/models/entities/media/image_entity.dart';
 import 'package:facebook/models/entities/post/post_response_entity.dart';
+import 'package:facebook/models/entities/post/post_search_entity.dart';
 import 'package:facebook/ui/widgets/comment/app_comment_post.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,12 +16,14 @@ class AppPost extends StatefulWidget {
   TextEditingController? commentController;
   Function pressLike;
   Function pressMoreAction;
+  Function openProfile;
 
   AppPost(
       {Key? key,
       this.post,
       required this.pressLike,
       this.commentController,
+      required this.openProfile,
       required this.pressMoreAction})
       : super(key: key);
 
@@ -92,83 +95,88 @@ class _AppPostState extends State<AppPost> with AutomaticKeepAliveClientMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          widget.post!.authorEntity!.avatar == null
-                              ? Container(
-                                  alignment: Alignment.bottomCenter,
-                                  width: avtWidth,
-                                  height: avtWidth,
-                                  decoration: const BoxDecoration(
-                                      color: AppColors.grayBackground,
-                                      shape: BoxShape.circle),
-                                  child: Image.asset(
-                                    AppImages.icDefaultUser,
-                                    color: Colors.white,
-                                    width: avtWidth - 5,
-                                  ))
-                              : CachedNetworkImage(
-                                  imageUrl: widget.post!.authorEntity!.avatar
-                                      .toString(),
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                        width: avtWidth,
-                                        height: avtWidth,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white,
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.fill,
+                      GestureDetector(
+                        onTap: () {
+                          widget.openProfile();
+                        },
+                        child: Row(
+                          children: [
+                            widget.post!.authorEntity!.avatar == null
+                                ? Container(
+                                    alignment: Alignment.bottomCenter,
+                                    width: avtWidth,
+                                    height: avtWidth,
+                                    decoration: const BoxDecoration(
+                                        color: AppColors.grayBackground,
+                                        shape: BoxShape.circle),
+                                    child: Image.asset(
+                                      AppImages.icDefaultUser,
+                                      color: Colors.white,
+                                      width: avtWidth - 5,
+                                    ))
+                                : CachedNetworkImage(
+                                    imageUrl: widget.post!.authorEntity!.avatar
+                                        .toString(),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                          width: avtWidth,
+                                          height: avtWidth,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                            image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.fill,
+                                            ),
                                           ),
                                         ),
+                                    placeholder: (context, _) => Container(
+                                        alignment: Alignment.bottomCenter,
+                                        width: avtWidth,
+                                        height: avtWidth,
+                                        decoration: const BoxDecoration(
+                                            color: AppColors.grayBackground,
+                                            shape: BoxShape.circle),
+                                        child: Image.asset(
+                                          AppImages.icDefaultUser,
+                                          color: Colors.white,
+                                          width: avtWidth - 5,
+                                        ))),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.post!.authorEntity!.username ??
+                                        "Người dùng Facebook",
+                                    style: AppTextStyle.blackS16Bold,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        createdString,
+                                        style: const TextStyle(
+                                          color: AppColors.grayText,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                  placeholder: (context, _) => Container(
-                                      alignment: Alignment.bottomCenter,
-                                      width: avtWidth,
-                                      height: avtWidth,
-                                      decoration: const BoxDecoration(
-                                          color: AppColors.grayBackground,
-                                          shape: BoxShape.circle),
-                                      child: Image.asset(
-                                        AppImages.icDefaultUser,
-                                        color: Colors.white,
-                                        width: avtWidth - 5,
-                                      ))),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.post!.authorEntity!.username ??
-                                      "Người dùng Facebook",
-                                  style: AppTextStyle.blackS16Bold,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      createdString,
-                                      style: const TextStyle(
-                                        color: AppColors.grayText,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
+                                      const SizedBox(
+                                        width: 5,
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    const Icon(
-                                      Icons.public,
-                                      size: 14,
-                                      color: AppColors.grayIconButton,
-                                    ),
-                                  ],
-                                )
-                              ])
-                        ],
+                                      const Icon(
+                                        Icons.public,
+                                        size: 14,
+                                        color: AppColors.grayIconButton,
+                                      ),
+                                    ],
+                                  )
+                                ])
+                          ],
+                        ),
                       ),
                       Row(
                         children: [

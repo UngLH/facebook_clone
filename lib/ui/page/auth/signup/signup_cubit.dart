@@ -54,7 +54,11 @@ class SignUpCubit extends Cubit<SignUpState> {
     } catch (error) {
       logger.e(error);
       if (error is DioError) {
-        loadingController.sink.add(LoadingStatus.FAILURE);
+        if (error.response!.data["message"] == "User existed") {
+          loadingController.sink.add(LoadingStatus.USER_EXIST);
+        } else {
+          loadingController.sink.add(LoadingStatus.FAILURE);
+        }
       }
     }
   }

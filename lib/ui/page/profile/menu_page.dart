@@ -4,6 +4,7 @@ import 'package:facebook/commons/app_text_styles.dart';
 import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
+import 'package:facebook/ui/page/friend/list_friend/list_friend_page.dart';
 import 'package:facebook/ui/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +15,15 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  String? username;
   @override
   void initState() {
     super.initState();
+    getUsername();
+  }
+
+  Future<void> getUsername() async {
+    username = await SharedPreferencesHelper.getUsername();
   }
 
   @override
@@ -67,18 +74,25 @@ class _MenuPageState extends State<MenuPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Lê Hồng Ưng",
-                      style: AppTextStyle.blackS18Bold,
-                    ),
-                    Text(
-                      "Xem trang cá nhân của bạn",
-                      style: AppTextStyle.greyS14,
-                    )
-                  ],
+                GestureDetector(
+                  onTap: () async {
+                    String? userId = await SharedPreferencesHelper.getUserId();
+                    Application.router?.navigateTo(context, Routes.profile,
+                        routeSettings: RouteSettings(arguments: userId));
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        username.toString(),
+                        style: AppTextStyle.blackS18Bold,
+                      ),
+                      Text(
+                        "Xem trang cá nhân của bạn",
+                        style: AppTextStyle.greyS14,
+                      )
+                    ],
+                  ),
                 )
               ]),
               const Divider(
@@ -92,7 +106,15 @@ class _MenuPageState extends State<MenuPage> {
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  _menuButton(),
+                  _menuButton(action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ListFriendPage(
+                                userId: "userid",
+                              )),
+                    );
+                  }),
                   _menuButton(
                       title: "Danh sách block",
                       action: () {
@@ -107,6 +129,29 @@ class _MenuPageState extends State<MenuPage> {
                   _menuButton(),
                   _menuButton(),
                   _menuButton(),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.main),
+                          onPressed: () {
+                            Application.router?.navigateTo(
+                              context,
+                              Routes.changePassword,
+                            );
+                          },
+                          child: const Text(
+                            "Thay đổi mật khẩu",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
               Row(

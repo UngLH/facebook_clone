@@ -44,6 +44,9 @@ class _SignUpPasswordPageState extends State<SignUpPasswordPage> {
         context.loaderOverlay.hide();
         _showMessage("Tạo tài khoản thành công!");
         Application.router?.navigateTo(context, Routes.login, clearStack: true);
+      } else if (event == LoadingStatus.USER_EXIST) {
+        context.loaderOverlay.hide();
+        _showMessage("Số điện thoại đã được sử dụng!");
       } else {
         context.loaderOverlay.hide();
         _showMessage("Xin vui lòng thử lại!");

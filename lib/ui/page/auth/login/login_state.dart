@@ -5,6 +5,7 @@ enum LoadingStatus {
   LOADING,
   SUCCESS,
   FAILURE,
+  USER_EXIST,
   USERNAME_PASSWORD_INVALID,
 }
 
@@ -13,18 +14,18 @@ class LoginState extends Equatable {
   final String? phoneNumber;
   final String? password;
 
-  const LoginState(
-      {this.loadingStatus = LoadingStatus.INITIAL,
-        this.phoneNumber = "",
-        this.password = "", });
-
+  const LoginState({
+    this.loadingStatus = LoadingStatus.INITIAL,
+    this.phoneNumber = "",
+    this.password = "",
+  });
 
   LoginState copyWith({
     LoadingStatus? loadingStatus,
     String? phoneNumber,
     String? password,
   }) {
-    return  LoginState(
+    return LoginState(
       loadingStatus: loadingStatus ?? this.loadingStatus,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
@@ -33,8 +34,8 @@ class LoginState extends Equatable {
 
   @override
   List<Object?> get props => [
-    LoadingStatus,
-    phoneNumber,
-    password,
-  ];
+        loadingStatus,
+        phoneNumber,
+        password,
+      ];
 }

@@ -13,17 +13,19 @@ class FriendItem extends StatefulWidget {
   final VoidCallback? removeFriend;
   final VoidCallback? blockFriend;
   final VoidCallback? sendMessage;
+  final VoidCallback? onTap;
 
-  const FriendItem({
-    Key? key,
-    this.friendName,
-    this.numMutualFriend,
-    this.avtUrl,
-    this.created,
-    this.removeFriend,
-    this.blockFriend,
-    this.sendMessage,
-  }) : super(key: key);
+  const FriendItem(
+      {Key? key,
+      this.friendName,
+      this.numMutualFriend,
+      this.avtUrl,
+      this.created,
+      this.removeFriend,
+      this.blockFriend,
+      this.sendMessage,
+      this.onTap})
+      : super(key: key);
 
   @override
   State<FriendItem> createState() => _FriendItemState();
@@ -81,30 +83,32 @@ class _FriendItemState extends State<FriendItem> {
               const SizedBox(
                 width: 15,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.friendName.toString(),
-                    style: AppTextStyle.blackS18
-                        .copyWith(fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  widget.numMutualFriend != null
-                      ? Text(
-                          widget.numMutualFriend.toString() + " bạn chung",
-                          style: AppTextStyle.blackS14,
-                        )
-                      : Container(),
-                ],
-              )
+              GestureDetector(
+                  onTap: widget.onTap,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.friendName.toString(),
+                        style: AppTextStyle.blackS18
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      widget.numMutualFriend != null
+                          ? Text(
+                              widget.numMutualFriend.toString() + " bạn chung",
+                              style: AppTextStyle.blackS14,
+                            )
+                          : Container(),
+                    ],
+                  ))
             ],
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: widget.blockFriend,
           icon: const Icon(
             Icons.more_horiz_outlined,
             color: AppColors.grayIconButton,

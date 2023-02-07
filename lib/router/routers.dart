@@ -3,6 +3,7 @@ import 'package:facebook/router/router_handlers/friend_router_handler.dart';
 import 'package:facebook/router/router_handlers/home_router_handler.dart';
 import 'package:facebook/router/router_handlers/profile_router_handler.dart';
 import 'package:facebook/router/router_handlers/post_router_handler.dart';
+import 'package:facebook/router/router_handlers/searchHandler.dart';
 import 'package:facebook/router/router_handlers/signUp_router_handler.dart';
 import 'package:fluro/fluro.dart';
 
@@ -14,6 +15,7 @@ class Routes {
 
   /// Auth
   static String login = "/login";
+  static String changePassword = "/changePassword";
 
   /// Sign up
   static String signUpIntro = '/signUpIntro';
@@ -24,6 +26,7 @@ class Routes {
   static String conversation_detail = '/conversation/chatDetail';
   static String conversation_profile = '/conversation/profile';
   static String profile = '/profile';
+  static String profileEdit = '/profileEdit';
 
   /// Home
   static String homeTab = "/homeTab";
@@ -35,6 +38,10 @@ class Routes {
   /// Friend
   static String suggestFriends = "/suggestFriends";
   static String listBlockFriends = "/listBlockFriends";
+
+  // Search
+  static String search = "/search";
+  static String searchResult = "/searchResult";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = notHandler;
@@ -50,6 +57,13 @@ class Routes {
     router.define(
       login,
       handler: loginHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+
+    /// Change password
+    router.define(
+      changePassword,
+      handler: changePasswordHandler,
       transitionType: TransitionType.fadeIn,
     );
 
@@ -114,6 +128,23 @@ class Routes {
     router.define(
       profile,
       handler: profileHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      profileEdit,
+      handler: profileEditHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+
+    /// search
+    router.define(
+      search,
+      handler: searchHandler,
+      transitionType: TransitionType.fadeIn,
+    );
+    router.define(
+      searchResult,
+      handler: searchResultHandler,
       transitionType: TransitionType.fadeIn,
     );
   }

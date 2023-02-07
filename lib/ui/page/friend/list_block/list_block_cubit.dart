@@ -33,4 +33,15 @@ class ListBlockCubit extends Cubit<ListBlockState> {
       logger.e(error);
     }
   }
+
+  Future<void> setBlock(String userId) async {
+    String? token = await SharedPreferencesHelper.getToken();
+    try {
+      await repository!.setBlock(token, userId, "1");
+      getListBlocks();
+    } catch (error) {
+      logger.e(error);
+      getListBlocks();
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/models/enums/load_status.dart';
+import 'package:facebook/ui/page/friend/friend_widget/block_friend_modal.dart';
 import 'package:facebook/ui/page/friend/friend_widget/friend_item.dart';
 import 'package:facebook/ui/page/friend/list_block/list_block_cubit.dart';
 import 'package:facebook/ui/page/friend/list_friend/list_friend_cubit.dart';
@@ -130,6 +131,28 @@ class _ListBlockPageState extends State<ListBlockPage> {
                                 friendName: state.listBlocks![index].username ??
                                     "Người dùng facebook",
                                 avtUrl: state.listBlocks![index].avatar,
+                                blockFriend: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      backgroundColor:
+                                          AppColors.commentBackgroundColor,
+                                      builder: (context) {
+                                        return BlockFriendModal(
+                                          block: () async {
+                                            _cubit!.setBlock(state
+                                                .listBlocks![index].userId
+                                                .toString());
+                                            Navigator.of(context).pop();
+                                          },
+                                          text: "Bỏ chặn",
+                                        );
+                                      });
+                                },
                               );
                             },
                             separatorBuilder: (context, state) {

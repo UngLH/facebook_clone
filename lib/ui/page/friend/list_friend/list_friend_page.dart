@@ -1,5 +1,9 @@
 import 'package:facebook/commons/app_colors.dart';
+import 'package:facebook/commons/share_preferences_helper.dart';
 import 'package:facebook/models/enums/load_status.dart';
+import 'package:facebook/router/application.dart';
+import 'package:facebook/router/routers.dart';
+import 'package:facebook/ui/page/friend/friend_widget/block_friend_modal.dart';
 import 'package:facebook/ui/page/friend/friend_widget/friend_item.dart';
 import 'package:facebook/ui/page/friend/list_friend/list_friend_cubit.dart';
 import 'package:facebook/ui/widgets/friend/app_empty_friend.dart';
@@ -131,6 +135,38 @@ class _ListFriendPageState extends State<ListFriendPage> {
                                     state.listFriends![index].sameFriend,
                                 avtUrl: state.listFriends![index].avatar,
                                 created: state.listFriends![index].created,
+                                onTap: () {
+                                  Application.router?.navigateTo(
+                                      context, Routes.profile,
+                                      routeSettings: RouteSettings(
+                                          arguments: state
+                                              .listFriends![index].userId));
+                                },
+                                blockFriend: () async {
+                                  String? myId =
+                                      await SharedPreferencesHelper.getUserId();
+                                  showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      backgroundColor:
+                                          AppColors.commentBackgroundColor,
+                                      builder: (context) {
+                                        return BlockFriendModal(
+                                          block: () {
+                                            _cubit!.setBlock(
+                                              state.listFriends![index].userId
+                                                  .toString(),
+                                              myId,
+                                            );
+                                            Navigator.of(context).pop();
+                                          },
+                                        );
+                                      });
+                                },
                               );
                             },
                             separatorBuilder: (context, state) {

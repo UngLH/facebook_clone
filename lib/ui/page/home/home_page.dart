@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:facebook/commons/app_colors.dart';
 import 'package:facebook/commons/app_images.dart';
 import 'package:facebook/models/enums/load_status.dart';
@@ -23,7 +25,8 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   HomePageCubit? _cubit;
   TextEditingController? commentController;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late StreamSubscription _loadingSubscription;
   String? userId;
   @override
   void initState() {
@@ -33,6 +36,32 @@ class _HomePageState extends State<HomePage>
     _cubit = BlocProvider.of<HomePageCubit>(context);
     _cubit!.getListPost();
     commentController = TextEditingController(text: '');
+
+    _loadingSubscription = _cubit!.loadingController.stream.listen((event) {
+      if (event == LoadStatus.TOKEN_INVALID) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Thông báo'),
+                content: Text('Phiên bản đã hết hạn'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Application.router?.navigateTo(
+                        _scaffoldKey.currentState!.context,
+                        Routes.login,
+                        clearStack: true,
+                      );
+                    },
+                    child: Text('Đăng xuất'),
+                  )
+                ],
+              );
+            });
+      }
+    });
     super.initState();
   }
 
@@ -137,6 +166,13 @@ class _HomePageState extends State<HomePage>
                           return AppPost(
                             post: state.listPost![index],
                             commentController: commentController,
+                            openProfile: () {
+                              Application.router?.navigateTo(
+                                  context, Routes.profile,
+                                  routeSettings: RouteSettings(
+                                      arguments: state
+                                          .listPost![index].authorEntity!.id));
+                            },
                             pressLike: () {
                               _cubit!.likePost(state.listPost![index].id);
                             },

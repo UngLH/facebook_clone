@@ -9,6 +9,9 @@ import 'package:facebook/network/api_util.dart';
 import 'package:facebook/repositories/auth_repository.dart';
 import 'package:facebook/repositories/friend_repository.dart';
 import 'package:facebook/repositories/post_repository.dart';
+import 'package:facebook/repositories/search_repository.dart';
+import 'package:facebook/repositories/user_repository.dart';
+import 'package:facebook/ui/page/find/find_page.dart';
 import 'package:facebook/ui/page/friend/friend_widget/add_friend_item_cubit.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_cubit.dart';
 import 'package:facebook/ui/page/friend/request/friend_request_cubit.dart';
@@ -83,15 +86,13 @@ class _MyAppState extends State<MyApp> {
         result != ConnectivityResult.mobile) {
       if (networkEnabled) {
         _overlaySupportEntry = showSimpleNotification(
-          Container(
-            child: Row(
-              children: [
-                Text('Không thể kết nối tới máy chủ.'),
-              ],
-            ),
+          Row(
+            children: const [
+              Text('Không thể kết nối tới máy chủ.'),
+            ],
           ),
           // contentPadding: EdgeInsets.all(1),
-          leading: Icon(Icons.wifi, color: Colors.white),
+          leading: const Icon(Icons.wifi, color: Colors.white),
           autoDismiss: false,
           background: Colors.red,
         );
@@ -123,6 +124,12 @@ class _MyAppState extends State<MyApp> {
           RepositoryProvider<FriendRepository>(create: (context) {
             return FriendRepositoryImpl(_apiClient);
           }),
+          RepositoryProvider<UserRepository>(create: (context) {
+            return UserRepositoryImpl(_apiClient);
+          }),
+          RepositoryProvider<SearchRepository>(create: (context) {
+            return SearchRepositoryImpl(_apiClient);
+          }),
         ],
         child: MultiBlocProvider(
           providers: [
@@ -131,9 +138,15 @@ class _MyAppState extends State<MyApp> {
                   RepositoryProvider.of<AuthRepository>(context);
               final _postRepository =
                   RepositoryProvider.of<PostRepository>(context);
+              final _userRepository =
+                  RepositoryProvider.of<UserRepository>(context);
+              final _searchRepository =
+                  RepositoryProvider.of<SearchRepository>(context);
               return AppCubit(
                   authRepository: _authRepository,
-                  postRepository: _postRepository);
+                  postRepository: _postRepository,
+                  userRepository: _userRepository,
+                  searchRepository: _searchRepository);
             }),
             BlocProvider<AppCommentCubit>(
               create: (context) {
@@ -198,7 +211,7 @@ class _MyAppState extends State<MyApp> {
       title: AppConfig.appName,
       onGenerateRoute: Application.router!.generator,
       initialRoute: Routes.root,
-      // home: const SuggestFriendPage(),
+
       // navigatorObservers: <NavigatorObserver>[
       //   NavigationObserver(navigationCubit: _navigationCubit),
       // ],

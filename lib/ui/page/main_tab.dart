@@ -4,7 +4,7 @@ import 'package:facebook/router/application.dart';
 import 'package:facebook/router/routers.dart';
 import 'package:facebook/ui/page/friend/home_friend/home_friends_page.dart';
 import 'package:facebook/ui/page/home/home_page.dart';
-import 'package:facebook/ui/page/menu/menu_page.dart';
+import 'package:facebook/ui/page/profile/menu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -63,11 +63,12 @@ class _TabBarState extends State<TabBarPage>
                         fontWeight: FontWeight.bold),
                   ),
                   actions: [
-                    _headerButton(Icons.add),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    _headerButton(Icons.search),
+                    _headerButton(Icons.search, () {
+                      Application.router?.navigateTo(
+                        context,
+                        Routes.search,
+                      );
+                    }),
                     const SizedBox(
                       width: 10,
                     ),
@@ -157,10 +158,10 @@ class _TabBarState extends State<TabBarPage>
         ));
   }
 
-  Widget _headerButton(IconData? iconData) {
+  Widget _headerButton(IconData? iconData, VoidCallback? onPress) {
     return InkWell(
       customBorder: const CircleBorder(),
-      onTap: () {},
+      onTap: onPress,
       child: Container(
           width: 30,
           height: 30,

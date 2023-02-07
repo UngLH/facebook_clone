@@ -8,6 +8,9 @@ import 'package:facebook/models/entities/friend/friend_block_entity.dart';
 import 'package:facebook/models/entities/friend/friend_entity.dart';
 import 'package:facebook/models/entities/friend/friend_request_entity.dart';
 import 'package:facebook/models/entities/post/post_response_request.dart';
+import 'package:facebook/models/entities/post/post_search_entity.dart';
+import 'package:facebook/models/entities/search/search_entity.dart';
+import 'package:facebook/models/entities/user/user_profile_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client_facebook.g.dart';
@@ -28,6 +31,12 @@ abstract class ApiClient {
       "/it4788/auth/check_verify_code?phonenumber={phoneNumber}&code_verify={code}")
   Future<dynamic> verifyCode(
       @Path("phoneNumber") String? phoneNumber, @Path("code") String? code);
+  @POST(
+      "/it4788/auth/change_password?token={token}&password={password}&new_password={newPassword}")
+  Future<dynamic> changePassword(
+      @Path("token") String? token,
+      @Path("password") String? password,
+      @Path("newPassword") String? newPassword);
 
   //update infor and avatar
   @POST(
@@ -121,6 +130,7 @@ abstract class ApiClient {
       "/it4788/friend/set_accept_friend?token={token}&user_id={userId}&is_accept={isAccept}")
   Future<dynamic> setAcceptFriend(@Path("token") String? token,
       @Path("userId") String? userId, @Path("isAccept") String? isAccept);
+
   @POST(
       "/it4788/friend/get_user_friends?token={token}&user_id={userId}&index={index}&count={count}")
   Future<RequestFriendResponse> getUserFriends(
@@ -128,6 +138,7 @@ abstract class ApiClient {
       @Path("userId") String? userId,
       @Path("index") int? index,
       @Path("count") int? count);
+
   @POST(
       "/it4788/friend/get_list_blocks?token={token}&index={index}&count={count}")
   Future<ListBlockResponse> getListBlocks(@Path("token") String? token,
@@ -138,10 +149,78 @@ abstract class ApiClient {
       @Path("userId") String? userId, @Path("type") String? type);
 
   ///Chat
-  @POST(
-      "/it4788/chat/get_list_conversation?token={token}&index={index}&count={count}")
+  @POST("/it4788/chat/get_list_conversation?token={token}&index={index}&count={count}")
   Future<ListConversationResponse> getListConversation(
       @Path("token") String? token,
       @Path("index") int? index,
       @Path("count") int? count);
+
+  @POST("/it4788/chat/create_conversation?token={token}&conversationId={conversationId}&firstUser={firstUser}&secondUser={secondUser}")
+  Future<dynamic> createConversation(
+      @Path("token") String? token,
+      @Path("conversationId") String? conversationId,
+      @Path("firstUser") String? firstUser,
+      @Path("secondUser") String? secondUser
+    );
+
+  ///User
+  @POST("/it4788/user/get_user_info?token={token}&user_id={userId}")
+  Future<ProfileResponse> getUserInfor(
+      @Path("token") String? token, @Path("userId") String? userId);
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  Future<dynamic> setUserInfor(
+      @Path("token") String? token,
+      @Path("username") String? username,
+      @Path("description") String? description,
+      @Path("address") String? address,
+      @Path("city") String? city,
+      @Path("country") String? country,
+      @Path("link") String? link);
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  @MultiPart()
+  Future<dynamic> setUserAvt(
+    @Path("token") String? token,
+    @Path("username") String? username,
+    @Path("description") String? description,
+    @Path("address") String? address,
+    @Path("city") String? city,
+    @Path("country") String? country,
+    @Path("link") String? link,
+    @Part(name: "avatar") File? image,
+  );
+
+  @POST(
+      "/it4788/user/set_user_info?token={token}&username={username}&description={description}&address={address}&city={city}&country={country}&link={link}")
+  @MultiPart()
+  Future<dynamic> setUserBackground(
+    @Path("token") String? token,
+    @Path("username") String? username,
+    @Path("description") String? description,
+    @Path("address") String? address,
+    @Path("city") String? city,
+    @Path("country") String? country,
+    @Path("link") String? link,
+    @Part(name: "cover_image") File? background,
+  );
+
+  ///Search
+  @POST(
+      "/it4788/search/search?token={token}&index={index}&count={count}&keyword={keyword}")
+  Future<PostSearchResponse> search(
+      @Path("token") String? token,
+      @Path("index") int? index,
+      @Path("count") int? count,
+      @Path("keyword") String? keyword);
+  @POST(
+      "/it4788/search/get_saved_search?token={token}&index={index}&count={count}")
+  Future<SavedSearchResponse> getSavedSearch(@Path("token") String? token,
+      @Path("index") int? index, @Path("count") int? count);
+  @POST(
+      "/it4788/search/del_saved_search?token={token}&all={all}&search_id={searchId}")
+  Future<dynamic> delSavedSearch(@Path("token") String? token,
+      @Path("all") String? all, @Path("searchId") String? searchId);
 }
